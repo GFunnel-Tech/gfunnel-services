@@ -4,10 +4,10 @@ import { getRatioColor } from "@/lib/calculators";
 
 interface ContextualAdviceProps {
   ltgpCacRatio: number;
-  tierName: string;
+  bestTierName: string;
 }
 
-export const ContextualAdvice = ({ ltgpCacRatio, tierName }: ContextualAdviceProps) => {
+export const ContextualAdvice = ({ ltgpCacRatio, bestTierName }: ContextualAdviceProps) => {
   const color = getRatioColor(ltgpCacRatio);
 
   const advice = {
@@ -47,10 +47,10 @@ export const ContextualAdvice = ({ ltgpCacRatio, tierName }: ContextualAdvicePro
       title: "🎉 Excellent Profitability!",
       message: "Your business model is highly profitable. Consider these growth strategies:",
       suggestions: [
-        { icon: TrendingUp, text: `Scale your ${tierName} tier ad spend to grow faster while maintaining profitability` },
+        { icon: TrendingUp, text: "Scale your ad spend to grow faster while maintaining profitability" },
         { icon: DollarSign, text: "Reinvest profits into premium services to increase customer lifetime value" },
         { icon: Users, text: "Expand to new geographic markets with proven campaign strategies" },
-        { icon: Clock, text: "Test higher budget tiers to capture more market share" }
+        { icon: Clock, text: `We recommend starting with the ${bestTierName} tier for optimal results` }
       ]
     }
   };

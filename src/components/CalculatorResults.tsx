@@ -193,17 +193,12 @@ export const CalculatorResults = ({ results }: CalculatorResultsProps) => {
         })}
       </div>
 
-      <div>
-        <h4 className="text-xl font-bold text-foreground mb-4">Recommendations</h4>
-        <div className="grid lg:grid-cols-3 gap-4">
-          {results.map((result) => (
-            <ContextualAdvice
-              key={result.tierName}
-              ltgpCacRatio={result.ltgpCacRatio}
-              tierName={result.tierName}
-            />
-          ))}
-        </div>
+      <div className="mt-16">
+        <h3 className="text-2xl font-bold mb-6 text-center text-foreground">Your Business Health Assessment</h3>
+        <ContextualAdvice 
+          ltgpCacRatio={results[bestTierIndex].ltgpCacRatio} 
+          bestTierName={results[bestTierIndex].tierName}
+        />
       </div>
     </div>
   );
