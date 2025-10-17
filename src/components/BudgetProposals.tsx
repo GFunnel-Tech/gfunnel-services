@@ -6,45 +6,51 @@ const budgetTiers = [
   {
     name: "Starter",
     budget: "$2,000/mo",
-    platform: "Facebook Ads",
+    platform: "Meta Platforms",
     features: [
-      "Facebook & Instagram placement",
+      "Meta (Facebook + Instagram + Messenger)",
       "Local targeting (30-mile radius)",
-      "AI lead response system",
-      "Basic ad creative variations",
+      "Plai.io platform management",
+      "Flows AI voice callbacks (standard queue)",
+      "Lead Connector CRM integration",
+      "2-3 ad creative variations",
       "Monthly performance reports",
-      "Expected: 40-60 qualified leads/mo"
+      "Monthly strategy sessions",
+      "Expected: 50-70 qualified leads/mo @ $28-40 CPL"
     ],
     recommended: false
   },
   {
     name: "Growth",
     budget: "$5,000/mo",
-    platform: "Facebook + Google",
+    platform: "Multi-Platform",
     features: [
-      "Facebook, Instagram & Google Search",
+      "Meta + Google (Search + Pmax) + YouTube",
       "Extended targeting (50-mile radius)",
-      "AI + Voice assistant callbacks",
-      "Advanced ad creative testing",
+      "Plai.io advanced automation",
+      "Flows AI priority queue + advanced routing",
+      "Lead Connector with automation workflows",
+      "5-7 ad creative variations",
+      "Bi-weekly performance reports",
       "Bi-weekly optimization calls",
-      "CRM integration support",
-      "Expected: 120-180 qualified leads/mo"
+      "Expected: 120-180 qualified leads/mo @ $28-42 CPL"
     ],
     recommended: true
   },
   {
     name: "Premium",
     budget: "$10,000/mo",
-    platform: "Multi-Channel",
+    platform: "Full Multi-Channel",
     features: [
-      "All platforms + Display Network",
+      "Meta, Google Suite, YouTube, LinkedIn, Local Service Ads, Direct Mail",
       "Multi-region campaign coverage",
-      "Priority AI response queue",
-      "Video ad campaigns included",
-      "Weekly strategy sessions",
-      "Dedicated account manager",
-      "Custom landing page optimization",
-      "Expected: 300-400 qualified leads/mo"
+      "Plai.io enterprise features + dedicated support",
+      "Flows AI VIP queue + white-glove service",
+      "Lead Connector advanced automation + custom integrations",
+      "10+ ad creative variations",
+      "Weekly performance reports + custom dashboards",
+      "Weekly strategy sessions + dedicated account manager",
+      "Expected: 300-400 qualified leads/mo @ $25-35 CPL"
     ],
     recommended: false
   }
@@ -93,22 +99,33 @@ export const BudgetProposals = () => {
         
         <div className="mt-12 p-6 bg-muted rounded-lg max-w-4xl mx-auto">
           <h3 className="font-semibold text-lg mb-3 text-foreground">Budget Allocation Breakdown</h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            How your investment is distributed across platforms and services
+          </p>
           <div className="grid md:grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="font-medium text-foreground">Ad Spend:</span>
-              <span className="ml-2 text-muted-foreground">75% of total budget</span>
+              <span className="font-medium text-foreground">Ad Spend (Platform Costs):</span>
+              <span className="ml-2 text-muted-foreground">70-75% of total budget</span>
             </div>
             <div>
-              <span className="font-medium text-foreground">Platform Management:</span>
-              <span className="ml-2 text-muted-foreground">15% of total budget</span>
+              <span className="font-medium text-foreground">Platform Management (Plai.io):</span>
+              <span className="ml-2 text-muted-foreground">10-12% of total budget</span>
             </div>
             <div>
-              <span className="font-medium text-foreground">Creative Production:</span>
-              <span className="ml-2 text-muted-foreground">7% of total budget</span>
+              <span className="font-medium text-foreground">AI/Voice Assistant (Flows AI):</span>
+              <span className="ml-2 text-muted-foreground">5-8% of total budget</span>
+            </div>
+            <div>
+              <span className="font-medium text-foreground">CRM Integration (Lead Connector):</span>
+              <span className="ml-2 text-muted-foreground">2-3% of total budget</span>
+            </div>
+            <div>
+              <span className="font-medium text-foreground">Creative Production & Testing:</span>
+              <span className="ml-2 text-muted-foreground">5-7% of total budget</span>
             </div>
             <div>
               <span className="font-medium text-foreground">Analytics & Reporting:</span>
-              <span className="ml-2 text-muted-foreground">3% of total budget</span>
+              <span className="ml-2 text-muted-foreground">3-5% of total budget</span>
             </div>
           </div>
         </div>

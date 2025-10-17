@@ -10,14 +10,14 @@ const features = [
   },
   {
     icon: Bot,
-    title: "Plai.io Integration",
-    description: "Advanced AI platform manages ad campaigns, optimizes bidding strategies, and provides real-time performance insights.",
+    title: "Plai.io Campaign Management",
+    description: "Advanced AI platform manages ad campaigns across all platforms, optimizes bidding strategies, and provides real-time performance insights.",
     stat: "40% lower cost per acquisition"
   },
   {
     icon: Phone,
-    title: "Voice AI Qualification",
-    description: "Natural language AI assistants qualify leads, answer questions, and schedule appointments automatically.",
+    title: "Flows AI Voice Assistant",
+    description: "Natural language AI assistants qualify leads, answer questions, and schedule appointments automatically with human-like conversation.",
     stat: "24/7 availability, never miss a lead"
   },
   {
@@ -28,8 +28,8 @@ const features = [
   },
   {
     icon: Users,
-    title: "Lead Scoring & Routing",
-    description: "AI prioritizes high-value prospects and routes them to appropriate sales team members based on service type and urgency.",
+    title: "Lead Connector CRM Integration",
+    description: "Seamlessly integrate with Lead Connector CRM. AI prioritizes high-value prospects and routes them to appropriate sales team members based on service type and urgency.",
     stat: "2x faster sales cycle"
   },
   {
