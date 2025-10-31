@@ -17,7 +17,7 @@ export const HeroSection = () => {
           </h1>
           
           <p className="text-xl md:text-2xl mb-8 text-primary-foreground/90 leading-relaxed">
-            Strategic Facebook & Google Ads campaigns powered by AI-driven lead response in under 5 minutes
+            Strategic Flaunch your business campaigns powered by AI-driven lead response in under 5 minutes
           </p>
           
           <div className="grid md:grid-cols-3 gap-6 mt-12">
