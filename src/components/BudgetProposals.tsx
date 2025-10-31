@@ -42,7 +42,7 @@ const budgetTiers = [
   },
   {
     name: "Premium",
-    budget: "$10,000/mo",
+    budget: "$10,000/mo +",
     platform: "Full Multi-Channel",
     features: [
       "Meta, Google Suite, YouTube, LinkedIn, Local Service Ads, Direct Mail",
