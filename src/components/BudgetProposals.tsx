@@ -8,7 +8,7 @@ import { Check, Calculator } from "lucide-react";
 const budgetTiers = [
   {
     name: "Starter",
-    budget: "$2,000/mo",
+    budget: "<$2,000/mo",
     platform: "Meta Platforms",
     features: [
       "Meta (Facebook + Instagram + Messenger)",
