@@ -8,7 +8,17 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <HeroSection />
-      <FAQAccordion />
+      
+      <div className="container mx-auto px-6 py-16">
+        <div className="grid lg:grid-cols-[1fr,300px] gap-8 max-w-7xl mx-auto">
+          <div>
+            <FAQAccordion />
+          </div>
+          <aside className="hidden lg:block">
+            <QuickActions />
+          </aside>
+        </div>
+      </div>
       
       <div id="roi-calculator-section">
         <ROICalculatorSection />
@@ -16,14 +26,7 @@ const Index = () => {
       
       <div id="budget-section" className="relative">
         <div className="container mx-auto px-6 py-16">
-          <div className="grid lg:grid-cols-[1fr,300px] gap-8 max-w-7xl mx-auto">
-            <div>
-              <BudgetProposals />
-            </div>
-            <aside className="hidden lg:block">
-              <QuickActions />
-            </aside>
-          </div>
+          <BudgetProposals />
         </div>
       </div>
 
