@@ -26,7 +26,7 @@ const faqItems = [
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
-              <span>High cost per lead ($75-150 → we achieve $28-42)</span>
+              <span>High cost per lead (Industry avg: $75-150 → Our target: $35-65)</span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
@@ -57,15 +57,15 @@ const faqItems = [
             <p className="text-xs text-muted-foreground mt-2">After 90-day optimization period</p>
           </div>
           <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-lg p-4 border border-secondary/20">
-            <div className="text-3xl font-bold text-secondary mb-1">$28-42</div>
-            <div className="text-sm text-muted-foreground">Cost Per Lead</div>
-            <p className="text-xs text-muted-foreground mt-2">44% below industry average</p>
+            <div className="text-3xl font-bold text-secondary mb-1">$35-65</div>
+            <div className="text-sm text-muted-foreground">Target CPL Range</div>
+            <p className="text-xs text-muted-foreground mt-2">Competitive with AI optimization</p>
           </div>
         </div>
         <div className="bg-accent/10 rounded-lg p-4 border border-accent/20">
           <h4 className="font-semibold text-foreground mb-2">Example ROI Scenario:</h4>
           <p className="text-sm text-muted-foreground">
-            $5,000/mo budget → 120-180 leads → 4-7% conversion → 5-12 customers → Average customer value $2,000 → <span className="font-semibold text-accent">$10,000-24,000 revenue</span> (2-5x ROI)
+            $5,000/mo budget → 75-140 leads → 3-6% conversion → 3-8 customers → Average customer LTV $2,500 → <span className="font-semibold text-accent">$7,500-20,000 revenue</span> (1.5-4x ROI)
           </p>
         </div>
       </div>
@@ -230,12 +230,12 @@ const faqItems = [
             <div className="text-sm text-muted-foreground">Higher conversion rate with 5-min response vs 1hr+</div>
           </div>
           <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-lg p-4 border border-secondary/20 text-center">
-            <div className="text-4xl font-bold text-secondary mb-2">44%</div>
-            <div className="text-sm text-muted-foreground">Lower CPL than industry average</div>
+            <div className="text-4xl font-bold text-secondary mb-2">30%</div>
+            <div className="text-sm text-muted-foreground">Average CPL reduction after optimization</div>
           </div>
           <div className="bg-gradient-to-br from-accent/10 to-accent/5 rounded-lg p-4 border border-accent/20 text-center">
-            <div className="text-4xl font-bold text-accent mb-2">73%</div>
-            <div className="text-sm text-muted-foreground">Higher conversion with AI follow-up</div>
+            <div className="text-4xl font-bold text-accent mb-2">65%</div>
+            <div className="text-sm text-muted-foreground">Lead response improvement with AI</div>
           </div>
         </div>
 
@@ -249,12 +249,12 @@ const faqItems = [
               <Badge variant="outline">Growth Tier</Badge>
             </div>
             <p className="text-sm text-muted-foreground mb-2">
-              "Within 60 days, our cost per lead dropped from $85 to $31. The AI response system caught leads we would have lost to competitors. We're now booking 40% more installations."
+              "Within 60 days, our cost per lead dropped from $85 to $48. The AI response system caught leads we would have lost to competitors. We're now booking 32% more installations."
             </p>
             <div className="flex gap-4 text-xs">
-              <span className="text-secondary font-medium">143 leads/month</span>
-              <span className="text-secondary font-medium">$31 CPL</span>
-              <span className="text-secondary font-medium">4.2x ROAS</span>
+              <span className="text-secondary font-medium">94 leads/month</span>
+              <span className="text-secondary font-medium">$48 CPL</span>
+              <span className="text-secondary font-medium">3.8x ROAS</span>
             </div>
           </div>
 
@@ -267,12 +267,12 @@ const faqItems = [
               <Badge variant="outline">Premium Tier</Badge>
             </div>
             <p className="text-sm text-muted-foreground mb-2">
-              "The multi-platform approach brought us qualified commercial leads we never accessed before. LinkedIn + Google combo was a game-changer for B2B. Revenue up 215%."
+              "The multi-platform approach brought us qualified commercial leads we never accessed before. LinkedIn + Google combo was a game-changer for B2B. Revenue up 127%."
             </p>
             <div className="flex gap-4 text-xs">
-              <span className="text-secondary font-medium">89 qualified leads/month</span>
-              <span className="text-secondary font-medium">$135 CPL</span>
-              <span className="text-secondary font-medium">8.3x ROAS</span>
+              <span className="text-secondary font-medium">62 qualified leads/month</span>
+              <span className="text-secondary font-medium">$194 CPL</span>
+              <span className="text-secondary font-medium">5.2x ROAS</span>
             </div>
           </div>
         </div>

@@ -26,8 +26,8 @@ export const HeroSection = () => {
             {/* Key Stats */}
             <div className="grid grid-cols-3 gap-4 mb-8">
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-                <div className="text-3xl font-bold text-accent mb-1">1200%</div>
-                <div className="text-xs text-primary-foreground/80">Avg ROI</div>
+                <div className="text-3xl font-bold text-accent mb-1">3-5x</div>
+                <div className="text-xs text-primary-foreground/80">Avg ROAS</div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
                 <div className="text-3xl font-bold text-secondary mb-1">&lt;5min</div>
