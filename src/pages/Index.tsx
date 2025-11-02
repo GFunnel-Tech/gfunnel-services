@@ -3,6 +3,10 @@ import { FAQAccordion } from "@/components/FAQAccordion";
 import { BudgetProposals } from "@/components/BudgetProposals";
 import { ROICalculatorSection } from "@/components/ROICalculatorSection";
 import { QuickActions } from "@/components/QuickActions";
+import { SocialMediaCTA } from "@/components/SocialMediaCTA";
+import { AdExamples } from "@/components/AdExamples";
+import { AIFeatures } from "@/components/AIFeatures";
+import { KeyMetrics } from "@/components/KeyMetrics";
 
 const Index = () => {
   return (
@@ -23,6 +27,14 @@ const Index = () => {
       <div id="roi-calculator-section">
         <ROICalculatorSection />
       </div>
+
+      <SocialMediaCTA />
+
+      <AdExamples />
+
+      <AIFeatures />
+
+      <KeyMetrics />
       
       <div id="budget-section" className="relative">
         <div className="container mx-auto px-6 py-16">

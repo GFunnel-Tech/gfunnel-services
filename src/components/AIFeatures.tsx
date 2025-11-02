@@ -10,7 +10,7 @@ const features = [
   },
   {
     icon: Bot,
-    title: "Plai.io Campaign Management",
+    title: "AI Campaign Management",
     description: "Advanced AI platform manages ad campaigns across all platforms, optimizes bidding strategies, and provides real-time performance insights.",
     stat: "40% lower cost per acquisition"
   },
