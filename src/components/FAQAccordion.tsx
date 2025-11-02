@@ -199,7 +199,7 @@ const faqItems = [
           <ul className="grid md:grid-cols-2 gap-2 text-sm text-muted-foreground">
             <li className="flex items-center gap-2">
               <CheckCircle className="w-3 h-3 text-secondary shrink-0" />
-              <span>Plai.io campaign management</span>
+              <span>AI campaign management</span>
             </li>
             <li className="flex items-center gap-2">
               <CheckCircle className="w-3 h-3 text-secondary shrink-0" />
