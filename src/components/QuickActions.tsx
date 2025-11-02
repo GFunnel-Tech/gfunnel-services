@@ -1,12 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ExternalLink, Calculator, Phone, DollarSign } from "lucide-react";
+import { Calculator, Calendar, Rocket } from "lucide-react";
 
 export const QuickActions = () => {
-  const scrollToCalculator = () => {
-    const calculatorSection = document.querySelector('#roi-calculator-section');
-    if (calculatorSection) {
-      calculatorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const scrollToROI = () => {
+    // Scroll to FAQ accordion and open the ROI item
+    const faqSection = document.querySelector('[value="item-2"]');
+    if (faqSection) {
+      faqSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Trigger click to open the accordion
+      const trigger = faqSection.querySelector('button');
+      if (trigger) {
+        setTimeout(() => trigger.click(), 500);
+      }
     }
   };
 
@@ -17,7 +23,7 @@ export const QuickActions = () => {
         <Button 
           className="w-full justify-start" 
           size="lg"
-          onClick={scrollToCalculator}
+          onClick={scrollToROI}
         >
           <Calculator className="w-5 h-5 mr-2" />
           Calculate Your ROI
@@ -30,8 +36,8 @@ export const QuickActions = () => {
           asChild
         >
           <a href="#budget-section">
-            <DollarSign className="w-5 h-5 mr-2" />
-            View Pricing
+            <Rocket className="w-5 h-5 mr-2" />
+            Get Started
           </a>
         </Button>
 
@@ -41,21 +47,9 @@ export const QuickActions = () => {
           size="lg"
           asChild
         >
-          <a href="tel:+1234567890">
-            <Phone className="w-5 h-5 mr-2" />
-            Call Us Now
-          </a>
-        </Button>
-
-        <Button 
-          variant="ghost" 
-          className="w-full justify-start"
-          size="lg"
-          asChild
-        >
-          <a href="https://yourwebsite.com" target="_blank" rel="noopener noreferrer">
-            <ExternalLink className="w-5 h-5 mr-2" />
-            Visit Our Website
+          <a href="https://calendly.com/your-link" target="_blank" rel="noopener noreferrer">
+            <Calendar className="w-5 h-5 mr-2" />
+            Schedule Discovery
           </a>
         </Button>
       </div>
