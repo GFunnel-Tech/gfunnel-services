@@ -42,7 +42,7 @@ export const QuickActions = () => {
         </Button>
 
         <Button 
-          variant="outline" 
+          variant="ghost" 
           className="w-full justify-start"
           size="lg"
           asChild
