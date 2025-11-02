@@ -93,9 +93,13 @@ export const ROICalculatorSection = () => {
           </p>
         </div>
 
+        <div className="max-w-4xl mx-auto mb-16">
+          <BusinessMetricsForm onCalculate={handleCalculate} />
+        </div>
+
         {/* Industry Results Tabs */}
         {Object.keys(allIndustryResults).length > 0 && (
-          <div id="calculator-results" className="scroll-mt-20 mb-12">
+          <div id="calculator-results" className="scroll-mt-20">
             <Tabs value={selectedIndustry} onValueChange={handleIndustrySelect} className="w-full">
               <div className="flex justify-center mb-8">
                 <TabsList className="flex-wrap h-auto gap-2 bg-muted p-2">
@@ -138,16 +142,6 @@ export const ROICalculatorSection = () => {
             </Tabs>
           </div>
         )}
-
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold text-foreground mb-2">Custom Calculator</h3>
-            <p className="text-sm text-muted-foreground">
-              Enter your specific business metrics for a personalized ROI calculation
-            </p>
-          </div>
-          <BusinessMetricsForm onCalculate={handleCalculate} />
-        </div>
       </div>
     </section>
   );
