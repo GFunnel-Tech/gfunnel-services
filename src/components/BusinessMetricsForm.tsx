@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card } from "@/components/ui/card";
@@ -6,20 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { BusinessMetrics, businessMetricsSchema } from "@/lib/schemas";
-import { industryPresets } from "@/lib/industryPresets";
 import { MetricHelpTooltip } from "./MetricHelpTooltip";
 import { Calculator, RotateCcw, HelpCircle } from "lucide-react";
 
@@ -28,14 +19,11 @@ interface BusinessMetricsFormProps {
 }
 
 export const BusinessMetricsForm = ({ onCalculate }: BusinessMetricsFormProps) => {
-  const [selectedIndustry, setSelectedIndustry] = useState("custom");
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
   } = useForm<BusinessMetrics>({
     resolver: zodResolver(businessMetricsSchema),
     defaultValues: {
@@ -49,22 +37,7 @@ export const BusinessMetricsForm = ({ onCalculate }: BusinessMetricsFormProps) =
     },
   });
 
-  const handleIndustryChange = (industry: string) => {
-    setSelectedIndustry(industry);
-    const preset = industryPresets[industry];
-    if (preset && industry !== "custom") {
-      setValue("contractValue", preset.contractValue);
-      setValue("monthlyRecurring", preset.monthlyRecurring);
-      setValue("serviceDeliveryCosts", preset.serviceDeliveryCosts);
-      setValue("monthlyServiceCosts", preset.monthlyServiceCosts);
-      setValue("retentionMonths", preset.retentionMonths);
-      setValue("closeRate", preset.closeRate);
-      setValue("estimatedCPL", preset.estimatedCPL);
-    }
-  };
-
   const handleReset = () => {
-    setSelectedIndustry("custom");
     reset();
   };
 
@@ -73,31 +46,11 @@ export const BusinessMetricsForm = ({ onCalculate }: BusinessMetricsFormProps) =
       <div className="mb-6">
         <h3 className="text-2xl font-bold text-foreground mb-2">Calculate Your ROI</h3>
         <p className="text-sm text-muted-foreground">
-          Enter your business metrics or select an industry preset to get started
+          Enter your business metrics below to calculate your ROI
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onCalculate)} className="space-y-6">
-        <div>
-          <Label htmlFor="industry" className="flex items-center">
-            Select Industry
-          </Label>
-          <Select value={selectedIndustry} onValueChange={handleIndustryChange}>
-            <SelectTrigger id="industry" className="mt-2">
-              <SelectValue placeholder="Choose an industry" />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.entries(industryPresets).map(([key, preset]) => (
-                <SelectItem key={key} value={key}>
-                  {preset.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <p className="text-xs text-muted-foreground mt-1">
-            Use industry estimates or enter custom values below
-          </p>
-        </div>
 
         <div className="grid md:grid-cols-2 gap-4">
           <div>
@@ -235,9 +188,9 @@ export const BusinessMetricsForm = ({ onCalculate }: BusinessMetricsFormProps) =
               <div className="space-y-2 text-sm">
                 <p className="font-medium text-foreground">Quick Tips:</p>
                 <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-                  <li>Don't know your numbers? Select an industry preset above</li>
-                  <li>Hover over the <HelpCircle className="w-3 h-3 inline" /> icons for detailed explanations</li>
+                  <li>Use the <HelpCircle className="w-3 h-3 inline" /> icons next to each field for detailed explanations</li>
                   <li>All fields are required except Estimated CPL</li>
+                  <li>Enter your best estimates - you can always adjust later</li>
                 </ul>
               </div>
               
