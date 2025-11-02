@@ -46,7 +46,17 @@ export const KeyMetrics = () => {
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {metrics.map(metric => {})}
+          {metrics.map((metric, idx) => (
+            <Card key={idx} className="p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <metric.icon className="w-6 h-6 text-primary" />
+                <h3 className="font-semibold text-foreground">{metric.label}</h3>
+              </div>
+              <div className="text-3xl font-bold text-foreground mb-1">{metric.value}</div>
+              <p className="text-sm text-muted-foreground mb-2">{metric.subtext}</p>
+              <p className="text-xs text-secondary font-medium">{metric.trend}</p>
+            </Card>
+          ))}
         </div>
         
         <div className="mt-12 max-w-5xl mx-auto bg-card rounded-lg p-8 shadow-lg border border-border">

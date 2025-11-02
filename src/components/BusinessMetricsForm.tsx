@@ -36,5 +36,13 @@ export const BusinessMetricsForm = ({
   const handleReset = () => {
     reset();
   };
-  return;
+  
+  return (
+    <Card className="p-6">
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-foreground">Business Metrics Form</h2>
+        <p className="text-sm text-muted-foreground">Configure your business metrics</p>
+      </div>
+    </Card>
+  );
 };

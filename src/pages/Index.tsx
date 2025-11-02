@@ -1,12 +1,9 @@
 import { HeroSection } from "@/components/HeroSection";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { BudgetProposals } from "@/components/BudgetProposals";
-import { ROICalculatorSection } from "@/components/ROICalculatorSection";
 import { QuickActions } from "@/components/QuickActions";
 import { SocialMediaCTA } from "@/components/SocialMediaCTA";
-import { AdExamples } from "@/components/AdExamples";
-import { AIFeatures } from "@/components/AIFeatures";
-import { KeyMetrics } from "@/components/KeyMetrics";
+import { SuccessRoadmap } from "@/components/SuccessRoadmap";
 const Index = () => {
   return <div className="min-h-screen">
       <HeroSection />
@@ -21,18 +18,10 @@ const Index = () => {
           </aside>
         </div>
       </div>
-      
-      <div id="roi-calculator-section">
-        <ROICalculatorSection />
-      </div>
 
       <SocialMediaCTA />
 
-      
-
-      
-
-      <KeyMetrics />
+      <SuccessRoadmap />
       
       <div id="budget-section" className="relative">
         <div className="container mx-auto px-6 py-16">
@@ -44,12 +33,12 @@ const Index = () => {
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 shadow-lg z-50">
         <div className="flex gap-2">
           <button onClick={() => {
-          const calculator = document.querySelector('#roi-calculator-section');
-          calculator?.scrollIntoView({
+          const budgetSection = document.querySelector('#budget-section');
+          budgetSection?.scrollIntoView({
             behavior: 'smooth'
           });
         }} className="flex-1 bg-primary text-primary-foreground px-4 py-3 rounded-md font-medium text-sm">
-            Calculate ROI
+            Calculate Budget
           </button>
           <a href="tel:+1234567890" className="flex-1 bg-secondary text-secondary-foreground px-4 py-3 rounded-md font-medium text-sm text-center">
             Call Now
