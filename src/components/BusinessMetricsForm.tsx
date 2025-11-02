@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useImperativeHandle, forwardRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card } from "@/components/ui/card";
@@ -27,8 +27,13 @@ interface BusinessMetricsFormProps {
   onCalculate: (metrics: BusinessMetrics) => void;
 }
 
-export const BusinessMetricsForm = ({ onCalculate }: BusinessMetricsFormProps) => {
-  const [selectedIndustry, setSelectedIndustry] = useState("custom");
+export interface BusinessMetricsFormRef {
+  setIndustry: (industry: string) => void;
+}
+
+export const BusinessMetricsForm = forwardRef<BusinessMetricsFormRef, BusinessMetricsFormProps>(
+  ({ onCalculate }, ref) => {
+    const [selectedIndustry, setSelectedIndustry] = useState("custom");
 
   const {
     register,
@@ -49,7 +54,7 @@ export const BusinessMetricsForm = ({ onCalculate }: BusinessMetricsFormProps) =
     },
   });
 
-  const handleIndustryChange = (industry: string) => {
+  const handleIndustryChange = (industry: string, autoSubmit = false) => {
     setSelectedIndustry(industry);
     const preset = industryPresets[industry];
     if (preset && industry !== "custom") {
@@ -60,6 +65,13 @@ export const BusinessMetricsForm = ({ onCalculate }: BusinessMetricsFormProps) =
       setValue("retentionMonths", preset.retentionMonths);
       setValue("closeRate", preset.closeRate);
       setValue("estimatedCPL", preset.estimatedCPL);
+      
+      // Auto-submit if triggered from industry buttons
+      if (autoSubmit) {
+        setTimeout(() => {
+          handleSubmit(onCalculate)();
+        }, 100);
+      }
     }
   };
 
@@ -67,6 +79,13 @@ export const BusinessMetricsForm = ({ onCalculate }: BusinessMetricsFormProps) =
     setSelectedIndustry("custom");
     reset();
   };
+
+  // Expose method to parent component
+  useImperativeHandle(ref, () => ({
+    setIndustry: (industry: string) => {
+      handleIndustryChange(industry, true);
+    },
+  }));
 
   return (
     <Card className="p-6 md:p-8">
@@ -274,4 +293,6 @@ export const BusinessMetricsForm = ({ onCalculate }: BusinessMetricsFormProps) =
       </form>
     </Card>
   );
-};
+});
+
+BusinessMetricsForm.displayName = "BusinessMetricsForm";
