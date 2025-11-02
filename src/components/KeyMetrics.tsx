@@ -1,80 +1,52 @@
 import { Card } from "@/components/ui/card";
 import { TrendingUp, Users, DollarSign, Phone, Clock, Award } from "lucide-react";
-
-const metrics = [
-  {
-    icon: Users,
-    label: "Expected Monthly Leads",
-    value: "120-180",
-    subtext: "Based on $5,000/mo budget",
-    trend: "+25% month over month"
-  },
-  {
-    icon: DollarSign,
-    label: "Cost Per Lead",
-    value: "$28-42",
-    subtext: "Industry avg: $50-75",
-    trend: "44% below average"
-  },
-  {
-    icon: Phone,
-    label: "Lead Response Time",
-    value: "< 5 min",
-    subtext: "AI-powered callbacks",
-    trend: "9x higher conversion"
-  },
-  {
-    icon: Clock,
-    label: "Campaign Setup",
-    value: "7-10 days",
-    subtext: "From approval to launch",
-    trend: "Full optimization by week 3"
-  },
-  {
-    icon: TrendingUp,
-    label: "Expected Conversion Rate",
-    value: "4-7%",
-    subtext: "Lead to customer",
-    trend: "With AI follow-up system"
-  },
-  {
-    icon: Award,
-    label: "Return on Ad Spend",
-    value: "3-5x",
-    subtext: "Conservative estimate",
-    trend: "After 90-day optimization"
-  }
-];
-
+const metrics = [{
+  icon: Users,
+  label: "Expected Monthly Leads",
+  value: "120-180",
+  subtext: "Based on $5,000/mo budget",
+  trend: "+25% month over month"
+}, {
+  icon: DollarSign,
+  label: "Cost Per Lead",
+  value: "$28-42",
+  subtext: "Industry avg: $50-75",
+  trend: "44% below average"
+}, {
+  icon: Phone,
+  label: "Lead Response Time",
+  value: "< 5 min",
+  subtext: "AI-powered callbacks",
+  trend: "9x higher conversion"
+}, {
+  icon: Clock,
+  label: "Campaign Setup",
+  value: "7-10 days",
+  subtext: "From approval to launch",
+  trend: "Full optimization by week 3"
+}, {
+  icon: TrendingUp,
+  label: "Expected Conversion Rate",
+  value: "4-7%",
+  subtext: "Lead to customer",
+  trend: "With AI follow-up system"
+}, {
+  icon: Award,
+  label: "Return on Ad Spend",
+  value: "3-5x",
+  subtext: "Conservative estimate",
+  trend: "After 90-day optimization"
+}];
 export const KeyMetrics = () => {
-  return (
-    <section className="py-16 bg-muted/30">
+  return <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 text-foreground">Performance Projections</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Data-driven estimates based on security industry benchmarks and AI-enhanced campaigns
-          </p>
+          
+          
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {metrics.map((metric) => (
-            <Card key={metric.label} className="p-6 hover:shadow-lg transition-shadow border-border">
-              <div className="flex items-start justify-between mb-4">
-                <div className="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center">
-                  <metric.icon className="w-6 h-6 text-primary" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">{metric.label}</p>
-                <p className="text-3xl font-bold text-foreground">{metric.value}</p>
-                <p className="text-xs text-muted-foreground">{metric.subtext}</p>
-                <div className="pt-3 border-t border-border">
-                  <p className="text-xs font-medium text-secondary">{metric.trend}</p>
-                </div>
-              </div>
-            </Card>
-          ))}
+          {metrics.map(metric => {})}
         </div>
         
         <div className="mt-12 max-w-5xl mx-auto bg-card rounded-lg p-8 shadow-lg border border-border">
@@ -104,6 +76,5 @@ export const KeyMetrics = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };

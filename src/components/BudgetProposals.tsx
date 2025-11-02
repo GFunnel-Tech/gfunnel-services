@@ -126,26 +126,7 @@ export const BudgetProposals = () => {
       <div className="container mx-auto px-6">
         
         
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {budgetTiers.map(tier => (
-            <Card key={tier.name} className={`p-6 relative ${tier.recommended ? "border-2 border-primary shadow-xl" : "border border-border"}`}>
-              {tier.recommended && <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
-                  Recommended
-                </Badge>}
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold mb-2 text-foreground">{tier.name}</h3>
-                <div className="text-3xl font-bold text-primary mb-1">{tier.budget}</div>
-                <p className="text-sm text-muted-foreground">{tier.platform}</p>
-              </div>
-              <ul className="space-y-3">
-                {tier.features.map((feature, idx) => <li key={idx} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-secondary shrink-0 mt-0.5" />
-                    <span className="text-sm text-foreground">{feature}</span>
-                  </li>)}
-              </ul>
-            </Card>
-          ))}
-        </div>
+        
 
         {/* Client's Custom Budget Section */}
         <div className="mt-16 max-w-2xl mx-auto">

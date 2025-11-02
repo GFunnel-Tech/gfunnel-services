@@ -7,10 +7,8 @@ import { SocialMediaCTA } from "@/components/SocialMediaCTA";
 import { AdExamples } from "@/components/AdExamples";
 import { AIFeatures } from "@/components/AIFeatures";
 import { KeyMetrics } from "@/components/KeyMetrics";
-
 const Index = () => {
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <HeroSection />
       
       <div className="container mx-auto px-6 py-16">
@@ -30,9 +28,9 @@ const Index = () => {
 
       <SocialMediaCTA />
 
-      <AdExamples />
+      
 
-      <AIFeatures />
+      
 
       <KeyMetrics />
       
@@ -45,25 +43,19 @@ const Index = () => {
       {/* Mobile Quick Actions - Fixed Bottom */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 shadow-lg z-50">
         <div className="flex gap-2">
-          <button 
-            onClick={() => {
-              const calculator = document.querySelector('#roi-calculator-section');
-              calculator?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="flex-1 bg-primary text-primary-foreground px-4 py-3 rounded-md font-medium text-sm"
-          >
+          <button onClick={() => {
+          const calculator = document.querySelector('#roi-calculator-section');
+          calculator?.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }} className="flex-1 bg-primary text-primary-foreground px-4 py-3 rounded-md font-medium text-sm">
             Calculate ROI
           </button>
-          <a 
-            href="tel:+1234567890"
-            className="flex-1 bg-secondary text-secondary-foreground px-4 py-3 rounded-md font-medium text-sm text-center"
-          >
+          <a href="tel:+1234567890" className="flex-1 bg-secondary text-secondary-foreground px-4 py-3 rounded-md font-medium text-sm text-center">
             Call Now
           </a>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
