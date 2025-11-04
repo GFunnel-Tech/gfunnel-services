@@ -24,9 +24,7 @@ const Index = () => {
       <SuccessRoadmap />
       
       <div id="budget-section" className="relative">
-        <div className="container mx-auto px-6 py-16">
-          <BudgetProposals />
-        </div>
+        
       </div>
 
       {/* Mobile Quick Actions - Fixed Bottom */}

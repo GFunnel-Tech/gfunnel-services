@@ -123,39 +123,6 @@ export const BudgetProposals = () => {
   };
   const customResults = showCustomResults && customBudget ? calculateCustomBudgetResults(parseFloat(customBudget)) : null;
   return <section className="py-16 bg-background">
-      <div className="container mx-auto px-6">
-        <div className="p-6 bg-muted rounded-lg max-w-4xl mx-auto">
-          <h3 className="font-semibold text-lg mb-3 text-foreground">Budget Allocation Breakdown</h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            How your investment is distributed across platforms and services
-          </p>
-          <div className="grid md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="font-medium text-foreground">Ad Spend (Platform Costs):</span>
-              <span className="ml-2 text-muted-foreground">70-75% of total budget</span>
-            </div>
-            <div>
-              <span className="font-medium text-foreground">Platform Management:</span>
-              <span className="ml-2 text-muted-foreground">10-12% of total budget</span>
-            </div>
-            <div>
-              <span className="font-medium text-foreground">AI/Voice Assistant (Flows AI):</span>
-              <span className="ml-2 text-muted-foreground">5-8% of total budget</span>
-            </div>
-            <div>
-              <span className="font-medium text-foreground">CRM Integration (Lead Connector):</span>
-              <span className="ml-2 text-muted-foreground">2-3% of total budget</span>
-            </div>
-            <div>
-              <span className="font-medium text-foreground">Creative Production & Testing:</span>
-              <span className="ml-2 text-muted-foreground">5-7% of total budget</span>
-            </div>
-            <div>
-              <span className="font-medium text-foreground">Analytics & Reporting:</span>
-              <span className="ml-2 text-muted-foreground">3-5% of total budget</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </section>;
 };
