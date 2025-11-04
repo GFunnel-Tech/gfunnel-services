@@ -124,72 +124,7 @@ export const BudgetProposals = () => {
   const customResults = showCustomResults && customBudget ? calculateCustomBudgetResults(parseFloat(customBudget)) : null;
   return <section className="py-16 bg-background">
       <div className="container mx-auto px-6">
-        
-        
-        
-
-        {/* Client's Custom Budget Section */}
-        <div className="mt-16 max-w-2xl mx-auto">
-          <Card className="p-8 border-2 border-primary/20">
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
-                <Calculator className="w-4 h-4" />
-                <span className="text-sm font-medium">Custom Budget</span>
-              </div>
-              <h3 className="text-2xl font-bold mb-2 text-foreground">Your Proposed Budget</h3>
-              <p className="text-sm text-muted-foreground">
-                Enter your monthly advertising budget to see what you can expect
-              </p>
-            </div>
-
-            <div className="flex gap-3 mb-6">
-              <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                <Input type="number" placeholder="3500" value={customBudget} onChange={e => setCustomBudget(e.target.value)} className="pl-7" min="0" step="100" />
-              </div>
-              <Button onClick={handleCalculateCustomBudget} disabled={!customBudget}>
-                Calculate Coverage
-              </Button>
-            </div>
-
-            {customResults && <div className="bg-muted/50 rounded-lg p-6 border border-border">
-                <h4 className="font-semibold text-lg mb-4 text-foreground">
-                  With ${parseFloat(customBudget).toLocaleString()}/month you can expect:
-                </h4>
-                <ul className="space-y-3 mb-4">
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-secondary shrink-0 mt-0.5" />
-                    <span className="text-sm text-foreground">
-                      <strong>{customResults.expectedLeads.min}-{customResults.expectedLeads.max} qualified leads/month</strong>
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-secondary shrink-0 mt-0.5" />
-                    <span className="text-sm text-foreground">
-                      ${customResults.cplRange.min}-${customResults.cplRange.max} cost per lead
-                    </span>
-                  </li>
-                  {customResults.platforms.map((platform, idx) => <li key={idx} className="flex items-start gap-3">
-                      <Check className="w-5 h-5 text-secondary shrink-0 mt-0.5" />
-                      <span className="text-sm text-foreground">{platform}</span>
-                    </li>)}
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-secondary shrink-0 mt-0.5" />
-                    <span className="text-sm text-foreground">
-                      Best fit: <strong>{customResults.tierAlignment}</strong>
-                    </span>
-                  </li>
-                </ul>
-                <div className="pt-4 border-t border-border">
-                  <p className="text-sm text-muted-foreground">
-                    💡 <strong>Recommendation:</strong> {customResults.recommendation}
-                  </p>
-                </div>
-              </div>}
-          </Card>
-        </div>
-        
-        <div className="mt-12 p-6 bg-muted rounded-lg max-w-4xl mx-auto">
+        <div className="p-6 bg-muted rounded-lg max-w-4xl mx-auto">
           <h3 className="font-semibold text-lg mb-3 text-foreground">Budget Allocation Breakdown</h3>
           <p className="text-sm text-muted-foreground mb-4">
             How your investment is distributed across platforms and services

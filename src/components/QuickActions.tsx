@@ -4,8 +4,8 @@ import { Calculator, Calendar, Rocket } from "lucide-react";
 
 export const QuickActions = () => {
   const scrollToROI = () => {
-    // Scroll to FAQ accordion and open the ROI item
-    const faqSection = document.querySelector('[value="item-2"]');
+    // Scroll to FAQ accordion and open the ROI item (item-3)
+    const faqSection = document.querySelector('[value="item-3"]');
     if (faqSection) {
       faqSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
       // Trigger click to open the accordion
@@ -22,16 +22,6 @@ export const QuickActions = () => {
       <div className="space-y-3">
         <Button 
           className="w-full justify-start" 
-          size="lg"
-          onClick={scrollToROI}
-        >
-          <Calculator className="w-5 h-5 mr-2" />
-          Calculate Your ROI
-        </Button>
-        
-        <Button 
-          variant="outline" 
-          className="w-full justify-start"
           size="lg"
           asChild
         >
