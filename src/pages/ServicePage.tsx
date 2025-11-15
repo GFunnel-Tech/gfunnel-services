@@ -1,9 +1,10 @@
 import { useParams, Navigate } from "react-router-dom";
 import { ServiceHero } from "@/components/ServiceHero";
-import { FAQAccordion } from "@/components/FAQAccordion";
+import { ServiceFAQ } from "@/components/ServiceFAQ";
 import { QuickActions } from "@/components/QuickActions";
 import { SocialMediaCTA } from "@/components/SocialMediaCTA";
 import { getServiceBySlug } from "@/lib/serviceConfigs";
+import { getFAQsByServiceSlug } from "@/lib/serviceFAQs";
 import { Navigation } from "@/components/Navigation";
 
 const ServicePage = () => {
@@ -14,6 +15,7 @@ const ServicePage = () => {
   }
 
   const service = getServiceBySlug(slug);
+  const faqs = getFAQsByServiceSlug(slug);
 
   if (!service) {
     return <Navigate to="/" replace />;
@@ -27,7 +29,7 @@ const ServicePage = () => {
       <div className="container mx-auto px-6 py-16">
         <div className="grid lg:grid-cols-[1fr,300px] gap-8 max-w-7xl mx-auto">
           <div>
-            <FAQAccordion />
+            <ServiceFAQ faqs={faqs} />
           </div>
           <aside className="hidden lg:block">
             <QuickActions 
