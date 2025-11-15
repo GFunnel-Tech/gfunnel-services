@@ -82,12 +82,6 @@ const faqItems = [
   },
   {
     number: 3,
-    icon: Calculator,
-    title: "ROI Calculator",
-    content: null, // This will be handled dynamically in the component
-  },
-  {
-    number: 4,
     icon: Clock,
     title: "How Soon Will I See Results?",
     content: (
@@ -309,7 +303,7 @@ const faqItems = [
     ),
   },
   {
-    number: 7,
+    number: 6,
     icon: DollarSign,
     title: "Custom Budget Calculator",
     content: null, // This will be handled dynamically in the component
@@ -317,14 +311,8 @@ const faqItems = [
 ];
 
 export const FAQAccordion = () => {
-  const [roiResults, setRoiResults] = useState<TierCalculations[] | null>(null);
   const [customBudget, setCustomBudget] = useState<string>("");
   const [showCustomResults, setShowCustomResults] = useState(false);
-
-  const handleCalculateROI = (metrics: BusinessMetrics) => {
-    const calculations = budgetTiers.map(tier => calculateTierMetrics(tier, metrics));
-    setRoiResults(calculations);
-  };
 
   const calculateCustomBudgetResults = (budget: number) => {
     if (budget < 2000) {
@@ -414,17 +402,7 @@ export const FAQAccordion = () => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="pt-4 pb-2 pl-14">
-                  {index === 2 ? (
-                    // ROI Calculator content
-                    <div className="space-y-8">
-                      <BusinessMetricsForm onCalculate={handleCalculateROI} />
-                      {roiResults && (
-                        <div id="calculator-results" className="scroll-mt-20">
-                          <CalculatorResults results={roiResults} />
-                        </div>
-                      )}
-                    </div>
-                  ) : index === 6 ? (
+                  {index === 5 ? (
                     // Custom Budget Calculator content
                     <div>
                       <Card className="p-8 border-2 border-primary/20">
