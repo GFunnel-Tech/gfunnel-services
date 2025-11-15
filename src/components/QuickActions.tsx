@@ -2,7 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Calculator, Calendar, Rocket } from "lucide-react";
 
-export const QuickActions = () => {
+interface QuickActionsProps {
+  onboardingUrl?: string;
+  discoveryUrl?: string;
+}
+
+export const QuickActions = ({ 
+  onboardingUrl = "https://onboarding.gfunnel.com/paid-advertisement",
+  discoveryUrl = "https://www.gfunnel.com/discover?services=paid-advertisement"
+}: QuickActionsProps) => {
   const scrollToROI = () => {
     // Scroll to FAQ accordion and open the ROI item (item-3)
     const faqSection = document.querySelector('[value="item-3"]');
@@ -25,7 +33,7 @@ export const QuickActions = () => {
           size="lg"
           asChild
         >
-          <a href="https://onboarding.gfunnel.com/paid-advertisement" target="_blank" rel="noopener noreferrer">
+          <a href={onboardingUrl} target="_blank" rel="noopener noreferrer">
             <Rocket className="w-5 h-5 mr-2" />
             Get Started
           </a>
@@ -37,7 +45,7 @@ export const QuickActions = () => {
           size="lg"
           asChild
         >
-          <a href="https://www.gfunnel.com/discover?services=paid-advertisement" target="_blank" rel="noopener noreferrer">
+          <a href={discoveryUrl} target="_blank" rel="noopener noreferrer">
             <Calendar className="w-5 h-5 mr-2" />
             Schedule Discovery
           </a>
