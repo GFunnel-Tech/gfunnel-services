@@ -36,10 +36,10 @@ const Index = () => {
             behavior: "smooth"
           });
         }} className="flex-1 bg-primary text-primary-foreground px-4 py-3 rounded-md font-medium text-sm">
-            Calculate Budget
+            Get Started
           </button>
-          <a href="tel:+1234567890" className="flex-1 bg-secondary text-secondary-foreground px-4 py-3 rounded-md font-medium text-sm text-center">
-            Call Now
+          <a href="https://calendly.com/your-link" target="_blank" rel="noopener noreferrer" className="flex-1 bg-secondary text-secondary-foreground px-4 py-3 rounded-md font-medium text-sm text-center">
+            Schedule Discovery
           </a>
         </div>
       </div>
