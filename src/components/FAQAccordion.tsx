@@ -358,12 +358,31 @@ export const FAQAccordion = () => {
         recommendation: "Consider upgrading to $10,000/month Premium tier for full multi-channel coverage and dedicated account management."
       };
     } else {
+      // Scale results for budgets above $10,000
+      const baseBudget = 10000;
+      const baseLeadsMin = 300;
+      const baseLeadsMax = 400;
+      const baseCPLMin = 25;
+      const baseCPLMax = 35;
+      
+      // Calculate scaled leads (increases with budget but with diminishing returns)
+      const budgetMultiplier = budget / baseBudget;
+      const scaledLeadsMin = Math.floor(baseLeadsMin * Math.pow(budgetMultiplier, 0.85));
+      const scaledLeadsMax = Math.floor(baseLeadsMax * Math.pow(budgetMultiplier, 0.85));
+      
+      // CPL improves slightly with higher budgets (economies of scale)
+      const cplImprovementFactor = Math.min(0.8, 1 - (budgetMultiplier - 1) * 0.05);
+      const scaledCPLMin = Math.round(baseCPLMin * cplImprovementFactor);
+      const scaledCPLMax = Math.round(baseCPLMax * cplImprovementFactor);
+      
       return {
         tierAlignment: "Premium Tier or Higher",
-        expectedLeads: { min: 300, max: 400 },
-        cplRange: { min: 25, max: 35 },
-        platforms: ["All platforms activated", "Multi-region coverage"],
-        recommendation: "Your budget supports our Premium tier with full multi-channel coverage, dedicated support, and maximum market penetration."
+        expectedLeads: { min: scaledLeadsMin, max: scaledLeadsMax },
+        cplRange: { min: scaledCPLMin, max: scaledCPLMax },
+        platforms: ["All platforms activated", "Multi-region coverage", "Advanced targeting"],
+        recommendation: budget > 15000 
+          ? `Your ${budget.toLocaleString()} budget supports enterprise-level campaigns with maximum market penetration, dedicated team, and priority optimization across all channels.`
+          : "Your budget supports our Premium tier with full multi-channel coverage, dedicated support, and maximum market penetration."
       };
     }
   };
