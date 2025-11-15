@@ -4,21 +4,9 @@ import { Play } from "lucide-react";
 const videos = [
   {
     id: "video1",
-    title: "Platform Overview",
-    thumbnail: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=450&fit=crop",
-    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-  },
-  {
-    id: "video2", 
-    title: "AI Features Demo",
-    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop",
-    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-  },
-  {
-    id: "video3",
-    title: "Success Stories",
-    thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=450&fit=crop",
-    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    title: "Paid Advertisement Platform Demo",
+    thumbnail: "https://img.youtube.com/vi/0nI1JjB43BI/maxresdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/0nI1JjB43BI"
   }
 ];
 
