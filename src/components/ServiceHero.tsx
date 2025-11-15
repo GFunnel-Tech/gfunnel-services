@@ -33,8 +33,8 @@ export const ServiceHero = ({ service }: ServiceHeroProps) => {
             <div className="grid grid-cols-3 gap-4 mb-8">
               {service.stats.map((stat, index) => (
                 <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-                  <div className="text-3xl font-bold text-accent mb-1">{stat.value}</div>
-                  <div className="text-xs text-primary-foreground/80">{stat.label}</div>
+                  <div className="text-2xl md:text-3xl font-bold text-accent mb-1">{stat.value}</div>
+                  <div className="text-xs text-primary-foreground/80 whitespace-nowrap overflow-hidden text-ellipsis">{stat.label}</div>
                 </div>
               ))}
             </div>
