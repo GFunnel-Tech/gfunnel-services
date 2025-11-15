@@ -96,65 +96,22 @@ export const CalculatorResults = ({ results }: CalculatorResultsProps) => {
                 </div>
               </div>
 
-              <div className="space-y-3 text-sm">
+              <div className="space-y-4 text-sm">
                 <div className="flex items-start gap-2">
                   <Target className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <div className="flex-1">
-                    <p className="text-muted-foreground">Expected Leads/mo</p>
-                    <p className="font-semibold text-foreground">{formatNumber(result.expectedLeadsAvg)} leads @ {formatCurrency(result.cplAvg)} CPL</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-2">
-                  <Users className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <p className="text-muted-foreground">Expected Customers/mo</p>
-                    <p className="font-semibold text-foreground">{formatNumber(result.expectedCustomers, 1)} customers</p>
+                    <p className="text-muted-foreground">Monthly Leads</p>
+                    <p className="text-xl font-bold text-foreground">{formatNumber(result.expectedLeadsAvg)}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2">
                   <DollarSign className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <div className="flex-1 flex items-center">
-                    <div>
-                      <p className="text-muted-foreground flex items-center">
-                        CAC per Customer
-                        <MetricHelpTooltip metricKey="cac" />
-                      </p>
-                      <p className="font-semibold text-foreground">{formatCurrency(result.cac)}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-2">
-                  <TrendingUp className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
                   <div className="flex-1">
-                    <p className="text-muted-foreground flex items-center">
-                      LTV per Customer
-                      <MetricHelpTooltip metricKey="ltv" />
+                    <p className="text-muted-foreground">Monthly Revenue</p>
+                    <p className="text-xl font-bold text-foreground">
+                      {formatCurrency(result.monthlyGrossProfitPotential)}
                     </p>
-                    <p className="font-semibold text-foreground">{formatCurrency(result.ltv)}</p>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t border-border">
-                  <div className="flex items-start gap-2 mb-2">
-                    <DollarSign className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
-                    <div className="flex-1">
-                      <p className="text-muted-foreground flex items-center">
-                        LTGP per Customer
-                        <MetricHelpTooltip metricKey="ltgp" />
-                      </p>
-                      <p className="text-lg font-bold text-secondary">{formatCurrency(result.ltgp)}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-2">
-                  <DollarSign className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <p className="text-muted-foreground">Net Profit per Customer</p>
-                    <p className="font-semibold text-foreground">{formatCurrency(result.netProfitPerCustomer)}</p>
                   </div>
                 </div>
 
@@ -162,31 +119,9 @@ export const CalculatorResults = ({ results }: CalculatorResultsProps) => {
                   <Percent className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <div className="flex-1">
                     <p className="text-muted-foreground">ROI</p>
-                    <p className="font-semibold text-foreground">{formatNumber(result.roi)}%</p>
+                    <p className="text-xl font-bold text-foreground">{formatNumber(result.roi)}%</p>
                   </div>
                 </div>
-
-                <div className="flex items-start gap-2">
-                  <TrendingUp className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <p className="text-muted-foreground">Monthly Gross Profit Potential</p>
-                    <p className="font-semibold text-foreground">
-                      {formatCurrency(result.monthlyGrossProfitPotential)}
-                    </p>
-                  </div>
-                </div>
-
-                {result.breakEvenMonths > 0 && (
-                  <div className="flex items-start gap-2">
-                    <Clock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                    <div className="flex-1">
-                      <p className="text-muted-foreground">Break-Even Time</p>
-                      <p className="font-semibold text-foreground">
-                        {formatNumber(result.breakEvenMonths, 1)} months
-                      </p>
-                    </div>
-                  </div>
-                )}
               </div>
             </Card>
           );

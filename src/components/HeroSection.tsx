@@ -16,7 +16,7 @@ export const HeroSection = () => {
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              <span className="block text-accent">Paid Advertisement</span>
+              <span className="block text-primary-foreground">Paid Advertisement</span>
             </h1>
             
             <p className="text-lg md:text-xl mb-8 text-primary-foreground/90 leading-relaxed">
