@@ -97,13 +97,8 @@ export const ServiceFAQ = ({ faqs }: ServiceFAQProps) => {
                     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 shrink-0">
                       <Icon className="w-5 h-5 text-primary" />
                     </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground mb-1">
-                        Question {item.number}
-                      </div>
-                      <div className="font-semibold text-foreground">
-                        {item.title}
-                      </div>
+                    <div className="font-semibold text-foreground">
+                      {item.title}
                     </div>
                   </div>
                 </AccordionTrigger>
@@ -212,13 +207,8 @@ export const ServiceFAQ = ({ faqs }: ServiceFAQProps) => {
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 shrink-0">
                     <Icon className="w-5 h-5 text-primary" />
                   </div>
-                  <div>
-                    <div className="text-xs text-muted-foreground mb-1">
-                      Question {item.number}
-                    </div>
-                    <div className="font-semibold text-foreground">
-                      {item.title}
-                    </div>
+                  <div className="font-semibold text-foreground">
+                    {item.title}
                   </div>
                 </div>
               </AccordionTrigger>
