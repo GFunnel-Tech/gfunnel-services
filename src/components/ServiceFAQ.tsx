@@ -22,40 +22,52 @@ export const ServiceFAQ = ({ faqs }: ServiceFAQProps) => {
   const [customBudget, setCustomBudget] = useState<string>("");
   const [showCustomResults, setShowCustomResults] = useState(false);
 
+  // Default business metrics for calculator (security industry averages)
+  const defaultMetrics: BusinessMetrics = {
+    contractValue: 1500,
+    monthlyRecurring: 65,
+    serviceDeliveryCosts: 400,
+    monthlyServiceCosts: 35,
+    retentionMonths: 24,
+    closeRate: 5,
+    estimatedCPL: 50
+  };
+
   const calculateCustomBudgetResults = (budget: number) => {
+    // Find which tier this budget aligns with
+    const tier = budgetTiers.find(t => {
+      if (budget < 3000) return false;
+      if (budget >= 3000 && budget < 5000) return t.budget === 3000;
+      if (budget >= 5000 && budget < 8000) return t.budget === 5000;
+      return t.budget === 8000;
+    }) || budgetTiers[0];
+
+    // Calculate metrics using actual calculator
+    const calculations = calculateTierMetrics(tier, defaultMetrics);
+    
     let tierAlignment = "";
-    let expectedLeads = 0;
-    let cplRange = "";
-    let platforms = "";
     let recommendation = "";
 
     if (budget < 3000) {
-      tierAlignment = "Below our minimum recommended budget";
-      expectedLeads = Math.round(budget / 50);
-      cplRange = "$40-60";
-      platforms = "Facebook only (limited)";
-      recommendation = "We recommend starting at $3,000/mo for optimal results with our AI-powered system.";
+      tierAlignment = "Below Minimum Budget";
+      recommendation = "We recommend starting at $3,000/mo for optimal results with our AI-powered system. Lower budgets may not generate sufficient lead volume for meaningful ROI.";
     } else if (budget >= 3000 && budget < 5000) {
       tierAlignment = "Starter Tier";
-      expectedLeads = Math.round(budget / 50);
-      cplRange = "$45-65";
-      platforms = "Facebook Ads";
-      recommendation = "Good starting point. Consider Growth tier ($5,000) for multi-platform reach.";
+      recommendation = "Good starting point for testing the market. Consider Growth tier ($5,000) for multi-platform reach and better cost per lead.";
     } else if (budget >= 5000 && budget < 8000) {
       tierAlignment = "Growth Tier (Recommended)";
-      expectedLeads = Math.round(budget / 45);
-      cplRange = "$35-55";
-      platforms = "Facebook + Google Ads";
-      recommendation = "Ideal budget for most businesses. Multi-platform coverage with strong ROI potential.";
+      recommendation = "Ideal budget for most businesses. Multi-platform coverage with strong ROI potential and competitive cost per lead.";
     } else {
       tierAlignment = "Premium Tier";
-      expectedLeads = Math.round(budget / 40);
-      cplRange = "$30-50";
-      platforms = "Facebook + Google + YouTube";
-      recommendation = "Enterprise-level reach. Maximum lead volume with lowest CPL and dedicated support.";
+      recommendation = "Enterprise-level reach. Maximum lead volume with lowest CPL, highest profitability, and dedicated support.";
     }
 
-    return { tierAlignment, expectedLeads, cplRange, platforms, recommendation };
+    return { 
+      tierAlignment, 
+      recommendation,
+      calculations,
+      tier
+    };
   };
 
   const handleCalculateCustomBudget = () => {
@@ -68,6 +80,22 @@ export const ServiceFAQ = ({ faqs }: ServiceFAQProps) => {
   const customResults = customBudget && !isNaN(parseFloat(customBudget)) && parseFloat(customBudget) > 0
     ? calculateCustomBudgetResults(parseFloat(customBudget))
     : null;
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
+  const formatNumber = (value: number, decimals: number = 0) => {
+    return new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    }).format(value);
+  };
 
   return (
     <div className="space-y-6">
@@ -135,53 +163,95 @@ export const ServiceFAQ = ({ faqs }: ServiceFAQProps) => {
 
                         {showCustomResults && customResults && (
                           <div className="space-y-4 pt-4 border-t border-border">
-                            <div className="grid md:grid-cols-2 gap-4">
-                              <div className="bg-background rounded-lg p-4 border border-border">
-                                <div className="text-xs text-muted-foreground mb-1">Tier Alignment</div>
-                                <div className="text-lg font-bold text-foreground">{customResults.tierAlignment}</div>
-                              </div>
-                              <div className="bg-background rounded-lg p-4 border border-border">
-                                <div className="text-xs text-muted-foreground mb-1">Expected Monthly Leads</div>
-                                <div className="text-lg font-bold text-primary">{customResults.expectedLeads} leads</div>
-                              </div>
-                              <div className="bg-background rounded-lg p-4 border border-border">
-                                <div className="text-xs text-muted-foreground mb-1">Estimated CPL</div>
-                                <div className="text-lg font-bold text-foreground">{customResults.cplRange}</div>
-                              </div>
-                              <div className="bg-background rounded-lg p-4 border border-border">
-                                <div className="text-xs text-muted-foreground mb-1">Platforms Included</div>
-                                <div className="text-lg font-bold text-foreground">{customResults.platforms}</div>
-                              </div>
-                            </div>
-
                             <div className="bg-primary/10 rounded-lg p-4 border border-primary/20">
                               <div className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                                 <div>
-                                  <h4 className="font-semibold text-foreground mb-1">Recommendation</h4>
-                                  <p className="text-sm text-muted-foreground">{customResults.recommendation}</p>
+                                  <h4 className="font-semibold text-foreground mb-1">Budget Tier</h4>
+                                  <p className="text-sm text-muted-foreground">{customResults.tierAlignment}</p>
+                                  <p className="text-xs text-muted-foreground mt-2">{customResults.recommendation}</p>
                                 </div>
                               </div>
                             </div>
 
-                            <div className="bg-muted/50 rounded-lg p-4 space-y-2">
-                              <h4 className="font-semibold text-foreground text-sm">What's Included:</h4>
-                              <ul className="space-y-1 text-sm text-muted-foreground">
-                                <li className="flex items-center gap-2">
-                                  <Check className="w-4 h-4 text-secondary" />
-                                  <span>24/7 AI-powered lead response (&lt;5 min response time)</span>
+                            <div className="grid md:grid-cols-3 gap-4">
+                              <div className="bg-background rounded-lg p-4 border border-border">
+                                <div className="text-xs text-muted-foreground mb-1">Monthly Leads</div>
+                                <div className="text-2xl font-bold text-primary">{formatNumber(customResults.calculations.expectedLeadsAvg, 0)}</div>
+                                <div className="text-xs text-muted-foreground mt-1">@ {formatCurrency(customResults.calculations.cplAvg)} CPL</div>
+                              </div>
+                              <div className="bg-background rounded-lg p-4 border border-border">
+                                <div className="text-xs text-muted-foreground mb-1">New Customers/Mo</div>
+                                <div className="text-2xl font-bold text-secondary">{formatNumber(customResults.calculations.expectedCustomers, 1)}</div>
+                                <div className="text-xs text-muted-foreground mt-1">{defaultMetrics.closeRate}% close rate</div>
+                              </div>
+                              <div className="bg-background rounded-lg p-4 border border-border">
+                                <div className="text-xs text-muted-foreground mb-1">Platforms</div>
+                                <div className="text-sm font-bold text-foreground mt-2">{customResults.tier.platforms}</div>
+                              </div>
+                            </div>
+
+                            <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-lg p-6 border border-secondary/20">
+                              <h4 className="font-bold text-foreground mb-4 text-lg">Monthly Financial Projections</h4>
+                              <div className="grid md:grid-cols-2 gap-4">
+                                <div>
+                                  <div className="text-xs text-muted-foreground mb-1">Monthly Revenue Potential</div>
+                                  <div className="text-3xl font-bold text-secondary">
+                                    {formatCurrency(customResults.calculations.expectedCustomers * (defaultMetrics.contractValue + defaultMetrics.monthlyRecurring))}
+                                  </div>
+                                  <div className="text-xs text-muted-foreground mt-1">From {formatNumber(customResults.calculations.expectedCustomers, 1)} new customers</div>
+                                </div>
+                                <div>
+                                  <div className="text-xs text-muted-foreground mb-1">Monthly Gross Profit</div>
+                                  <div className="text-3xl font-bold text-primary">{formatCurrency(customResults.calculations.monthlyGrossProfitPotential)}</div>
+                                  <div className="text-xs text-muted-foreground mt-1">After service costs</div>
+                                </div>
+                                <div>
+                                  <div className="text-xs text-muted-foreground mb-1">Monthly ROI</div>
+                                  <div className="text-2xl font-bold text-foreground">{formatNumber(customResults.calculations.roi, 0)}%</div>
+                                  <div className="text-xs text-muted-foreground mt-1">
+                                    {formatCurrency(customResults.calculations.monthlyGrossProfitPotential)} profit on {formatCurrency(parseFloat(customBudget))} spend
+                                  </div>
+                                </div>
+                                <div>
+                                  <div className="text-xs text-muted-foreground mb-1">LTGP:CAC Ratio</div>
+                                  <div className="text-2xl font-bold text-accent">{formatNumber(customResults.calculations.ltgpCacRatio, 1)}:1</div>
+                                  <div className="text-xs text-muted-foreground mt-1">
+                                    {customResults.calculations.ltgpCacRatio >= 3 ? 'Excellent' : customResults.calculations.ltgpCacRatio >= 2 ? 'Good' : 'Below target'} health score
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="bg-muted/50 rounded-lg p-4 space-y-3">
+                              <h4 className="font-semibold text-foreground text-sm">Investment Breakdown:</h4>
+                              <ul className="space-y-2 text-sm text-muted-foreground">
+                                <li className="flex items-start gap-2">
+                                  <Check className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                                  <span>
+                                    <strong className="text-foreground">{formatCurrency(customResults.calculations.ltv)} lifetime value</strong> per customer 
+                                    ({formatCurrency(defaultMetrics.contractValue)} install + {formatCurrency(defaultMetrics.monthlyRecurring)}/mo × {defaultMetrics.retentionMonths} months)
+                                  </span>
                                 </li>
-                                <li className="flex items-center gap-2">
-                                  <Check className="w-4 h-4 text-secondary" />
-                                  <span>Campaign management and optimization</span>
+                                <li className="flex items-start gap-2">
+                                  <Check className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                                  <span>
+                                    <strong className="text-foreground">{formatCurrency(customResults.calculations.cac)} customer acquisition cost</strong> including all platform fees and management
+                                  </span>
                                 </li>
-                                <li className="flex items-center gap-2">
-                                  <Check className="w-4 h-4 text-secondary" />
-                                  <span>Monthly performance reporting and strategy calls</span>
+                                <li className="flex items-start gap-2">
+                                  <Check className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                                  <span>
+                                    <strong className="text-foreground">{formatCurrency(customResults.calculations.netProfitPerCustomer)} net profit per customer</strong> after all costs over customer lifetime
+                                  </span>
                                 </li>
-                                <li className="flex items-center gap-2">
-                                  <Check className="w-4 h-4 text-secondary" />
-                                  <span>AI voice calling and SMS follow-up system</span>
+                                <li className="flex items-start gap-2">
+                                  <Check className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                                  <span>24/7 AI-powered lead response with &lt;5 minute response time (voice + SMS)</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                  <Check className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                                  <span>Full campaign management, optimization, and monthly strategy calls</span>
                                 </li>
                               </ul>
                             </div>
