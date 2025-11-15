@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Play } from "lucide-react";
+import { ServiceVideo } from "@/lib/serviceConfigs";
 
-const videos = [
+interface VideoShowcaseProps {
+  videos?: ServiceVideo[];
+}
+
+const defaultVideos: ServiceVideo[] = [
   {
     id: "video1",
     title: "Platform Overview",
@@ -22,7 +27,7 @@ const videos = [
   }
 ];
 
-export const VideoShowcase = () => {
+export const VideoShowcase = ({ videos = defaultVideos }: VideoShowcaseProps) => {
   const [activeVideo, setActiveVideo] = useState(videos[0]);
   const [isPlaying, setIsPlaying] = useState(false);
 
