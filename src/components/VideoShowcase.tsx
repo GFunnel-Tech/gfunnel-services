@@ -4,9 +4,21 @@ import { Play } from "lucide-react";
 const videos = [
   {
     id: "video1",
-    title: "Paid Advertisement Platform Demo",
+    title: "Platform Overview",
     thumbnail: "https://img.youtube.com/vi/0nI1JjB43BI/maxresdefault.jpg",
     embedUrl: "https://www.youtube.com/embed/0nI1JjB43BI"
+  },
+  {
+    id: "video2",
+    title: "Features Demo",
+    thumbnail: "https://img.youtube.com/vi/iVoFm1886Go/maxresdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/iVoFm1886Go"
+  },
+  {
+    id: "video3",
+    title: "Success Stories",
+    thumbnail: "https://img.youtube.com/vi/iVoFm1886Go/maxresdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/iVoFm1886Go"
   }
 ];
 
