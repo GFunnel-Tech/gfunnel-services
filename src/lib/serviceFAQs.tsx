@@ -124,15 +124,15 @@ export const paidAdsFAQs: FAQItem[] = [
           We offer three strategic budget tiers designed to scale with your business growth. Each tier includes our full AI-powered lead response system, but varies in campaign reach and expected lead volume.
         </p>
         
-        <div className="space-y-4">
+        <div className="grid md:grid-cols-3 gap-4">
           {/* Starter Tier */}
           <div className="border border-border rounded-lg p-4 bg-card">
             <div className="flex items-start justify-between mb-3">
               <div>
                 <h4 className="font-bold text-foreground text-lg">Starter Tier</h4>
                 <p className="text-2xl font-bold text-primary mt-1">$3,000/mo</p>
+                <p className="text-sm text-muted-foreground mt-1">&lt;$2,000 management fee</p>
               </div>
-              <Badge variant="outline">Foundation</Badge>
             </div>
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
@@ -161,6 +161,7 @@ export const paidAdsFAQs: FAQItem[] = [
               <div>
                 <h4 className="font-bold text-foreground text-lg">Growth Tier</h4>
                 <p className="text-2xl font-bold text-primary mt-1">$5,000/mo</p>
+                <p className="text-sm text-muted-foreground mt-1">$500 + 10% management</p>
               </div>
               <Badge variant="secondary">Recommended</Badge>
             </div>
@@ -194,6 +195,7 @@ export const paidAdsFAQs: FAQItem[] = [
               <div>
                 <h4 className="font-bold text-foreground text-lg">Premium Tier</h4>
                 <p className="text-2xl font-bold text-primary mt-1">$8,000/mo</p>
+                <p className="text-sm text-muted-foreground mt-1">$800 + 10% management</p>
               </div>
               <Badge variant="outline">Enterprise</Badge>
             </div>

@@ -223,9 +223,21 @@ export const ServiceFAQ = ({ faqs }: ServiceFAQProps) => {
                               </div>
                             </div>
 
-                            <div className="bg-muted/50 rounded-lg p-4 space-y-3">
+                             <div className="bg-muted/50 rounded-lg p-4 space-y-3">
                               <h4 className="font-semibold text-foreground text-sm">Investment Breakdown:</h4>
                               <ul className="space-y-2 text-sm text-muted-foreground">
+                                <li className="flex items-start gap-2">
+                                  <Check className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                                  <span>
+                                    <strong className="text-foreground">Ad Spend:</strong> {formatCurrency(parseFloat(customBudget))}/month on platforms
+                                  </span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                  <Check className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                                  <span>
+                                    <strong className="text-foreground">Management Fee:</strong> {customResults.tierAlignment === "Starter Tier" ? "<$2,000/month" : formatCurrency(Math.round(parseFloat(customBudget) * 0.10)) + "/month (Business Plan + 10% of ad spend)"}
+                                  </span>
+                                </li>
                                 <li className="flex items-start gap-2">
                                   <Check className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
                                   <span>
