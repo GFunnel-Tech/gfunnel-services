@@ -30,15 +30,10 @@ const Index = () => {
       {/* Mobile Quick Actions - Fixed Bottom */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 shadow-lg z-50">
         <div className="flex gap-2">
-          <button onClick={() => {
-          const budgetSection = document.querySelector("#budget-section");
-          budgetSection?.scrollIntoView({
-            behavior: "smooth"
-          });
-        }} className="flex-1 bg-primary text-primary-foreground px-4 py-3 rounded-md font-medium text-sm">
+          <a href="https://onboarding.gfunnel.com/paid-advertisement" target="_blank" rel="noopener noreferrer" className="flex-1 bg-primary text-primary-foreground px-4 py-3 rounded-md font-medium text-sm text-center">
             Get Started
-          </button>
-          <a href="https://calendly.com/your-link" target="_blank" rel="noopener noreferrer" className="flex-1 bg-secondary text-secondary-foreground px-4 py-3 rounded-md font-medium text-sm text-center">
+          </a>
+          <a href="https://www.gfunnel.com/discover?services=paid-advertisement" target="_blank" rel="noopener noreferrer" className="flex-1 bg-secondary text-secondary-foreground px-4 py-3 rounded-md font-medium text-sm text-center">
             Schedule Discovery
           </a>
         </div>
