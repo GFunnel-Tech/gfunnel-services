@@ -60,16 +60,16 @@ export const VideoShowcase = () => {
               setActiveVideo(video);
               setIsPlaying(false);
             }}
-            className={`relative aspect-video rounded-md overflow-hidden transition-all ${
+            className={`relative aspect-video rounded-md overflow-hidden transition-all duration-300 ease-out transform ${
               activeVideo.id === video.id 
-                ? "ring-2 ring-primary scale-105" 
-                : "opacity-70 hover:opacity-100"
+                ? "ring-2 ring-primary scale-105 shadow-lg" 
+                : "opacity-70 hover:opacity-100 hover:scale-105 hover:shadow-md"
             }`}
           >
             <img 
               src={video.thumbnail} 
               alt={video.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-transform duration-300 ease-out hover:scale-110"
             />
           </button>
         ))}
