@@ -18,12 +18,7 @@ export const Navigation = () => {
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="text-xl font-bold text-foreground">
-            GFunnel
-          </Link>
-
+        <div className="flex items-center justify-end h-16">
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
             <DropdownMenu>
