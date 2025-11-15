@@ -1,5 +1,6 @@
 import { CheckCircle, TrendingUp, Clock, Package, Award, Calculator, DollarSign, Settings, FileText, Zap, Palette, MessageSquare, Presentation, Share2, Video, Sparkles, Bot, Plug, Database, Shield, Target, Users, BarChart } from "lucide-react";
 import { LucideIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export interface FAQItem {
   number: number;
@@ -49,7 +50,7 @@ export const paidAdsFAQs: FAQItem[] = [
     content: (
       <div className="space-y-4">
         <p className="text-muted-foreground leading-relaxed">
-          Our AI-optimized campaigns deliver 3-5x ROAS with lower cost per lead through instant response times and predictive optimization.
+          Calculate your exact profitability using our ROI Calculator below. Based on security industry benchmarks and AI-enhanced conversion rates.
         </p>
         <div className="grid md:grid-cols-2 gap-4">
           <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-4 border border-primary/20">
@@ -63,6 +64,12 @@ export const paidAdsFAQs: FAQItem[] = [
             <p className="text-xs text-muted-foreground mt-2">Competitive with AI optimization</p>
           </div>
         </div>
+        <div className="bg-accent/10 rounded-lg p-4 border border-accent/20">
+          <h4 className="font-semibold text-foreground mb-2">Example ROI Scenario:</h4>
+          <p className="text-sm text-muted-foreground">
+            $5,000/mo budget → 75-140 leads → 3-6% conversion → 3-8 customers → Average customer LTV $2,500 → <span className="font-semibold text-accent">$7,500-20,000 revenue</span> (1.5-4x ROI)
+          </p>
+        </div>
       </div>
     ),
   },
@@ -75,8 +82,241 @@ export const paidAdsFAQs: FAQItem[] = [
         <p className="text-muted-foreground leading-relaxed">
           Campaigns launch within 5-7 business days, with first leads typically arriving within 48 hours of go-live.
         </p>
+        <div className="space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1">
+              <span className="text-sm font-bold text-primary">1</span>
+            </div>
+            <div>
+              <h4 className="font-semibold text-foreground mb-1">Days 1-7: Setup & Launch</h4>
+              <p className="text-sm text-muted-foreground">Campaign creation, AI voice training, and platform optimization</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1">
+              <span className="text-sm font-bold text-primary">2</span>
+            </div>
+            <div>
+              <h4 className="font-semibold text-foreground mb-1">Days 8-30: Initial Data</h4>
+              <p className="text-sm text-muted-foreground">First leads arrive, AI begins learning from interactions</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center shrink-0 mt-1">
+              <span className="text-sm font-bold text-secondary">3</span>
+            </div>
+            <div>
+              <h4 className="font-semibold text-foreground mb-1">Days 31-90: Optimization</h4>
+              <p className="text-sm text-muted-foreground">Performance stabilizes, CPL decreases, conversion rates improve</p>
+            </div>
+          </div>
+        </div>
       </div>
     ),
+  },
+  {
+    number: 4,
+    icon: Package,
+    title: "What's Included in Each Budget Tier?",
+    content: (
+      <div className="space-y-6">
+        <p className="text-muted-foreground leading-relaxed">
+          We offer three strategic budget tiers designed to scale with your business growth. Each tier includes our full AI-powered lead response system, but varies in campaign reach and expected lead volume.
+        </p>
+        
+        <div className="space-y-4">
+          {/* Starter Tier */}
+          <div className="border border-border rounded-lg p-4 bg-card">
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <h4 className="font-bold text-foreground text-lg">Starter Tier</h4>
+                <p className="text-2xl font-bold text-primary mt-1">$3,000/mo</p>
+              </div>
+              <Badge variant="outline">Foundation</Badge>
+            </div>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">Facebook Ads only</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">45-85 expected leads/month</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">AI Voice Response included</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">Basic campaign optimization</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Growth Tier */}
+          <div className="border-2 border-primary rounded-lg p-4 bg-primary/5 relative">
+            <Badge className="absolute -top-3 right-4 bg-primary text-primary-foreground">Most Popular</Badge>
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <h4 className="font-bold text-foreground text-lg">Growth Tier</h4>
+                <p className="text-2xl font-bold text-primary mt-1">$5,000/mo</p>
+              </div>
+              <Badge variant="secondary">Recommended</Badge>
+            </div>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">Facebook + Google Ads</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">75-140 expected leads/month</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">AI Voice Response + SMS</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">Advanced AI optimization</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">Multi-platform retargeting</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Premium Tier */}
+          <div className="border border-border rounded-lg p-4 bg-card">
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <h4 className="font-bold text-foreground text-lg">Premium Tier</h4>
+                <p className="text-2xl font-bold text-primary mt-1">$8,000/mo</p>
+              </div>
+              <Badge variant="outline">Enterprise</Badge>
+            </div>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">Facebook + Google + YouTube</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">120-230 expected leads/month</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                <span className="text-muted-foreground">Full AI suite (Voice + SMS + Email)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">Premium optimization + A/B testing</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary" />
+                <span className="text-muted-foreground">Dedicated account strategist</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-muted/30 rounded-lg p-4 border border-border">
+          <p className="text-sm text-muted-foreground">
+            <span className="font-semibold text-foreground">All tiers include:</span> 24/7 AI lead response, campaign management, monthly reporting, and our proprietary lead optimization system. Platform fees are separate and billed directly by Facebook/Google.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: 5,
+    icon: Award,
+    title: "What Makes Your Service Different?",
+    content: (
+      <div className="space-y-4">
+        <p className="text-muted-foreground leading-relaxed">
+          We're the only service that combines professional campaign management with instant AI-powered lead response. While agencies charge $2,000-5,000/mo just for management, we include AI voice calling, SMS follow-up, and lead nurturing at no extra cost.
+        </p>
+        
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="space-y-3">
+            <h4 className="font-semibold text-foreground flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-secondary" />
+              Traditional Agencies
+            </h4>
+            <ul className="space-y-2 text-sm text-muted-foreground pl-7">
+              <li className="flex items-start gap-2">
+                <span className="text-destructive">✕</span>
+                <span>Response time: 24-48 hours</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-destructive">✕</span>
+                <span>Management fee: $2,000-5,000/mo</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-destructive">✕</span>
+                <span>Lead response: Extra $500-2,000/mo</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-destructive">✕</span>
+                <span>Limited to business hours</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-destructive">✕</span>
+                <span>Manual optimization</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div className="space-y-3 bg-primary/5 rounded-lg p-4 border border-primary/20">
+            <h4 className="font-semibold text-foreground flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-primary" />
+              Our AI-Powered Platform
+            </h4>
+            <ul className="space-y-2 text-sm text-muted-foreground pl-7">
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                <span>Response time: &lt;5 minutes</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                <span>All-inclusive pricing (no hidden fees)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                <span>AI lead response included free</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                <span>24/7 automated coverage</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                <span>AI-driven optimization</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="bg-accent/10 rounded-lg p-4 border border-accent/20">
+          <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-accent" />
+            The Bottom Line
+          </h4>
+          <p className="text-sm text-muted-foreground">
+            Traditional agencies: $5,000-10,000/mo total cost with slower results. Our platform: $3,000-8,000/mo all-inclusive with faster response times and better ROI. You save money while getting more leads and higher conversion rates.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    number: 6,
+    icon: Calculator,
+    title: "Custom Budget Calculator",
+    content: null, // This will be handled dynamically in ServiceFAQ component
   }
 ];
 
