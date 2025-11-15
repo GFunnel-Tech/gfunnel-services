@@ -17,8 +17,8 @@ const videos = [
   {
     id: "video3",
     title: "Success Stories",
-    thumbnail: "https://img.youtube.com/vi/iVoFm1886Go/maxresdefault.jpg",
-    embedUrl: "https://www.youtube.com/embed/iVoFm1886Go"
+    thumbnail: "https://img.youtube.com/vi/y4fFta7C7Uc/maxresdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/y4fFta7C7Uc"
   }
 ];
 
