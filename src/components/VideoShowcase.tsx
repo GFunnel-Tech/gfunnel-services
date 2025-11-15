@@ -71,9 +71,6 @@ export const VideoShowcase = () => {
               alt={video.title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-              <p className="text-xs text-white font-medium truncate">{video.title}</p>
-            </div>
           </button>
         ))}
       </div>
