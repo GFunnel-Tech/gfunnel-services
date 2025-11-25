@@ -1,7 +1,6 @@
 import { getAllServices } from "@/lib/serviceConfigs";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Navigation } from "@/components/Navigation";
-import { SocialMediaCTA } from "@/components/SocialMediaCTA";
 
 const Index = () => {
   const services = getAllServices();
@@ -37,10 +36,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-12 px-4">
-        <SocialMediaCTA />
-      </section>
     </div>
   );
 };
