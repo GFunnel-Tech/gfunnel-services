@@ -2,7 +2,7 @@ import { useParams, Navigate } from "react-router-dom";
 import { ServiceHero } from "@/components/ServiceHero";
 import { ServiceFAQ } from "@/components/ServiceFAQ";
 import { QuickActions } from "@/components/QuickActions";
-import { SocialMediaCTA } from "@/components/SocialMediaCTA";
+import { RelatedServices } from "@/components/RelatedServices";
 import { getServiceBySlug } from "@/lib/serviceConfigs";
 import { getFAQsByServiceSlug } from "@/lib/serviceFAQs";
 import { Navigation } from "@/components/Navigation";
@@ -61,7 +61,7 @@ const ServicePage = () => {
           ctaVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
-        <SocialMediaCTA />
+        <RelatedServices currentServiceSlug={slug} />
       </div>
 
       {/* Mobile Quick Actions - Fixed Bottom */}
