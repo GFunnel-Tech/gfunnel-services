@@ -27,18 +27,22 @@ const ServicePage = () => {
       <ServiceHero service={service} />
 
       <div className="container mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-[1fr,300px] gap-8 max-w-7xl mx-auto items-start">
-          <div>
+        <div className="max-w-7xl mx-auto">
+          {/* Quick Actions - floated right on desktop */}
+          <div className="hidden lg:block float-right ml-8 mb-6 w-[300px]">
+            <QuickActions 
+              onboardingUrl={service.onboardingUrl}
+              discoveryUrl={service.discoveryUrl}
+            />
+          </div>
+          
+          {/* FAQ Content */}
+          <div className="lg:max-w-[calc(100%-340px)]">
             <ServiceFAQ faqs={faqs} />
           </div>
-          <div className="hidden lg:block space-y-6">
-            <div className="relative">
-              <QuickActions 
-                onboardingUrl={service.onboardingUrl}
-                discoveryUrl={service.discoveryUrl}
-              />
-            </div>
-          </div>
+          
+          {/* Clear float */}
+          <div className="clear-both" />
         </div>
       </div>
 
