@@ -31,7 +31,7 @@ const ServicePage = () => {
           <div>
             <ServiceFAQ faqs={faqs} />
           </div>
-          <aside className="hidden lg:block">
+          <aside className="hidden lg:block h-fit">
             <QuickActions 
               onboardingUrl={service.onboardingUrl}
               discoveryUrl={service.discoveryUrl}
