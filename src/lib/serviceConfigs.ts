@@ -96,7 +96,26 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: FileText, title: "Documentation", description: "Professional record keeping" },
       { icon: Shield, title: "Secure", description: "Confidential data handling" }
     ],
-    videos: defaultVideos,
+    videos: [
+      {
+        id: "video1",
+        title: "Administrative Services Overview",
+        thumbnail: "https://img.youtube.com/vi/V5kCFv5b4VY/maxresdefault.jpg",
+        embedUrl: "https://www.youtube.com/embed/V5kCFv5b4VY"
+      },
+      {
+        id: "video2",
+        title: "Features & Benefits",
+        thumbnail: "https://img.youtube.com/vi/mhbXN_noOb0/maxresdefault.jpg",
+        embedUrl: "https://www.youtube.com/embed/mhbXN_noOb0"
+      },
+      {
+        id: "video3",
+        title: "Service Demonstration",
+        thumbnail: "https://img.youtube.com/vi/atq2fORTtEs/maxresdefault.jpg",
+        embedUrl: "https://www.youtube.com/embed/atq2fORTtEs"
+      }
+    ],
     onboardingUrl: "https://onboarding.gfunnel.com/administrative-services",
     discoveryUrl: "https://www.gfunnel.com/discover?services=administrative-services",
     relatedServices: ["automation", "integration-services", "migration-services"]
