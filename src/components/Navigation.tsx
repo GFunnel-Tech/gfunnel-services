@@ -29,6 +29,11 @@ export const Navigation = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-64 max-h-[400px] overflow-y-auto">
+                <DropdownMenuItem asChild>
+                  <Link to="/services" className="cursor-pointer font-semibold">
+                    View All Services
+                  </Link>
+                </DropdownMenuItem>
                 {services.map((service) => (
                   <DropdownMenuItem key={service.slug} asChild>
                     <Link to={`/${service.slug}`} className="cursor-pointer">
@@ -57,6 +62,13 @@ export const Navigation = () => {
               <SheetContent side="right" className="w-[300px] overflow-y-auto">
                 <div className="flex flex-col gap-4 mt-8">
                   <h3 className="font-semibold text-lg mb-2">Services</h3>
+                  <Link
+                    to="/services"
+                    className="text-primary font-semibold hover:underline py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    View All Services
+                  </Link>
                   {services.map((service) => (
                     <Link
                       key={service.slug}
