@@ -6,9 +6,12 @@ import { SocialMediaCTA } from "@/components/SocialMediaCTA";
 import { getServiceBySlug } from "@/lib/serviceConfigs";
 import { getFAQsByServiceSlug } from "@/lib/serviceFAQs";
 import { Navigation } from "@/components/Navigation";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const ServicePage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation(0.1);
+  const { ref: ctaRef, isVisible: ctaVisible } = useScrollAnimation(0.1);
   
   if (!slug) {
     return <Navigate to="/" replace />;
@@ -26,7 +29,13 @@ const ServicePage = () => {
       <Navigation />
       <ServiceHero service={service} />
 
-      <div id="features-benefits" className="container mx-auto px-6 py-16 scroll-smooth-section">
+      <div 
+        ref={contentRef}
+        id="features-benefits" 
+        className={`container mx-auto px-6 py-16 scroll-smooth-section transition-all duration-700 ${
+          contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
         <div className="max-w-7xl mx-auto">
           {/* Quick Actions - floated right on desktop */}
           <div className="hidden lg:block float-right ml-8 mb-6 w-[300px]">
@@ -46,7 +55,14 @@ const ServicePage = () => {
         </div>
       </div>
 
-      <SocialMediaCTA />
+      <div 
+        ref={ctaRef}
+        className={`transition-all duration-700 delay-150 ${
+          ctaVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
+        <SocialMediaCTA />
+      </div>
 
       {/* Mobile Quick Actions - Fixed Bottom */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 shadow-lg z-50">
