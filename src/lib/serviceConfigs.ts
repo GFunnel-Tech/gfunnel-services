@@ -30,6 +30,7 @@ export interface ServiceConfig {
   videos: ServiceVideo[];
   onboardingUrl: string;
   discoveryUrl: string;
+  relatedServices: string[];
 }
 
 // Default videos - can be customized per service
@@ -74,7 +75,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/paid-advertisement",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=paid-advertisement"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=paid-advertisement",
+    relatedServices: ["social-media-management", "funnel-website-design", "copywriting"]
   },
   
   "administrative-services": {
@@ -96,7 +98,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/administrative-services",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=administrative-services"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=administrative-services",
+    relatedServices: ["automation", "integration-services", "migration-services"]
   },
 
   "automation": {
@@ -118,7 +121,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/automation-creation",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=automation-creation"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=automation-creation",
+    relatedServices: ["integration-services", "ai-employee", "administrative-services"]
   },
 
   "copywriting": {
@@ -140,7 +144,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/copywriting",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=copywriting"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=copywriting",
+    relatedServices: ["slide-decks", "funnel-website-design", "paid-ads"]
   },
 
   "funnel-website-design": {
@@ -162,7 +167,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/funnel-website-design",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=funnel-website-design"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=funnel-website-design",
+    relatedServices: ["paid-ads", "copywriting", "graphic-design"]
   },
 
   "graphic-design": {
@@ -184,7 +190,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/graphic-design",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=graphic-design"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=graphic-design",
+    relatedServices: ["slide-decks", "social-media-management", "funnel-website-design"]
   },
 
   "prospect-outreach": {
@@ -206,7 +213,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/prospect-outreach",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=prospect-outreach"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=prospect-outreach",
+    relatedServices: ["automation", "ai-employee", "copywriting"]
   },
 
   "slide-decks": {
@@ -228,7 +236,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/slide-decks",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=slide-decks"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=slide-decks",
+    relatedServices: ["copywriting", "graphic-design", "vsl-creation"]
   },
 
   "social-media-management": {
@@ -250,7 +259,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/social-media-management",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=social-media-management"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=social-media-management",
+    relatedServices: ["paid-ads", "graphic-design", "video-editing"]
   },
 
   "video-editing": {
@@ -272,7 +282,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/video-editing",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=video-editing"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=video-editing",
+    relatedServices: ["vsl-creation", "social-media-management", "graphic-design"]
   },
 
   "vsl-creation": {
@@ -294,7 +305,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/vsl-creation",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=vsl-creation"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=vsl-creation",
+    relatedServices: ["copywriting", "video-editing", "paid-ads"]
   },
 
   "ai-employee": {
@@ -316,7 +328,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/ai-employee-creation",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=ai-employee-creation"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=ai-employee-creation",
+    relatedServices: ["automation", "integration-services", "prospect-outreach"]
   },
 
   "integration-services": {
@@ -338,7 +351,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/integration-services",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=integration-services"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=integration-services",
+    relatedServices: ["automation", "migration-services", "administrative-services"]
   },
 
   "migration-services": {
@@ -360,7 +374,8 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
     ],
     videos: defaultVideos,
     onboardingUrl: "https://onboarding.gfunnel.com/migration-services",
-    discoveryUrl: "https://www.gfunnel.com/discover?services=migration-services"
+    discoveryUrl: "https://www.gfunnel.com/discover?services=migration-services",
+    relatedServices: ["integration-services", "automation", "administrative-services"]
   }
 };
 
