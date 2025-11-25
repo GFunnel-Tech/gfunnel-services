@@ -27,16 +27,16 @@ const ServicePage = () => {
       <ServiceHero service={service} />
 
       <div className="container mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-[1fr,300px] gap-8 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-[1fr,300px] gap-8 max-w-7xl mx-auto items-start">
           <div>
             <ServiceFAQ faqs={faqs} />
           </div>
-          <aside className="hidden lg:block h-fit">
+          <div className="hidden lg:block">
             <QuickActions 
               onboardingUrl={service.onboardingUrl}
               discoveryUrl={service.discoveryUrl}
             />
-          </aside>
+          </div>
         </div>
       </div>
 
