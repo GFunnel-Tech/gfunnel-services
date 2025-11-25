@@ -1,8 +1,48 @@
-import { Navigate } from "react-router-dom";
+import { getAllServices } from "@/lib/serviceConfigs";
+import { ServiceCard } from "@/components/ServiceCard";
+import { Navigation } from "@/components/Navigation";
+import { SocialMediaCTA } from "@/components/SocialMediaCTA";
 
 const Index = () => {
-  // Redirect to paid-ads as the default service
-  return <Navigate to="/paid-ads" replace />;
+  const services = getAllServices();
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      
+      {/* Hero Section */}
+      <section className="relative py-20 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+        <div className="container mx-auto relative z-10">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <h1 className="text-4xl md:text-6xl font-bold text-foreground">
+              Choose Your Growth Service
+            </h1>
+            <p className="text-xl text-muted-foreground">
+              Professional marketing, design, and automation services to scale your business. 
+              Select a service below to learn more and get started.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Service Directory */}
+      <section className="py-12 px-4">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {services.map((service) => (
+              <ServiceCard key={service.slug} service={service} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-12 px-4">
+        <SocialMediaCTA />
+      </section>
+    </div>
+  );
 };
 
 export default Index;
