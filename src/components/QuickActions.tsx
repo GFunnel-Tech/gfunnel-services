@@ -25,7 +25,7 @@ export const QuickActions = ({
   };
 
   return (
-    <Card className="p-6 shadow-lg border-border">
+    <Card className="relative p-6 shadow-lg border-border">
       <h3 className="text-lg font-bold mb-4 text-foreground">Quick Actions</h3>
       <div className="space-y-3">
         <Button 

@@ -31,11 +31,13 @@ const ServicePage = () => {
           <div>
             <ServiceFAQ faqs={faqs} />
           </div>
-          <div className="hidden lg:block">
-            <QuickActions 
-              onboardingUrl={service.onboardingUrl}
-              discoveryUrl={service.discoveryUrl}
-            />
+          <div className="hidden lg:block space-y-6">
+            <div className="relative">
+              <QuickActions 
+                onboardingUrl={service.onboardingUrl}
+                discoveryUrl={service.discoveryUrl}
+              />
+            </div>
           </div>
         </div>
       </div>
