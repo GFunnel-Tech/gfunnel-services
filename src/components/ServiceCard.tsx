@@ -34,17 +34,17 @@ export const ServiceCard = ({ service }: ServiceCardProps) => {
         <CardTitle className="text-xl group-hover:text-primary transition-colors">
           {service.name}
         </CardTitle>
-        <CardDescription className="line-clamp-2 min-h-[40px]">
+        <CardDescription className="line-clamp-2 h-[44px] leading-snug">
           {service.description}
         </CardDescription>
       </CardHeader>
 
       <CardContent className="flex-grow flex flex-col justify-between">
-        <div className="grid grid-cols-3 gap-3 mb-4">
+        <div className="grid grid-cols-3 gap-2 mb-4">
           {service.stats.slice(0, 3).map((stat, index) => (
             <div key={index} className="text-center">
-              <div className="font-bold text-primary text-lg">{stat.value}</div>
-              <div className="text-xs text-muted-foreground">{stat.label}</div>
+              <div className="font-bold text-primary text-base truncate">{stat.value}</div>
+              <div className="text-xs text-muted-foreground line-clamp-2 leading-tight">{stat.label}</div>
             </div>
           ))}
         </div>
