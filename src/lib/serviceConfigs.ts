@@ -138,7 +138,26 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Plug, title: "Integrations", description: "Connect all your tools" },
       { icon: Bot, title: "Custom Bots", description: "Tailored to your needs" }
     ],
-    videos: defaultVideos,
+    videos: [
+      {
+        id: "video1",
+        title: "Automation Creation Overview",
+        thumbnail: "https://img.youtube.com/vi/MM20QXEGdAc/maxresdefault.jpg",
+        embedUrl: "https://www.youtube.com/embed/MM20QXEGdAc"
+      },
+      {
+        id: "video2",
+        title: "Features & Benefits",
+        thumbnail: "https://img.youtube.com/vi/xV-bOHvfbPQ/maxresdefault.jpg",
+        embedUrl: "https://www.youtube.com/embed/xV-bOHvfbPQ"
+      },
+      {
+        id: "video3",
+        title: "Service Demonstration",
+        thumbnail: "https://img.youtube.com/vi/nMGnEoSM9vY/maxresdefault.jpg",
+        embedUrl: "https://www.youtube.com/embed/nMGnEoSM9vY"
+      }
+    ],
     onboardingUrl: "https://onboarding.gfunnel.com/automation-creation",
     discoveryUrl: "https://www.gfunnel.com/discover?services=automation-creation",
     relatedServices: ["integration-services", "ai-employee", "administrative-services"]
