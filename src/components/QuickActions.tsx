@@ -1,15 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Calculator, Calendar, Rocket } from "lucide-react";
+import { QuickActionContent } from "@/lib/serviceConfigs";
 
 interface QuickActionsProps {
   onboardingUrl?: string;
   discoveryUrl?: string;
+  quickActionContent?: QuickActionContent;
 }
 
 export const QuickActions = ({ 
   onboardingUrl = "https://onboarding.gfunnel.com/paid-advertisement",
-  discoveryUrl = "https://www.gfunnel.com/discover?services=paid-advertisement"
+  discoveryUrl = "https://www.gfunnel.com/discover?services=paid-advertisement",
+  quickActionContent = {
+    statValue: "24/7",
+    statLabel: "Support Available",
+    description: "Get started today and see leads within 48 hours"
+  }
 }: QuickActionsProps) => {
   const scrollToROI = () => {
     // Scroll to FAQ accordion and open the ROI item (item-3)
@@ -54,11 +61,11 @@ export const QuickActions = ({
 
       <div className="mt-6 pt-6 border-t border-border">
         <div className="text-center mb-3">
-          <div className="text-3xl font-bold text-primary mb-1">24/7</div>
-          <div className="text-sm text-muted-foreground">Support Available</div>
+          <div className="text-3xl font-bold text-primary mb-1">{quickActionContent.statValue}</div>
+          <div className="text-sm text-muted-foreground">{quickActionContent.statLabel}</div>
         </div>
         <p className="text-xs text-muted-foreground text-center">
-          Get started today and see leads within 48 hours
+          {quickActionContent.description}
         </p>
       </div>
     </Card>

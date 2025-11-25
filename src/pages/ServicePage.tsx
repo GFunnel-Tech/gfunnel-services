@@ -42,6 +42,7 @@ const ServicePage = () => {
             <QuickActions 
               onboardingUrl={service.onboardingUrl}
               discoveryUrl={service.discoveryUrl}
+              quickActionContent={service.quickActionContent}
             />
           </div>
           
