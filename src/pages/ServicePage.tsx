@@ -26,7 +26,7 @@ const ServicePage = () => {
       <Navigation />
       <ServiceHero service={service} />
 
-      <div className="container mx-auto px-6 py-16">
+      <div id="features-benefits" className="container mx-auto px-6 py-16 scroll-smooth-section">
         <div className="max-w-7xl mx-auto">
           {/* Quick Actions - floated right on desktop */}
           <div className="hidden lg:block float-right ml-8 mb-6 w-[300px]">
