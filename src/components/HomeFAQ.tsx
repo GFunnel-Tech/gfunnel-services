@@ -21,7 +21,7 @@ export const HomeFAQ = () => {
         <Accordion type="single" collapsible className="w-full space-y-4">
           <AccordionItem value="item-1" className="bg-card rounded-lg px-6 border-border">
             <AccordionTrigger className="text-left hover:no-underline">
-              How do I get started with gFunnel services?
+              How do I get started with GFunnel services?
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground">
               Getting started is simple! Choose the service that fits your needs, click "Get Started" 
