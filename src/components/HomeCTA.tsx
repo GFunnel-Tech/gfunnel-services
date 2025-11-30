@@ -12,7 +12,7 @@ export const HomeCTA = () => {
             Ready to Grow Your Business?
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Join hundreds of successful businesses using gFunnel to scale their growth. 
+            Join hundreds of successful businesses using GFunnel to scale their growth. 
             Get started today or schedule a free discovery call to learn more.
           </p>
           
