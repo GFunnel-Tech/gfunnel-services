@@ -1,6 +1,8 @@
 import { getAllServices } from "@/lib/serviceConfigs";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Navigation } from "@/components/Navigation";
+import { HomeFAQ } from "@/components/HomeFAQ";
+import { HomeCTA } from "@/components/HomeCTA";
 
 const Index = () => {
   const services = getAllServices();
@@ -35,6 +37,12 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <HomeFAQ />
+
+      {/* CTA Section */}
+      <HomeCTA />
 
     </div>
   );

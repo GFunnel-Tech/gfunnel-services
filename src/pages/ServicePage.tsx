@@ -70,7 +70,7 @@ const ServicePage = () => {
         <div className="flex gap-2">
           <a 
             href={service.onboardingUrl} 
-            target="_blank" 
+            target="_parent" 
             rel="noopener noreferrer" 
             className="flex-1 bg-primary text-primary-foreground px-4 py-3 rounded-md font-medium text-sm text-center"
           >
@@ -78,7 +78,7 @@ const ServicePage = () => {
           </a>
           <a 
             href={service.discoveryUrl} 
-            target="_blank" 
+            target="_parent" 
             rel="noopener noreferrer" 
             className="flex-1 bg-secondary text-secondary-foreground px-4 py-3 rounded-md font-medium text-sm text-center"
           >
