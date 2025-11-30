@@ -81,7 +81,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Shield, title: "5-Min Response", description: "Voice AI calls instantly" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/paid-advertisement",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=paid-advertisement",
     relatedServices: ["social-media-management", "funnel-website-design", "copywriting"],
     quickActionContent: {
@@ -128,7 +128,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
         embedUrl: "https://www.youtube.com/embed/atq2fORTtEs"
       }
     ],
-    onboardingUrl: "https://onboarding.gfunnel.com/administrative-services",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=administrative-services",
     relatedServices: ["automation", "integration-services", "migration-services"],
     quickActionContent: {
@@ -175,7 +175,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
         embedUrl: "https://www.youtube.com/embed/nMGnEoSM9vY"
       }
     ],
-    onboardingUrl: "https://onboarding.gfunnel.com/automation-creation",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=automation-creation",
     relatedServices: ["integration-services", "ai-employee", "administrative-services"],
     quickActionContent: {
@@ -203,7 +203,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Sparkles, title: "AI Enhanced", description: "Data-driven messaging" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/copywriting",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=copywriting",
     relatedServices: ["slide-decks", "funnel-website-design", "paid-ads"],
     quickActionContent: {
@@ -231,7 +231,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Sparkles, title: "CRO Built-in", description: "Conversion focused" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/funnel-website-design",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=funnel-website-design",
     relatedServices: ["paid-ads", "copywriting", "graphic-design"],
     quickActionContent: {
@@ -259,7 +259,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Sparkles, title: "Modern Style", description: "On-trend designs" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/graphic-design",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=graphic-design",
     relatedServices: ["slide-decks", "social-media-management", "funnel-website-design"],
     quickActionContent: {
@@ -287,7 +287,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Shield, title: "Compliance", description: "CAN-SPAM compliant" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/prospect-outreach",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=prospect-outreach",
     relatedServices: ["automation", "ai-employee", "copywriting"],
     quickActionContent: {
@@ -315,7 +315,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: FileText, title: "Storytelling", description: "Compelling narratives" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/slide-decks",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=slide-decks",
     relatedServices: ["copywriting", "graphic-design", "vsl-creation"],
     quickActionContent: {
@@ -343,7 +343,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Sparkles, title: "Analytics", description: "Performance tracking" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/social-media-management",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=social-media-management",
     relatedServices: ["paid-ads", "graphic-design", "video-editing"],
     quickActionContent: {
@@ -371,7 +371,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: FileText, title: "Optimized", description: "For each platform" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/video-editing",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=video-editing",
     relatedServices: ["vsl-creation", "social-media-management", "graphic-design"],
     quickActionContent: {
@@ -399,7 +399,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Sparkles, title: "CRO Tested", description: "Optimized for sales" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/vsl-creation",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=vsl-creation",
     relatedServices: ["copywriting", "video-editing", "paid-ads"],
     quickActionContent: {
@@ -427,7 +427,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Sparkles, title: "Learning", description: "Gets smarter over time" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/ai-employee-creation",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=ai-employee-creation",
     relatedServices: ["automation", "integration-services", "prospect-outreach"],
     quickActionContent: {
@@ -455,7 +455,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Shield, title: "Secure", description: "Encrypted connections" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/integration-services",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=integration-services",
     relatedServices: ["automation", "migration-services", "administrative-services"],
     quickActionContent: {
@@ -483,7 +483,7 @@ export const serviceConfigs: Record<string, ServiceConfig> = {
       { icon: Settings, title: "Setup & Config", description: "Full configuration" }
     ],
     videos: defaultVideos,
-    onboardingUrl: "https://onboarding.gfunnel.com/migration-services",
+    onboardingUrl: "https://www.gfunnel.com/create-account",
     discoveryUrl: "https://www.gfunnel.com/discover?services=migration-services",
     relatedServices: ["integration-services", "automation", "administrative-services"],
     quickActionContent: {
