@@ -17,10 +17,10 @@ const Index = () => {
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent/20 bg-accent/5">
               <span className="text-accent">🚀</span>
-              <span className="text-sm font-medium tracking-widest uppercase text-accent">Service Selection Hub</span>
+              <span className="text-sm font-medium tracking-widest uppercase text-accent">Service Directory</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight">
-              Choose Your Growth Service...{" "}
+              Discover Our Services...{" "}
               <span className="gradient-text">And Start Growing</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
