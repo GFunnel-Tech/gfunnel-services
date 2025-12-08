@@ -50,7 +50,7 @@ export const ServiceCard = ({ service }: ServiceCardProps) => {
         </div>
 
         <Button 
-          variant="gradient" 
+          variant="solid" 
           className="w-full"
           onClick={(e) => {
             e.stopPropagation();
