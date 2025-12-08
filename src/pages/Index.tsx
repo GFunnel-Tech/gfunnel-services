@@ -20,7 +20,7 @@ const Index = () => {
               <span className="text-sm font-medium tracking-widest uppercase text-accent">Service Selection Hub</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight">
-              Choose Your Service...{" "}
+              Choose Your Growth Service...{" "}
               <span className="gradient-text">And Start Growing</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
