@@ -24,7 +24,7 @@ const Index = () => {
               <span className="gradient-text">And Start Growing</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Discover tailored marketing solutions for your business. Select a service below to get started with GFunnel.
+              Explore our full range of business solutions designed to help you grow. Select a service below to get started with GFunnel.
             </p>
           </div>
         </div>
