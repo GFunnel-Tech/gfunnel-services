@@ -12,14 +12,14 @@ const Index = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+      <section className="relative py-16 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-background to-background" />
         <div className="container mx-auto relative z-10">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground">
+          <div className="max-w-3xl mx-auto text-center space-y-4">
+            <h1 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight">
               Choose Your Growth Service
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Professional marketing, design, and automation services to scale your business. 
               Select a service below to learn more and get started.
             </p>
@@ -28,9 +28,9 @@ const Index = () => {
       </section>
 
       {/* Service Directory */}
-      <section className="py-12 px-4">
+      <section className="py-8 px-4">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {services.map((service) => (
               <ServiceCard key={service.slug} service={service} />
             ))}
