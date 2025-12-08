@@ -12,16 +12,19 @@ const Index = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative py-16 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-background to-background" />
+      <section className="relative py-20 px-4 overflow-hidden">
         <div className="container mx-auto relative z-10">
-          <div className="max-w-3xl mx-auto text-center space-y-4">
-            <h1 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight">
-              Choose Your Growth Service
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent/20 bg-accent/5">
+              <span className="text-accent">🚀</span>
+              <span className="text-sm font-medium tracking-widest uppercase text-accent">Service Selection Hub</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight">
+              Choose Your Service...{" "}
+              <span className="gradient-text">And Start Growing</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Professional marketing, design, and automation services to scale your business. 
-              Select a service below to learn more and get started.
+              Discover tailored marketing solutions for your business. Select a service below to get started with GFunnel.
             </p>
           </div>
         </div>
