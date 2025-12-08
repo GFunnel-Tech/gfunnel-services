@@ -30,8 +30,8 @@ export const QuickActions = ({
   };
 
   return (
-    <Card className="relative p-6 md:p-8">
-      <h3 className="text-card-title mb-4 text-foreground">Quick Actions</h3>
+    <Card className="relative p-6 shadow-lg border-border">
+      <h3 className="text-lg font-bold mb-4 text-foreground">Quick Actions</h3>
       <div className="space-y-3">
         <Button 
           variant="gradient"
@@ -47,7 +47,7 @@ export const QuickActions = ({
 
         <Button 
           variant="ghost" 
-          className="w-full justify-start text-muted-foreground hover:text-accent"
+          className="w-full justify-start"
           size="lg"
           asChild
         >
@@ -60,10 +60,10 @@ export const QuickActions = ({
 
       <div className="mt-6 pt-6 border-t border-border">
         <div className="text-center mb-3">
-          <div className="text-3xl font-bold gradient-text mb-1">{quickActionContent.statValue}</div>
+          <div className="text-3xl font-bold text-accent mb-1">{quickActionContent.statValue}</div>
           <div className="text-sm text-muted-foreground">{quickActionContent.statLabel}</div>
         </div>
-        <p className="text-xs text-muted-foreground text-center leading-relaxed">
+        <p className="text-xs text-muted-foreground text-center">
           {quickActionContent.description}
         </p>
       </div>

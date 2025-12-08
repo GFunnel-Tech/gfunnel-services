@@ -1,5 +1,5 @@
 import { ServiceConfig } from "@/lib/serviceConfigs";
-import { CardHover, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
@@ -18,20 +18,20 @@ export const ServiceCard = ({ service }: ServiceCardProps) => {
   };
 
   return (
-    <CardHover 
-      className="cursor-pointer h-full flex flex-col group"
+    <Card 
+      className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-accent/50 h-full flex flex-col"
       onClick={handleClick}
     >
       <CardHeader>
         <div className="flex items-start justify-between mb-3">
-          <div className="icon-container text-accent">
+          <div className="p-3 rounded-lg bg-accent/10 text-accent">
             <Icon className="w-6 h-6" />
           </div>
           <Badge variant="accent">
             {service.badgeText}
           </Badge>
         </div>
-        <CardTitle className="group-hover:text-accent transition-colors duration-300">
+        <CardTitle className="text-xl group-hover:text-accent transition-colors">
           {service.name}
         </CardTitle>
         <CardDescription className="line-clamp-2 h-[44px] leading-snug">
@@ -61,6 +61,6 @@ export const ServiceCard = ({ service }: ServiceCardProps) => {
           <ArrowRight className="ml-2 w-4 h-4" />
         </Button>
       </CardContent>
-    </CardHover>
+    </Card>
   );
 };
