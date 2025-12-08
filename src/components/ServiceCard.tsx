@@ -27,7 +27,7 @@ export const ServiceCard = ({ service }: ServiceCardProps) => {
           <div className="icon-container text-accent">
             <Icon className="w-6 h-6" />
           </div>
-          <Badge variant="secondary" className="text-xs font-mono uppercase tracking-wider">
+          <Badge variant="accent">
             {service.badgeText}
           </Badge>
         </div>
