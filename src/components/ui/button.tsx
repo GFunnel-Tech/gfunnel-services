@@ -17,6 +17,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         gradient: "btn-gradient text-white font-semibold rounded-full hover:-translate-y-0.5",
         "gradient-secondary": "bg-card text-foreground font-semibold rounded-full border border-border hover:bg-muted hover:-translate-y-0.5",
+        solid: "bg-accent text-white font-semibold rounded-lg hover:bg-accent/90 hover:-translate-y-0.5",
       },
       size: {
         default: "h-10 px-4 py-2",
