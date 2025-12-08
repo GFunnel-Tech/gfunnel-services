@@ -1,8 +1,6 @@
 import { ServiceConfig } from "@/lib/serviceConfigs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface ServiceCardProps {
@@ -39,8 +37,8 @@ export const ServiceCard = ({ service }: ServiceCardProps) => {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="flex-grow flex flex-col justify-between">
-        <div className="grid grid-cols-3 gap-2 mb-4">
+      <CardContent className="flex-grow">
+        <div className="grid grid-cols-3 gap-2">
           {service.stats.slice(0, 3).map((stat, index) => (
             <div key={index} className="text-center">
               <div className="font-bold text-accent text-base truncate">{stat.value}</div>
@@ -48,18 +46,6 @@ export const ServiceCard = ({ service }: ServiceCardProps) => {
             </div>
           ))}
         </div>
-
-        <Button 
-          variant="solid" 
-          className="w-full"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleClick();
-          }}
-        >
-          View Details
-          <ArrowRight className="ml-2 w-4 h-4" />
-        </Button>
       </CardContent>
     </Card>
   );
