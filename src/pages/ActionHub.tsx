@@ -9,8 +9,7 @@ const ActionHub = () => {
     <div className="min-h-screen bg-background">
       {/* Header with CTAs */}
       <header className="border-b border-border/50 py-4">
-        <div className="container mx-auto px-4 flex items-center justify-between">
-          <span className="text-lg font-semibold text-foreground">Action Hub</span>
+        <div className="container mx-auto px-4 flex items-center justify-end">
           <div className="flex items-center gap-3">
             <a href="https://www.GFunnel.com/discover" target="_parent">
               <Button variant="outline" className="gap-2">
