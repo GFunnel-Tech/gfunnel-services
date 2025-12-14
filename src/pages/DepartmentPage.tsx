@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Accordion,
@@ -71,13 +71,22 @@ const DepartmentPage = () => {
       {/* Header */}
       <section className="py-8 border-b border-border/50">
         <div className="container mx-auto px-4">
-          <Link
-            to="/action-hub"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to Action Hub</span>
-          </Link>
+          <div className="flex items-center justify-between mb-6">
+            <Link
+              to="/action-hub"
+              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Action Hub</span>
+            </Link>
+            <a href="https://gitscrum.com/workspace" target="_parent">
+              <Button variant="outline" className="gap-2">
+                <ExternalLink className="w-4 h-4" />
+                <span className="hidden sm:inline">Open Workspace</span>
+                <span className="sm:hidden">Workspace</span>
+              </Button>
+            </a>
+          </div>
 
           <div className="flex items-center gap-4">
             <div

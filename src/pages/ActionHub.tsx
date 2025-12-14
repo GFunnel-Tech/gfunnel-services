@@ -51,6 +51,24 @@ const ActionHub = () => {
           </div>
         </div>
       </section>
+
+      {/* Custom Request Banner */}
+      <section className="py-12 bg-gradient-to-br from-primary to-secondary">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-3">
+            Have a Custom Request?
+          </h2>
+          <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
+            Don't see what you're looking for? Schedule a discovery call and let's discuss your unique needs.
+          </p>
+          <a href="https://www.GFunnel.com/discover" target="_parent">
+            <Button variant="secondary" size="lg" className="gap-2">
+              <Calendar className="w-5 h-5" />
+              Schedule Discovery Call
+            </Button>
+          </a>
+        </div>
+      </section>
     </div>
   );
 };
