@@ -42,6 +42,8 @@ export const ActionFormModal = ({
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const WEBHOOK_URL = 'https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067';
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -49,18 +51,47 @@ export const ActionFormModal = ({
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
 
-    console.log('Form submitted:', { formType, department: department.name, data });
+    // Build payload with department and action context
+    const payload = {
+      // Meta information
+      department: department.name,
+      departmentSlug: department.slug,
+      formType,
+      actionTitle: actionTitle || getFormTitle(),
+      submittedAt: new Date().toISOString(),
+      
+      // Form data
+      ...data,
+    };
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log('Submitting to webhook:', payload);
 
-    toast({
-      title: 'Submitted Successfully',
-      description: `Your ${formType} has been submitted to ${department.name}.`,
-    });
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        mode: 'no-cors',
+        body: JSON.stringify(payload),
+      });
 
-    setIsSubmitting(false);
-    onClose();
+      toast({
+        title: 'Submitted Successfully',
+        description: `Your ${formType} has been submitted to ${department.name}.`,
+      });
+
+      onClose();
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: 'Submission Error',
+        description: 'There was an error submitting your request. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const getFormTitle = () => {
@@ -91,6 +122,21 @@ export const ActionFormModal = ({
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+          {/* Email field - required on all forms */}
+          <div className="space-y-2">
+            <Label htmlFor="email">Your Email *</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@company.com"
+              required
+            />
+            <p className="text-xs text-muted-foreground">
+              Required for tracking and follow-up
+            </p>
+          </div>
+
           {formType === 'request' && (
             <>
               <div className="space-y-2">
