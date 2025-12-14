@@ -1,12 +1,37 @@
 import { Eyebrow } from '@/components/ui/eyebrow';
+import { Button } from '@/components/ui/button';
 import { DepartmentCard } from '@/components/DepartmentCard';
 import { departmentConfigs } from '@/lib/departmentConfigs';
+import { Calendar, Lightbulb } from 'lucide-react';
 
 const ActionHub = () => {
   return (
     <div className="min-h-screen bg-background">
+      {/* Header with CTAs */}
+      <header className="border-b border-border/50 py-4">
+        <div className="container mx-auto px-4 flex items-center justify-between">
+          <span className="text-lg font-semibold text-foreground">Action Hub</span>
+          <div className="flex items-center gap-3">
+            <a href="https://www.GFunnel.com/discover" target="_parent">
+              <Button variant="outline" className="gap-2">
+                <Calendar className="w-4 h-4" />
+                <span className="hidden sm:inline">Schedule Discovery</span>
+                <span className="sm:hidden">Discovery</span>
+              </Button>
+            </a>
+            <a href="https://www.GFunnel.com/new-vision" target="_parent">
+              <Button className="gap-2 bg-primary hover:bg-primary/90">
+                <Lightbulb className="w-4 h-4" />
+                <span className="hidden sm:inline">Submit New Vision</span>
+                <span className="sm:hidden">New Vision</span>
+              </Button>
+            </a>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24">
+      <section className="relative py-12 md:py-20">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <Eyebrow>Organizational Hub</Eyebrow>
