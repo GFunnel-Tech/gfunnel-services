@@ -1,24 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle, Loader2 } from "lucide-react";
-import { useEffect } from "react";
-
 const VisionProcessing = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const visionTitle = location.state?.visionTitle || "Your Vision";
-
-  useEffect(() => {
-    // Load the video player script
-    const script = document.createElement("script");
-    script.src = "https://videosuite-player-wrapper.vercel.app/assets";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -75,23 +61,19 @@ const VisionProcessing = () => {
 
           {/* Video Player */}
           <div 
-            className="iv-player_responsive_padding relative mb-8" 
+            className="relative mb-8 rounded-lg overflow-hidden" 
             style={{ paddingTop: "56.25%" }}
-            data-hash="69408612ef0b6"
           >
-            <div className="iv-player_responsive_wrapper absolute inset-0">
-              <div 
-                className="iv-player_embed iv-player_async_p2z7746nud videoFoam=true relative w-full h-full"
-              >
-                <div className="iv-player_swatch absolute inset-0 opacity-0 overflow-hidden">
-                  <img 
-                    src="https://vz-5b49b1a0-718.b-cdn.net/2ae60c8d-780f-4126-baeb-71f6b6354cb1/thumbnail.jpg" 
-                    className="w-full h-full object-contain blur-sm"
-                    alt="" 
-                    aria-hidden="true" 
-                  />
-                </div>
-              </div>
+            <div className="absolute inset-0">
+              <iframe
+                src="https://videosuite-player.vercel.app/?hash=69408612ef0b6&apiUrl=https://videosuite.app&analyticsUrl=https://api.vidanalytics.io&appEnv=live"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full"
+              />
             </div>
           </div>
 
