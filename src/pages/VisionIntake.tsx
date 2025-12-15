@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { ArrowLeft, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -19,7 +19,6 @@ const VisionIntake = () => {
     timeframe: "",
     revenueTarget: "",
     availableHours: "",
-    pmTool: "",
     challenges: "",
     rawPaste: "",
   });
@@ -164,23 +163,6 @@ const VisionIntake = () => {
                 onChange={(e) => setFormData({ ...formData, availableHours: e.target.value })}
               />
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="pmTool">Preferred PM Tool</Label>
-            <Select value={formData.pmTool} onValueChange={(value) => setFormData({ ...formData, pmTool: value })}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a tool" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="gitscrum">GitScrum</SelectItem>
-                <SelectItem value="asana">Asana</SelectItem>
-                <SelectItem value="trello">Trello</SelectItem>
-                <SelectItem value="monday">Monday.com</SelectItem>
-                <SelectItem value="notion">Notion</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="space-y-2">
