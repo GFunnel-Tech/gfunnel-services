@@ -112,9 +112,9 @@ const VisionProcessing = () => {
             <Button 
               variant="outline" 
               className="w-full"
-              onClick={() => window.open("https://www.gfunnel.com/software-plan", "_parent")}
+              onClick={() => window.open("https://www.gfunnel.com/software-plans", "_parent")}
             >
-              Start a Software Plan for $1 Today
+              See Current Software Plans
             </Button>
 
             <Button
