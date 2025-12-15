@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { DepartmentCard } from '@/components/DepartmentCard';
 import { departmentConfigs } from '@/lib/departmentConfigs';
 import { Calendar, Lightbulb } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const ActionHub = () => {
   return (
@@ -18,13 +19,13 @@ const ActionHub = () => {
                 <span className="sm:hidden">Discovery</span>
               </Button>
             </a>
-            <a href="https://www.GFunnel.com/new-vision" target="_parent">
+            <Link to="/vision-intake">
               <Button className="gap-2 bg-primary hover:bg-primary/90">
                 <Lightbulb className="w-4 h-4" />
                 <span className="hidden sm:inline">Submit New Vision</span>
                 <span className="sm:hidden">New Vision</span>
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </header>
