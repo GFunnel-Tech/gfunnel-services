@@ -66,10 +66,19 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
         headers: { "Content-Type": "application/json" },
         mode: "no-cors",
         body: JSON.stringify({
-          formType: "service-intake",
-          service: service.name,
-          serviceSlug: service.slug,
-          submittedAt: new Date().toISOString(),
+          // Form identification for n8n routing
+          form_type: `service_intake_${service.slug}`,
+          form_category: "service_intake",
+          
+          // Service details
+          service_name: service.name,
+          service_slug: service.slug,
+          
+          // Metadata
+          submitted_at: new Date().toISOString(),
+          source_url: window.location.href,
+          
+          // Form data
           ...formData,
         }),
       });
