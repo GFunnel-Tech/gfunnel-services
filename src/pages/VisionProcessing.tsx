@@ -120,7 +120,9 @@ const VisionProcessing = () => {
 
           <div className="space-y-4">
             <Button 
-              className="w-full bg-primary hover:bg-primary/90"
+              variant="gradient"
+              size="lg"
+              className="w-full"
               onClick={() => window.open("https://gitscrum.com/workspace", "_parent")}
             >
               Access Projects
@@ -129,7 +131,8 @@ const VisionProcessing = () => {
             <p className="text-sm text-muted-foreground">or</p>
             
             <Button 
-              variant="outline" 
+              variant="gradient-secondary"
+              size="lg" 
               className="w-full"
               onClick={() => window.open("https://www.gfunnel.com/software-plans", "_parent")}
             >

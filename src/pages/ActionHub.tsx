@@ -42,7 +42,7 @@ const ActionHub = () => {
               </DropdownMenuContent>
             </DropdownMenu>
             <Link to="/vision-intake">
-              <Button className="gap-2 bg-primary hover:bg-primary/90">
+              <Button variant="gradient" className="gap-2">
                 <Lightbulb className="w-4 h-4" />
                 <span className="hidden sm:inline">Submit New Vision</span>
                 <span className="sm:hidden">New Vision</span>
@@ -85,7 +85,7 @@ const ActionHub = () => {
             Don't see what you're looking for? Schedule a discovery call and let's discuss your unique needs.
           </p>
           <a href="https://www.GFunnel.com/discover" target="_parent">
-            <Button variant="secondary" size="lg" className="gap-2">
+            <Button variant="gradient-secondary" size="lg" className="gap-2">
               <Calendar className="w-5 h-5" />
               Schedule Discovery Call
             </Button>

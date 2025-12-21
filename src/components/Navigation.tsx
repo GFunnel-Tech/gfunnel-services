@@ -48,8 +48,8 @@ export const Navigation = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button variant="solid" size="sm" asChild>
-              <a href="https://www.gfunnel.com/discover" target="_blank" rel="noopener noreferrer">
+            <Button variant="gradient" size="sm" asChild>
+              <a href="https://www.gfunnel.com/discover" target="_parent" rel="noopener noreferrer">
                 Schedule Discovery
               </a>
             </Button>
@@ -83,8 +83,8 @@ export const Navigation = () => {
                       {service.name}
                     </Link>
                   ))}
-                  <Button variant="solid" size="sm" className="mt-4" asChild>
-                    <a href="https://www.gfunnel.com/discover" target="_blank" rel="noopener noreferrer">
+                  <Button variant="gradient" size="sm" className="mt-4" asChild>
+                    <a href="https://www.gfunnel.com/discover" target="_parent" rel="noopener noreferrer">
                       Schedule Discovery
                     </a>
                   </Button>

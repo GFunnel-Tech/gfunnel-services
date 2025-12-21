@@ -7,6 +7,7 @@ import { getServiceBySlug } from "@/lib/serviceConfigs";
 import { getFAQsByServiceSlug } from "@/lib/serviceFAQs";
 import { Navigation } from "@/components/Navigation";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { Button } from "@/components/ui/button";
 
 const ServicePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -69,22 +70,24 @@ const ServicePage = () => {
       {/* Mobile Quick Actions - Fixed Bottom */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 shadow-lg z-50">
         <div className="flex gap-2">
-          <a 
-            href={service.onboardingUrl} 
-            target="_parent" 
-            rel="noopener noreferrer" 
-            className="flex-1 bg-primary text-primary-foreground px-4 py-3 rounded-md font-medium text-sm text-center"
-          >
-            Get Started
-          </a>
-          <a 
-            href={service.discoveryUrl} 
-            target="_parent" 
-            rel="noopener noreferrer" 
-            className="flex-1 bg-secondary text-secondary-foreground px-4 py-3 rounded-md font-medium text-sm text-center"
-          >
-            Schedule Discovery
-          </a>
+          <Button variant="gradient" size="lg" className="flex-1" asChild>
+            <a 
+              href={service.onboardingUrl} 
+              target="_parent" 
+              rel="noopener noreferrer"
+            >
+              Get Started
+            </a>
+          </Button>
+          <Button variant="gradient-secondary" size="lg" className="flex-1" asChild>
+            <a 
+              href={service.discoveryUrl} 
+              target="_parent" 
+              rel="noopener noreferrer"
+            >
+              Schedule Discovery
+            </a>
+          </Button>
         </div>
       </div>
     </div>
