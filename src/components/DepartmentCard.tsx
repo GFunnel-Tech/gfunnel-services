@@ -10,7 +10,7 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
   const colorClasses = getDepartmentColorClasses(department.color);
 
   return (
-    <Link to={`/action-hub/${department.slug}`}>
+    <Link to={`/service-hub/${department.slug}`}>
       <Card className="group relative overflow-hidden p-6 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border-border/50 bg-card">
         {/* Color accent bar */}
         <div

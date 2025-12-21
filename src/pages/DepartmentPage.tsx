@@ -35,8 +35,8 @@ const DepartmentPage = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Department Not Found</h1>
-          <Link to="/action-hub">
-            <Button variant="outline">Back to Action Hub</Button>
+          <Link to="/service-hub">
+            <Button variant="outline">Back to Service Hub</Button>
           </Link>
         </div>
       </div>
@@ -73,11 +73,11 @@ const DepartmentPage = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
             <Link
-              to="/action-hub"
+              to="/service-hub"
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Back to Action Hub</span>
+              <span>Back to Service Hub</span>
             </Link>
             <a href="https://gitscrum.com/workspace" target="_parent">
               <Button variant="outline" className="gap-2">
