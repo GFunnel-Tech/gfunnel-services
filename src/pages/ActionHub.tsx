@@ -72,12 +72,15 @@ const ActionHub = () => {
           <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
             Don't see what you're looking for? Schedule a discovery call and let's discuss your unique needs.
           </p>
-          <a href="https://www.GFunnel.com/discover" target="_parent">
-            <Button variant="gradient-secondary" size="lg" className="gap-2">
-              <Calendar className="w-5 h-5" />
-              Schedule Discovery Call
-            </Button>
-          </a>
+          <Button 
+            variant="gradient-secondary" 
+            size="lg" 
+            className="gap-2"
+            onClick={() => window.open('https://www.GFunnel.com/discover', '_blank')}
+          >
+            <Calendar className="w-5 h-5" />
+            Schedule Discovery Call
+          </Button>
         </div>
       </section>
     </div>;
