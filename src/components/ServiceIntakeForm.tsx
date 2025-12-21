@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,8 +13,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Send, CheckCircle } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import { ServiceConfig } from "@/lib/serviceConfigs";
+import { getFormFieldsForService } from "@/lib/serviceFormFields";
 
 interface ServiceIntakeFormProps {
   service: ServiceConfig;
@@ -23,18 +25,26 @@ const WEBHOOK_URL = "https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-
 
 export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
+  
+  // Get service-specific form fields
+  const serviceFields = getFormFieldsForService(service.slug);
+  
+  // Base form data + dynamic fields
+  const [formData, setFormData] = useState<Record<string, string>>({
     email: "",
     companyName: "",
-    projectType: "",
     budget: "",
     timeline: "",
     goals: "",
     currentChallenges: "",
     additionalInfo: "",
   });
+
+  const handleFieldChange = (name: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,10 +74,17 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
         }),
       });
 
-      setIsSubmitted(true);
       toast({
         title: "Request submitted!",
-        description: "We'll be in touch within 24 hours.",
+        description: "Redirecting to your confirmation...",
+      });
+
+      // Navigate to confirmation page
+      navigate("/service-confirmation", {
+        state: {
+          serviceName: service.name,
+          serviceSlug: service.slug,
+        },
       });
     } catch (error) {
       toast({
@@ -80,40 +97,63 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
     }
   };
 
-  if (isSubmitted) {
+  const renderField = (field: { name: string; label: string; type: string; placeholder?: string; options?: { value: string; label: string }[]; required?: boolean }) => {
+    if (field.type === "select" && field.options) {
+      return (
+        <div key={field.name} className="space-y-2">
+          <Label htmlFor={field.name}>{field.label}</Label>
+          <Select
+            value={formData[field.name] || ""}
+            onValueChange={(value) => handleFieldChange(field.name, value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={field.placeholder} />
+            </SelectTrigger>
+            <SelectContent>
+              {field.options.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      );
+    }
+
+    if (field.type === "textarea") {
+      return (
+        <div key={field.name} className="space-y-2">
+          <Label htmlFor={field.name}>{field.label}</Label>
+          <Textarea
+            id={field.name}
+            placeholder={field.placeholder}
+            value={formData[field.name] || ""}
+            onChange={(e) => handleFieldChange(field.name, e.target.value)}
+            rows={2}
+          />
+        </div>
+      );
+    }
+
     return (
-      <Card className="p-6 text-center">
-        <CheckCircle className="w-12 h-12 mx-auto text-primary mb-4" />
-        <h3 className="text-lg font-semibold mb-2">Request Submitted!</h3>
-        <p className="text-sm text-muted-foreground mb-4">
-          Thank you for your interest in {service.name}. Our team will review your request and contact you within 24 hours.
-        </p>
-        <Button
-          variant="outline"
-          onClick={() => {
-            setIsSubmitted(false);
-            setFormData({
-              email: "",
-              companyName: "",
-              projectType: "",
-              budget: "",
-              timeline: "",
-              goals: "",
-              currentChallenges: "",
-              additionalInfo: "",
-            });
-          }}
-        >
-          Submit Another Request
-        </Button>
-      </Card>
+      <div key={field.name} className="space-y-2">
+        <Label htmlFor={field.name}>{field.label}</Label>
+        <Input
+          id={field.name}
+          placeholder={field.placeholder}
+          value={formData[field.name] || ""}
+          onChange={(e) => handleFieldChange(field.name, e.target.value)}
+        />
+      </div>
     );
-  }
+  };
 
   return (
-    <Card className="p-6">
+    <Card className="p-6" id="intake-form">
       <h3 className="text-lg font-semibold mb-4">Get Started with {service.name}</h3>
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Common Fields */}
         <div className="space-y-2">
           <Label htmlFor="email">Your Email *</Label>
           <Input
@@ -121,7 +161,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             type="email"
             placeholder="you@company.com"
             value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            onChange={(e) => handleFieldChange("email", e.target.value)}
             required
           />
         </div>
@@ -132,16 +172,29 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             id="companyName"
             placeholder="Your company name"
             value={formData.companyName}
-            onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+            onChange={(e) => handleFieldChange("companyName", e.target.value)}
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        {/* Service-Specific Fields */}
+        {serviceFields.length > 0 && (
+          <div className="pt-2 border-t border-border">
+            <p className="text-sm text-muted-foreground mb-3">
+              Tell us more about your {service.name} needs:
+            </p>
+            <div className="space-y-4">
+              {serviceFields.map((field) => renderField(field))}
+            </div>
+          </div>
+        )}
+
+        {/* Budget and Timeline */}
+        <div className="grid grid-cols-2 gap-3 pt-2">
           <div className="space-y-2">
             <Label htmlFor="budget">Monthly Budget</Label>
             <Select
               value={formData.budget}
-              onValueChange={(value) => setFormData({ ...formData, budget: value })}
+              onValueChange={(value) => handleFieldChange("budget", value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select budget" />
@@ -160,7 +213,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             <Label htmlFor="timeline">Timeline</Label>
             <Select
               value={formData.timeline}
-              onValueChange={(value) => setFormData({ ...formData, timeline: value })}
+              onValueChange={(value) => handleFieldChange("timeline", value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="When to start" />
@@ -176,13 +229,14 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
           </div>
         </div>
 
+        {/* Goals and Challenges */}
         <div className="space-y-2">
           <Label htmlFor="goals">What are your goals? *</Label>
           <Textarea
             id="goals"
             placeholder="Describe what you're trying to achieve..."
             value={formData.goals}
-            onChange={(e) => setFormData({ ...formData, goals: e.target.value })}
+            onChange={(e) => handleFieldChange("goals", e.target.value)}
             rows={3}
             required
           />
@@ -194,7 +248,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             id="currentChallenges"
             placeholder="What obstacles are you facing?"
             value={formData.currentChallenges}
-            onChange={(e) => setFormData({ ...formData, currentChallenges: e.target.value })}
+            onChange={(e) => handleFieldChange("currentChallenges", e.target.value)}
             rows={2}
           />
         </div>
@@ -205,7 +259,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             id="additionalInfo"
             placeholder="Anything else we should know?"
             value={formData.additionalInfo}
-            onChange={(e) => setFormData({ ...formData, additionalInfo: e.target.value })}
+            onChange={(e) => handleFieldChange("additionalInfo", e.target.value)}
             rows={2}
           />
         </div>
