@@ -2,23 +2,45 @@ import { Eyebrow } from '@/components/ui/eyebrow';
 import { Button } from '@/components/ui/button';
 import { DepartmentCard } from '@/components/DepartmentCard';
 import { departmentConfigs } from '@/lib/departmentConfigs';
-import { Calendar, Lightbulb } from 'lucide-react';
+import { Calendar, ChevronDown, Lightbulb } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getAllServices } from '@/lib/serviceConfigs';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const ActionHub = () => {
+  const services = getAllServices();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header with CTAs */}
       <header className="border-b border-border/50 py-4">
         <div className="container mx-auto px-4 flex items-center justify-end">
           <div className="flex items-center gap-3">
-            <a href="https://www.GFunnel.com/discover" target="_parent">
-              <Button variant="outline" className="gap-2">
-                <Calendar className="w-4 h-4" />
-                <span className="hidden sm:inline">Schedule Discovery</span>
-                <span className="sm:hidden">Discovery</span>
-              </Button>
-            </a>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="gap-2">
+                  Services
+                  <ChevronDown className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 max-h-80 overflow-y-auto bg-popover">
+                <DropdownMenuItem asChild>
+                  <Link to="/services" className="font-medium">
+                    View All Services
+                  </Link>
+                </DropdownMenuItem>
+                {services.map((service) => (
+                  <DropdownMenuItem key={service.slug} asChild>
+                    <Link to={`/${service.slug}`}>{service.name}</Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Link to="/vision-intake">
               <Button className="gap-2 bg-primary hover:bg-primary/90">
                 <Lightbulb className="w-4 h-4" />
