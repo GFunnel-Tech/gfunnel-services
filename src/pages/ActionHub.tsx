@@ -58,7 +58,7 @@ const ActionHub = () => {
           <div className="text-center max-w-3xl mx-auto mb-12">
             <Eyebrow>Organizational Hub</Eyebrow>
             <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
-              GFunnel <span className="gradient-text">Action Hub</span>
+              GFunnel <span className="gradient-text">Service Hub</span>
             </h1>
             <p className="text-lg text-muted-foreground">
               Your organizational operating system. Submit requests, delegate tasks, and access

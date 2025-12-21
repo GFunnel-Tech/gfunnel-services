@@ -38,11 +38,12 @@ const ServicePage = () => {
       >
         <div className="max-w-7xl mx-auto">
           {/* Quick Actions - floated right on desktop */}
-          <div className="hidden lg:block float-right ml-8 mb-6 w-[300px]">
+          <div className="hidden lg:block float-right ml-8 mb-6 w-[320px]">
             <QuickActions 
               onboardingUrl={service.onboardingUrl}
               discoveryUrl={service.discoveryUrl}
               quickActionContent={service.quickActionContent}
+              service={service}
             />
           </div>
           

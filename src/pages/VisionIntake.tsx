@@ -75,7 +75,7 @@ const VisionIntake = () => {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/action-hub">Action Hub</Link>
+                <Link to="/service-hub">Service Hub</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -221,7 +221,7 @@ const VisionIntake = () => {
             <Button
               type="button"
               variant="outline"
-              onClick={() => navigate("/action-hub")}
+              onClick={() => navigate("/service-hub")}
               className="flex-1"
             >
               Cancel

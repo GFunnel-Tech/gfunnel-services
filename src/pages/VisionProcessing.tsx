@@ -21,7 +21,7 @@ const VisionProcessing = () => {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/action-hub">Action Hub</Link>
+                <Link to="/service-hub">Service Hub</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />

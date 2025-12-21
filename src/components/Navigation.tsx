@@ -18,7 +18,11 @@ export const Navigation = () => {
   return (
     <nav className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-6">
-        <div className="flex items-center justify-end h-14">
+        <div className="flex items-center justify-between h-14">
+          {/* Left side - Service Hub link */}
+          <Link to="/service-hub" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Service Hub
+          </Link>
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-3">
             <DropdownMenu>

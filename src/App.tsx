@@ -23,8 +23,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/services" element={<AllServices />} />
-          <Route path="/action-hub" element={<ActionHub />} />
-          <Route path="/action-hub/:departmentSlug" element={<DepartmentPage />} />
+          <Route path="/service-hub" element={<ActionHub />} />
+          <Route path="/service-hub/:departmentSlug" element={<DepartmentPage />} />
           <Route path="/vision-intake" element={<VisionIntake />} />
           <Route path="/vision-processing" element={<VisionProcessing />} />
           <Route path="/:slug" element={<ServicePage />} />
