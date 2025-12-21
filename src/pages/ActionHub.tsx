@@ -5,18 +5,10 @@ import { departmentConfigs } from '@/lib/departmentConfigs';
 import { Calendar, ChevronDown, Lightbulb } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getAllServices } from '@/lib/serviceConfigs';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 const ActionHub = () => {
   const services = getAllServices();
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header with CTAs */}
       <header className="border-b border-border/50 py-4">
         <div className="container mx-auto px-4 flex items-center justify-end">
@@ -34,11 +26,9 @@ const ActionHub = () => {
                     View All Services
                   </Link>
                 </DropdownMenuItem>
-                {services.map((service) => (
-                  <DropdownMenuItem key={service.slug} asChild>
+                {services.map(service => <DropdownMenuItem key={service.slug} asChild>
                     <Link to={`/${service.slug}`}>{service.name}</Link>
-                  </DropdownMenuItem>
-                ))}
+                  </DropdownMenuItem>)}
               </DropdownMenuContent>
             </DropdownMenu>
             <Link to="/vision-intake">
@@ -57,8 +47,7 @@ const ActionHub = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <Eyebrow>Organizational Hub</Eyebrow>
-            <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
-              GFunnel <span className="gradient-text">Service Hub</span>
+            <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-6">Service Hub<span className="gradient-text">Service Hub</span>
             </h1>
             <p className="text-lg text-muted-foreground">
               Your organizational operating system. Submit requests, delegate tasks, and access
@@ -68,9 +57,7 @@ const ActionHub = () => {
 
           {/* Department Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {departmentConfigs.map((department) => (
-              <DepartmentCard key={department.slug} department={department} />
-            ))}
+            {departmentConfigs.map(department => <DepartmentCard key={department.slug} department={department} />)}
           </div>
         </div>
       </section>
@@ -92,8 +79,6 @@ const ActionHub = () => {
           </a>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default ActionHub;
