@@ -24,6 +24,15 @@ export interface QuickActionContent {
   description: string;
 }
 
+export interface FormField {
+  name: string;
+  label: string;
+  type: "text" | "select" | "textarea";
+  placeholder?: string;
+  options?: { value: string; label: string }[];
+  required?: boolean;
+}
+
 export interface ServiceConfig {
   slug: string;
   name: string;
@@ -38,6 +47,7 @@ export interface ServiceConfig {
   discoveryUrl: string;
   relatedServices: string[];
   quickActionContent?: QuickActionContent;
+  formFields?: FormField[];
 }
 
 // Default videos - can be customized per service

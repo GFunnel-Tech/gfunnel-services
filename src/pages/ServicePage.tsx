@@ -3,6 +3,7 @@ import { ServiceHero } from "@/components/ServiceHero";
 import { ServiceFAQ } from "@/components/ServiceFAQ";
 import { QuickActions } from "@/components/QuickActions";
 import { RelatedServices } from "@/components/RelatedServices";
+import { ServiceIntakeForm } from "@/components/ServiceIntakeForm";
 import { getServiceBySlug } from "@/lib/serviceConfigs";
 import { getFAQsByServiceSlug } from "@/lib/serviceFAQs";
 import { Navigation } from "@/components/Navigation";
@@ -25,8 +26,15 @@ const ServicePage = () => {
     return <Navigate to="/" replace />;
   }
 
+  const scrollToForm = () => {
+    const formElement = document.getElementById("intake-form");
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-24 lg:pb-0">
       <Navigation />
       <ServiceHero service={service} />
 
@@ -38,23 +46,35 @@ const ServicePage = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto">
-          {/* Quick Actions - floated right on desktop */}
-          <div className="hidden lg:block float-right ml-8 mb-6 w-[320px]">
-            <QuickActions 
-              onboardingUrl={service.onboardingUrl}
-              discoveryUrl={service.discoveryUrl}
-              quickActionContent={service.quickActionContent}
-              service={service}
-            />
+          {/* Desktop Layout: Two columns */}
+          <div className="hidden lg:grid lg:grid-cols-[1fr_380px] lg:gap-8">
+            {/* Left Column: FAQ */}
+            <div>
+              <ServiceFAQ faqs={faqs} />
+            </div>
+            
+            {/* Right Column: Intake Form + Quick Actions (sticky) */}
+            <div className="space-y-6">
+              <div className="sticky top-20">
+                <ServiceIntakeForm service={service} />
+                <div className="mt-6">
+                  <QuickActions 
+                    discoveryUrl={service.discoveryUrl}
+                    quickActionContent={service.quickActionContent}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          
-          {/* FAQ Content */}
-          <div className="lg:max-w-[calc(100%-340px)]">
+
+          {/* Mobile Layout: Stacked */}
+          <div className="lg:hidden space-y-8">
+            {/* Intake Form First on Mobile */}
+            <ServiceIntakeForm service={service} />
+            
+            {/* FAQ */}
             <ServiceFAQ faqs={faqs} />
           </div>
-          
-          {/* Clear float */}
-          <div className="clear-both" />
         </div>
       </div>
 
@@ -70,23 +90,16 @@ const ServicePage = () => {
       {/* Mobile Quick Actions - Fixed Bottom */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 shadow-lg z-50">
         <div className="flex gap-2">
-          <Button variant="gradient" size="lg" className="flex-1" asChild>
-            <a 
-              href={service.onboardingUrl} 
-              target="_parent" 
-              rel="noopener noreferrer"
-            >
-              Get Started
-            </a>
+          <Button variant="gradient" size="lg" className="flex-1" onClick={scrollToForm}>
+            Get Started
           </Button>
-          <Button variant="gradient-secondary" size="lg" className="flex-1" asChild>
-            <a 
-              href={service.discoveryUrl} 
-              target="_parent" 
-              rel="noopener noreferrer"
-            >
-              Schedule Discovery
-            </a>
+          <Button 
+            variant="gradient-secondary" 
+            size="lg" 
+            className="flex-1"
+            onClick={() => window.open(service.discoveryUrl, "_blank")}
+          >
+            Schedule Discovery
           </Button>
         </div>
       </div>
