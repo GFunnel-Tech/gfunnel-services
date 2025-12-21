@@ -47,7 +47,8 @@ const ActionHub = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <Eyebrow>Organizational Hub</Eyebrow>
-            <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-6">Service Hub<span className="gradient-text">Service Hub</span>
+            <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
+              <span className="gradient-text">Service Hub</span>
             </h1>
             <p className="text-lg text-muted-foreground">
               Your organizational operating system. Submit requests, delegate tasks, and access
