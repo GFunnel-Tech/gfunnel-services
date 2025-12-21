@@ -43,7 +43,7 @@ export const QuickActions = ({
           </Button>
 
           <Button 
-            variant="ghost" 
+            variant="gradient-secondary" 
             className="w-full justify-start"
             size="lg"
             asChild
