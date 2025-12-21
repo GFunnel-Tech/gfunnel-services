@@ -42,7 +42,10 @@ export const ActionFormModal = ({
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const WEBHOOK_URL = 'https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067';
+  const DEFAULT_WEBHOOK_URL = 'https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067';
+  const HIRING_WEBHOOK_URL = 'https://apihub.gfunnel.com/webhook-test/4da968a1-bc07-420c-9697-762ace996e95';
+  
+  const WEBHOOK_URL = formType === 'hire' ? HIRING_WEBHOOK_URL : DEFAULT_WEBHOOK_URL;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
