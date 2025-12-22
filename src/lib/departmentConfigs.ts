@@ -68,6 +68,48 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Strategic thinking', 'Leadership', 'Brand management', 'Data-driven decision making']
       },
       { 
+        title: 'VP of Sales', 
+        isFilled: false,
+        description: 'Drives revenue growth and leads the entire sales organization.',
+        responsibilities: ['Set sales targets and quotas', 'Build and manage sales team', 'Develop sales strategy', 'Forecast revenue and pipeline'],
+        skills: ['Sales leadership', 'Revenue forecasting', 'Team building', 'Strategic planning']
+      },
+      { 
+        title: 'Sales Manager', 
+        isFilled: false,
+        description: 'Manages a team of sales representatives to achieve revenue targets.',
+        responsibilities: ['Coach and mentor sales reps', 'Monitor sales performance', 'Develop sales playbooks', 'Run sales meetings and training'],
+        skills: ['Sales coaching', 'Performance management', 'CRM expertise', 'Deal negotiation']
+      },
+      { 
+        title: 'Account Executive', 
+        isFilled: false,
+        description: 'Closes new business and manages the full sales cycle from demo to contract.',
+        responsibilities: ['Conduct product demos', 'Negotiate contracts', 'Manage pipeline', 'Build client relationships'],
+        skills: ['Consultative selling', 'Presentation skills', 'Objection handling', 'CRM proficiency']
+      },
+      { 
+        title: 'Sales Development Rep (SDR)', 
+        isFilled: false,
+        description: 'Generates qualified leads through outbound prospecting and inbound lead qualification.',
+        responsibilities: ['Cold calling and emailing', 'Qualify inbound leads', 'Book meetings for AEs', 'Research target accounts'],
+        skills: ['Prospecting', 'Cold outreach', 'Lead qualification', 'Persistence and resilience']
+      },
+      { 
+        title: 'Business Development Rep (BDR)', 
+        isFilled: false,
+        description: 'Identifies and develops new business opportunities through strategic outreach.',
+        responsibilities: ['Identify new market opportunities', 'Build partnership pipeline', 'Conduct outreach campaigns', 'Qualify strategic leads'],
+        skills: ['Market research', 'Relationship building', 'Strategic thinking', 'Communication']
+      },
+      { 
+        title: 'Customer Success Manager', 
+        isFilled: false,
+        description: 'Ensures customer satisfaction, retention, and expansion of existing accounts.',
+        responsibilities: ['Onboard new customers', 'Drive product adoption', 'Identify upsell opportunities', 'Reduce churn'],
+        skills: ['Customer relationship management', 'Product knowledge', 'Problem solving', 'Account management']
+      },
+      { 
         title: 'Content Marketing Lead', 
         isFilled: false,
         description: 'Creates and manages content strategy to drive engagement and conversions.',
@@ -89,11 +131,25 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Platform expertise', 'Creative content creation', 'Community building', 'Trend awareness']
       },
       { 
+        title: 'Paid Media Specialist', 
+        isFilled: false,
+        description: 'Manages paid advertising campaigns across digital platforms.',
+        responsibilities: ['Create and optimize ad campaigns', 'Manage ad budgets', 'A/B test creatives', 'Report on ROAS'],
+        skills: ['Google Ads', 'Facebook/Meta Ads', 'Analytics', 'Budget management']
+      },
+      { 
         title: 'Marketing Designer', 
         isFilled: false,
         description: 'Creates visual assets for marketing campaigns and brand materials.',
         responsibilities: ['Design campaign assets', 'Maintain brand consistency', 'Create presentations', 'Support ad creative'],
         skills: ['Graphic design', 'Adobe Creative Suite', 'Brand identity', 'Motion graphics']
+      },
+      { 
+        title: 'Email Marketing Specialist', 
+        isFilled: false,
+        description: 'Develops and executes email marketing campaigns to nurture leads and drive conversions.',
+        responsibilities: ['Create email campaigns', 'Segment audiences', 'Optimize open and click rates', 'Manage automation flows'],
+        skills: ['Email platforms', 'Copywriting', 'A/B testing', 'Marketing automation']
       },
       { 
         title: 'Marketing Analyst', 
@@ -140,6 +196,13 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Product strategy', 'User empathy', 'Business acumen', 'Cross-functional leadership']
       },
       { 
+        title: 'Chief Technology Officer (CTO)', 
+        isFilled: false,
+        description: 'Leads technology vision and oversees all technical development.',
+        responsibilities: ['Technology strategy', 'Team leadership', 'Architecture decisions', 'Innovation roadmap'],
+        skills: ['Technical leadership', 'Strategic planning', 'System architecture', 'Team development']
+      },
+      { 
         title: 'Product Manager', 
         isFilled: false,
         description: 'Manages product lifecycle from ideation to launch and iteration.',
@@ -168,6 +231,27 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['API development', 'Database management', 'Cloud services', 'Security best practices']
       },
       { 
+        title: 'Full-Stack Developer', 
+        isFilled: false,
+        description: 'Works across the entire stack from database to user interface.',
+        responsibilities: ['End-to-end feature development', 'API and UI integration', 'Performance optimization', 'Code maintenance'],
+        skills: ['Frontend frameworks', 'Backend languages', 'Database management', 'DevOps basics']
+      },
+      { 
+        title: 'Mobile Developer', 
+        isFilled: false,
+        description: 'Builds native or cross-platform mobile applications.',
+        responsibilities: ['Develop mobile apps', 'Optimize for devices', 'Implement push notifications', 'App store deployment'],
+        skills: ['React Native/Flutter', 'iOS/Android', 'Mobile UX', 'API integration']
+      },
+      { 
+        title: 'DevOps Engineer', 
+        isFilled: false,
+        description: 'Manages infrastructure, CI/CD pipelines, and deployment processes.',
+        responsibilities: ['Infrastructure automation', 'CI/CD pipelines', 'Monitoring and alerting', 'Security compliance'],
+        skills: ['AWS/GCP/Azure', 'Docker/Kubernetes', 'Terraform', 'Linux administration']
+      },
+      { 
         title: 'UX/UI Designer', 
         isFilled: false,
         description: 'Creates intuitive, beautiful interfaces based on user research.',
@@ -180,6 +264,13 @@ export const departmentConfigs: DepartmentConfig[] = [
         description: 'Ensures product quality through testing and quality processes.',
         responsibilities: ['Write test cases', 'Automated testing', 'Bug tracking', 'Release validation'],
         skills: ['Test automation', 'Attention to detail', 'Bug reproduction', 'Testing frameworks']
+      },
+      { 
+        title: 'Technical Writer', 
+        isFilled: false,
+        description: 'Creates clear documentation for products, APIs, and internal processes.',
+        responsibilities: ['Write documentation', 'Create tutorials', 'Maintain knowledge base', 'API documentation'],
+        skills: ['Technical writing', 'Documentation tools', 'API knowledge', 'Clear communication']
       },
     ],
     resources: [
@@ -226,6 +317,27 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Project management', 'Problem solving', 'Team management', 'Process documentation']
       },
       { 
+        title: 'Customer Support Manager', 
+        isFilled: false,
+        description: 'Leads the customer support team to deliver exceptional service.',
+        responsibilities: ['Manage support team', 'Set service standards', 'Handle escalations', 'Improve satisfaction scores'],
+        skills: ['Customer service leadership', 'Team management', 'Conflict resolution', 'Metrics analysis']
+      },
+      { 
+        title: 'Customer Support Specialist', 
+        isFilled: false,
+        description: 'Provides frontline support to customers via chat, email, and phone.',
+        responsibilities: ['Respond to tickets', 'Troubleshoot issues', 'Document solutions', 'Escalate complex issues'],
+        skills: ['Communication', 'Problem solving', 'Product knowledge', 'Patience and empathy']
+      },
+      { 
+        title: 'Technical Support Specialist', 
+        isFilled: false,
+        description: 'Handles technical customer inquiries and troubleshooting.',
+        responsibilities: ['Technical troubleshooting', 'Bug documentation', 'Customer education', 'Liaise with engineering'],
+        skills: ['Technical knowledge', 'Problem diagnosis', 'Clear communication', 'Documentation']
+      },
+      { 
         title: 'Process Analyst', 
         isFilled: false,
         description: 'Analyzes and improves business processes for efficiency.',
@@ -240,11 +352,25 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Organization', 'Communication', 'Multitasking', 'Attention to detail']
       },
       { 
+        title: 'Project Manager', 
+        isFilled: false,
+        description: 'Leads cross-functional projects from initiation to completion.',
+        responsibilities: ['Project planning', 'Resource allocation', 'Timeline management', 'Stakeholder communication'],
+        skills: ['Project management', 'Agile/Scrum', 'Risk management', 'Leadership']
+      },
+      { 
         title: 'Automation Specialist', 
         isFilled: false,
         description: 'Implements automation solutions to streamline workflows.',
         responsibilities: ['Identify automation opportunities', 'Build workflows', 'Integrate systems', 'Train users'],
         skills: ['Automation tools', 'Integration platforms', 'Scripting', 'Process optimization']
+      },
+      { 
+        title: 'Implementation Specialist', 
+        isFilled: false,
+        description: 'Guides customers through product setup and onboarding.',
+        responsibilities: ['Customer onboarding', 'Data migration', 'Configuration setup', 'Training delivery'],
+        skills: ['Product expertise', 'Training skills', 'Project management', 'Customer communication']
       },
     ],
     resources: [
@@ -298,6 +424,27 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Bookkeeping', 'Accounting software', 'Attention to detail', 'Organization']
       },
       { 
+        title: 'Accounts Payable Specialist', 
+        isFilled: false,
+        description: 'Manages vendor payments and expense processing.',
+        responsibilities: ['Process invoices', 'Manage vendor relationships', 'Payment scheduling', 'Expense auditing'],
+        skills: ['AP processes', 'Vendor management', 'Attention to detail', 'ERP systems']
+      },
+      { 
+        title: 'Accounts Receivable Specialist', 
+        isFilled: false,
+        description: 'Manages customer invoicing and collections.',
+        responsibilities: ['Generate invoices', 'Process payments', 'Collections follow-up', 'AR reporting'],
+        skills: ['AR processes', 'Customer communication', 'Collections', 'Financial software']
+      },
+      { 
+        title: 'Payroll Specialist', 
+        isFilled: false,
+        description: 'Processes payroll and manages compensation administration.',
+        responsibilities: ['Process payroll', 'Benefits administration', 'Tax compliance', 'Employee inquiries'],
+        skills: ['Payroll systems', 'Tax knowledge', 'Attention to detail', 'Confidentiality']
+      },
+      { 
         title: 'Financial Analyst', 
         isFilled: false,
         description: 'Analyzes financial data to support business decisions.',
@@ -310,6 +457,20 @@ export const departmentConfigs: DepartmentConfig[] = [
         description: 'Oversees office operations and administrative functions.',
         responsibilities: ['Office administration', 'Vendor management', 'Facilities', 'Employee support'],
         skills: ['Administration', 'Organization', 'Communication', 'Problem solving']
+      },
+      { 
+        title: 'Executive Assistant', 
+        isFilled: false,
+        description: 'Provides high-level administrative support to executives.',
+        responsibilities: ['Calendar management', 'Travel coordination', 'Meeting preparation', 'Communication management'],
+        skills: ['Organization', 'Communication', 'Discretion', 'Time management']
+      },
+      { 
+        title: 'Legal Counsel', 
+        isFilled: false,
+        description: 'Provides legal guidance and manages contracts and compliance.',
+        responsibilities: ['Contract review', 'Legal compliance', 'Risk assessment', 'Litigation management'],
+        skills: ['Legal expertise', 'Contract law', 'Risk management', 'Negotiation']
       },
       { 
         title: 'Compliance Officer', 
@@ -356,6 +517,13 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Strategic thinking', 'Business development', 'Leadership', 'Market analysis']
       },
       { 
+        title: 'Head of Analytics', 
+        isFilled: false,
+        description: 'Leads the analytics function and drives data-driven culture.',
+        responsibilities: ['Analytics strategy', 'Team leadership', 'Data governance', 'Executive reporting'],
+        skills: ['Analytics leadership', 'Data strategy', 'Team management', 'Business acumen']
+      },
+      { 
         title: 'Business Analyst', 
         isFilled: false,
         description: 'Bridges business needs and technical solutions through analysis.',
@@ -368,6 +536,20 @@ export const departmentConfigs: DepartmentConfig[] = [
         description: 'Extracts insights from data using statistical and ML techniques.',
         responsibilities: ['Data modeling', 'Predictive analytics', 'Algorithm development', 'Insight communication'],
         skills: ['Python/R', 'Machine learning', 'Statistics', 'Data visualization']
+      },
+      { 
+        title: 'Data Analyst', 
+        isFilled: false,
+        description: 'Analyzes data sets to identify trends and create reports.',
+        responsibilities: ['Data analysis', 'Report creation', 'Dashboard building', 'Ad-hoc queries'],
+        skills: ['SQL', 'Excel', 'Data visualization', 'Statistical analysis']
+      },
+      { 
+        title: 'BI Developer', 
+        isFilled: false,
+        description: 'Builds dashboards and data pipelines for business intelligence.',
+        responsibilities: ['Dashboard development', 'ETL pipelines', 'Data modeling', 'Report automation'],
+        skills: ['BI tools', 'SQL', 'Data warehousing', 'Visualization']
       },
       { 
         title: 'Market Research Lead', 
@@ -421,11 +603,32 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['HR leadership', 'Strategic thinking', 'Change management', 'Employee engagement']
       },
       { 
+        title: 'HR Director', 
+        isFilled: false,
+        description: 'Directs HR functions and aligns people practices with business goals.',
+        responsibilities: ['HR strategy execution', 'Policy development', 'Organizational design', 'HR team leadership'],
+        skills: ['HR management', 'Employment law', 'Strategic planning', 'Leadership']
+      },
+      { 
         title: 'HR Manager', 
         isFilled: false,
         description: 'Manages HR operations and employee relations.',
         responsibilities: ['Policy implementation', 'Employee relations', 'Benefits administration', 'Compliance'],
         skills: ['HR knowledge', 'Conflict resolution', 'Communication', 'Organization']
+      },
+      { 
+        title: 'HR Business Partner', 
+        isFilled: false,
+        description: 'Partners with business units to align HR strategies with department goals.',
+        responsibilities: ['Strategic HR consulting', 'Workforce planning', 'Change management', 'Performance management'],
+        skills: ['Business acumen', 'Consulting', 'Relationship building', 'Problem solving']
+      },
+      { 
+        title: 'Talent Acquisition Manager', 
+        isFilled: false,
+        description: 'Leads recruiting strategy and manages the talent acquisition team.',
+        responsibilities: ['Recruiting strategy', 'Team management', 'Employer branding', 'Hiring metrics'],
+        skills: ['Recruiting leadership', 'Employer branding', 'Team management', 'Data analysis']
       },
       { 
         title: 'Recruiter', 
@@ -435,11 +638,32 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Talent sourcing', 'Interviewing', 'Relationship building', 'Assessment']
       },
       { 
+        title: 'Technical Recruiter', 
+        isFilled: false,
+        description: 'Specializes in recruiting technical and engineering talent.',
+        responsibilities: ['Technical sourcing', 'Technical screening', 'Engineering partnerships', 'Market intelligence'],
+        skills: ['Technical knowledge', 'Sourcing', 'Technical assessment', 'Relationship building']
+      },
+      { 
         title: 'Training & Development Lead', 
         isFilled: false,
         description: 'Designs and delivers learning programs for employee growth.',
         responsibilities: ['Training programs', 'Skill development', 'Learning systems', 'Performance support'],
         skills: ['Instructional design', 'Facilitation', 'LMS management', 'Needs assessment']
+      },
+      { 
+        title: 'Compensation & Benefits Analyst', 
+        isFilled: false,
+        description: 'Manages compensation structures and benefits programs.',
+        responsibilities: ['Salary benchmarking', 'Benefits administration', 'Compensation analysis', 'Policy development'],
+        skills: ['Compensation analysis', 'Benefits knowledge', 'Data analysis', 'Market research']
+      },
+      { 
+        title: 'HR Coordinator', 
+        isFilled: false,
+        description: 'Provides administrative support for HR operations.',
+        responsibilities: ['HR administration', 'Onboarding coordination', 'Record keeping', 'Employee inquiries'],
+        skills: ['Organization', 'Communication', 'HRIS systems', 'Attention to detail']
       },
       { 
         title: 'Culture Coordinator', 
