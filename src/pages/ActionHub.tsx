@@ -95,11 +95,6 @@ const ActionHub = () => {
                     Go to Workspace →
                   </Button>
                 </div>
-
-                {/* Hover arrow indicator */}
-                <div className="absolute bottom-3 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-white/60 text-lg">→</span>
-                </div>
               </div>
             </a>
           </div>
