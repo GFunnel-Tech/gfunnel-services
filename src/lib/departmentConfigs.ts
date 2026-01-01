@@ -385,7 +385,7 @@ export const departmentConfigs: DepartmentConfig[] = [
     slug: 'finance-admin',
     name: 'Finance & Admin',
     icon: '💰',
-    shortDescription: 'White-label & admin',
+    shortDescription: 'Billing, budgets & contracts',
     overview: 'Manages financial planning, accounting, compliance, and administrative operations to support sustainable growth.',
     color: 'orange',
     coreActions: [
