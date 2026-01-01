@@ -40,7 +40,7 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
             <h3 className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors">
               {department.name}
             </h3>
-            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+            <p className="text-sm text-muted-foreground mt-1 truncate">
               {department.shortDescription}
             </p>
           </div>
