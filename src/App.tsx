@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import AllServices from "./pages/AllServices";
 import ServicePage from "./pages/ServicePage";
+import ServiceIntakePage from "./pages/ServiceIntakePage";
 import ActionHub from "./pages/ActionHub";
 import DepartmentPage from "./pages/DepartmentPage";
 import VisionIntake from "./pages/VisionIntake";
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/vision-intake" element={<VisionIntake />} />
           <Route path="/vision-processing" element={<VisionProcessing />} />
           <Route path="/service-confirmation" element={<ServiceConfirmation />} />
+          <Route path="/get-started/:slug" element={<ServiceIntakePage />} />
           <Route path="/:slug" element={<ServicePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

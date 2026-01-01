@@ -1,9 +1,8 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { ServiceHero } from "@/components/ServiceHero";
 import { ServiceFAQ } from "@/components/ServiceFAQ";
 import { QuickActions } from "@/components/QuickActions";
 import { RelatedServices } from "@/components/RelatedServices";
-import { ServiceIntakeForm } from "@/components/ServiceIntakeForm";
 import { getServiceBySlug } from "@/lib/serviceConfigs";
 import { getFAQsByServiceSlug } from "@/lib/serviceFAQs";
 import { Navigation } from "@/components/Navigation";
@@ -12,6 +11,7 @@ import { Button } from "@/components/ui/button";
 
 const ServicePage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation(0.1);
   const { ref: ctaRef, isVisible: ctaVisible } = useScrollAnimation(0.1);
   
@@ -26,11 +26,8 @@ const ServicePage = () => {
     return <Navigate to="/" replace />;
   }
 
-  const scrollToForm = () => {
-    const formElement = document.getElementById("intake-form");
-    if (formElement) {
-      formElement.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+  const handleGetStarted = () => {
+    navigate(`/get-started/${slug}`);
   };
 
   return (
@@ -53,25 +50,20 @@ const ServicePage = () => {
               <ServiceFAQ faqs={faqs} />
             </div>
             
-            {/* Right Column: Intake Form + Quick Actions (sticky) */}
+            {/* Right Column: Quick Actions (sticky) */}
             <div className="space-y-6">
               <div className="sticky top-20">
-                <ServiceIntakeForm service={service} />
-                <div className="mt-6">
-                  <QuickActions 
-                    discoveryUrl={service.discoveryUrl}
-                    quickActionContent={service.quickActionContent}
-                  />
-                </div>
+                <QuickActions 
+                  serviceSlug={slug}
+                  discoveryUrl={service.discoveryUrl}
+                  quickActionContent={service.quickActionContent}
+                />
               </div>
             </div>
           </div>
 
           {/* Mobile Layout: Stacked */}
           <div className="lg:hidden space-y-8">
-            {/* Intake Form First on Mobile */}
-            <ServiceIntakeForm service={service} />
-            
             {/* FAQ */}
             <ServiceFAQ faqs={faqs} />
           </div>
@@ -90,7 +82,7 @@ const ServicePage = () => {
       {/* Mobile Quick Actions - Fixed Bottom */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 shadow-lg z-50">
         <div className="flex gap-2">
-          <Button variant="gradient" size="lg" className="flex-1" onClick={scrollToForm}>
+          <Button variant="gradient" size="lg" className="flex-1" onClick={handleGetStarted}>
             Get Started
           </Button>
           <Button 
