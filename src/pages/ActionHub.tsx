@@ -60,6 +60,40 @@ const ActionHub = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {departmentConfigs.map(department => <DepartmentCard key={department.slug} department={department} />)}
           </div>
+
+          {/* Active Projects Banner */}
+          <div className="max-w-6xl mx-auto mt-10">
+            <a 
+              href="https://gitscrum.com/workspace" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block"
+            >
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary via-primary/90 to-secondary p-6 md:p-8 group hover:shadow-lg transition-all duration-300">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-background/20 flex items-center justify-center">
+                      <span className="text-2xl text-primary-foreground">✓</span>
+                    </div>
+                    <div className="text-center md:text-left">
+                      <h3 className="text-xl md:text-2xl font-bold text-primary-foreground">
+                        Active Projects & Tasks
+                      </h3>
+                      <p className="text-primary-foreground/80 text-sm md:text-base">
+                        View and manage all your active projects and tasks
+                      </p>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    className="bg-background/10 border-primary-foreground/30 text-primary-foreground hover:bg-background/20 group-hover:bg-background/25 whitespace-nowrap"
+                  >
+                    Go to Workspace →
+                  </Button>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       </section>
 
