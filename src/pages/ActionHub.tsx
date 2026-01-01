@@ -8,7 +8,7 @@ import { getAllServices } from '@/lib/serviceConfigs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 const ActionHub = () => {
   const services = getAllServices();
-  return <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background pb-32">
       {/* Header with CTAs */}
       <header className="border-b border-border/50 py-4">
         <div className="container mx-auto px-4 flex items-center justify-end">
@@ -63,13 +63,13 @@ const ActionHub = () => {
         </div>
       </section>
 
-      {/* Custom Request Banner */}
-      <section className="py-12 bg-gradient-to-br from-primary to-secondary">
+      {/* Custom Request Banner - Sticky to bottom */}
+      <section className="fixed bottom-0 left-0 right-0 z-50 py-6 bg-gradient-to-br from-primary to-secondary">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-3">
+          <h2 className="text-xl md:text-2xl font-bold text-primary-foreground mb-2">
             Have a Custom Request?
           </h2>
-          <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
+          <p className="text-primary-foreground/80 mb-4 max-w-xl mx-auto text-sm md:text-base">
             Don't see what you're looking for? Schedule a discovery call and let's discuss your unique needs.
           </p>
           <Button 
