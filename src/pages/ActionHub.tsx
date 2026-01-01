@@ -69,24 +69,24 @@ const ActionHub = () => {
               rel="noopener noreferrer"
               className="block"
             >
-              <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary via-primary/90 to-secondary p-6 md:p-8 group hover:shadow-lg transition-all duration-300">
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[hsl(230,70%,55%)] via-[hsl(260,60%,55%)] to-[hsl(280,50%,60%)] p-6 md:p-8 group hover:shadow-xl transition-all duration-300">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-background/20 flex items-center justify-center">
-                      <span className="text-2xl text-primary-foreground">✓</span>
+                    <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                      <span className="text-2xl text-white">✓</span>
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="text-xl md:text-2xl font-bold text-primary-foreground">
+                      <h3 className="text-xl md:text-2xl font-bold text-white">
                         Active Projects & Tasks
                       </h3>
-                      <p className="text-primary-foreground/80 text-sm md:text-base">
+                      <p className="text-white/80 text-sm md:text-base">
                         View and manage all your active projects and tasks
                       </p>
                     </div>
                   </div>
                   <Button 
                     variant="outline" 
-                    className="bg-background/10 border-primary-foreground/30 text-primary-foreground hover:bg-background/20 group-hover:bg-background/25 whitespace-nowrap"
+                    className="bg-white text-[hsl(250,60%,50%)] border-0 hover:bg-white/90 font-medium whitespace-nowrap shadow-md"
                   >
                     Go to Workspace →
                   </Button>
