@@ -43,7 +43,7 @@ export const departmentConfigs: DepartmentConfig[] = [
     slug: 'sales-marketing',
     name: 'Sales & Marketing',
     icon: '📈',
-    shortDescription: 'Growth & brand strategy',
+    shortDescription: 'Email, social & scripts',
     overview: 'Drives customer acquisition, brand awareness, and revenue growth through campaigns, content, and customer engagement.',
     color: 'blue',
     coreActions: [
@@ -171,7 +171,7 @@ export const departmentConfigs: DepartmentConfig[] = [
     slug: 'product-development',
     name: 'Product & Development',
     icon: '💻',
-    shortDescription: 'Platform & features',
+    shortDescription: 'Sites, funnels & video',
     overview: "Builds and improves GFunnel's platform through user-centered design, engineering excellence, and continuous innovation.",
     color: 'purple',
     coreActions: [
@@ -285,7 +285,7 @@ export const departmentConfigs: DepartmentConfig[] = [
     slug: 'operations',
     name: 'Operations',
     icon: '⚙️',
-    shortDescription: 'Process & delivery',
+    shortDescription: 'CRM & automations',
     overview: 'Ensures smooth daily operations, process optimization, and efficient delivery of services across all functions.',
     color: 'green',
     coreActions: [
@@ -385,7 +385,7 @@ export const departmentConfigs: DepartmentConfig[] = [
     slug: 'finance-admin',
     name: 'Finance & Admin',
     icon: '💰',
-    shortDescription: 'Finance & compliance',
+    shortDescription: 'White-label & admin',
     overview: 'Manages financial planning, accounting, compliance, and administrative operations to support sustainable growth.',
     color: 'orange',
     coreActions: [
@@ -492,7 +492,7 @@ export const departmentConfigs: DepartmentConfig[] = [
     slug: 'strategy-analytics',
     name: 'Strategy & Analytics',
     icon: '🎯',
-    shortDescription: 'Data & insights',
+    shortDescription: 'Strategy & analytics',
     overview: 'Drives strategic planning, business intelligence, and data-driven decision making across the organization.',
     color: 'teal',
     coreActions: [
@@ -578,7 +578,7 @@ export const departmentConfigs: DepartmentConfig[] = [
     slug: 'people-culture',
     name: 'People & Culture',
     icon: '👥',
-    shortDescription: 'Talent & culture',
+    shortDescription: 'Dedicated support',
     overview: 'Attracts, develops, and retains top talent while fostering a positive, productive workplace culture.',
     color: 'pink',
     coreActions: [
