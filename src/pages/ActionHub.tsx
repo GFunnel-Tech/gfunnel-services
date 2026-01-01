@@ -67,12 +67,15 @@ const ActionHub = () => {
               href="https://gitscrum.com/workspace" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block"
+              className="block group"
             >
-              <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[hsl(230,70%,55%)] via-[hsl(260,60%,55%)] to-[hsl(280,50%,60%)] px-6 py-4 md:px-8 md:py-5 group hover:shadow-xl transition-all duration-300">
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[hsl(230,70%,55%)] via-[hsl(260,60%,55%)] to-[hsl(280,50%,60%)] px-6 py-4 md:px-8 md:py-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                {/* Top accent bar on hover */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-white/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0 group-hover:bg-white/30 transition-colors duration-300">
                       <span className="text-xl text-white">✓</span>
                     </div>
                     <div>
@@ -87,10 +90,15 @@ const ActionHub = () => {
                   <Button 
                     variant="outline" 
                     size="sm"
-                    className="bg-white text-[hsl(250,60%,50%)] border-0 hover:bg-white/90 font-medium whitespace-nowrap shadow-md"
+                    className="bg-white text-[hsl(250,60%,50%)] border-0 hover:bg-[hsl(250,60%,95%)] hover:text-[hsl(250,70%,45%)] font-medium whitespace-nowrap shadow-md transition-all duration-200"
                   >
                     Go to Workspace →
                   </Button>
+                </div>
+
+                {/* Hover arrow indicator */}
+                <div className="absolute bottom-3 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="text-white/60 text-lg">→</span>
                 </div>
               </div>
             </a>
