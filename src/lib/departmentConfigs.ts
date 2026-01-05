@@ -676,6 +676,71 @@ export const departmentConfigs: DepartmentConfig[] = [
       { title: 'Employee Handbook', url: '#', icon: '📖' },
     ],
   },
+  {
+    slug: 'ai-automation',
+    name: 'AI & Automation',
+    icon: '🤖',
+    shortDescription: 'AI Tools, Chatbots, Machine Learning',
+    overview: 'Leverages artificial intelligence and automation to streamline operations, enhance customer experiences, and drive innovation.',
+    color: 'violet',
+    coreActions: [
+      { title: 'Submit AI Request', icon: '📋', type: 'request', description: 'AI implementation and automation requests' },
+      { title: 'Share AI Idea', icon: '💡', type: 'idea', description: 'AI innovation pipeline' },
+      { title: 'Delegate AI Task', icon: '✅', type: 'delegate', description: 'AI project task board' },
+    ],
+    quickActions: [
+      { title: 'AI Chatbot Setup', icon: '💬', formType: 'request' },
+      { title: 'Workflow Automation', icon: '⚡', formType: 'request' },
+      { title: 'AI Content Generation', icon: '✍️', formType: 'request' },
+      { title: 'Data Analysis & Insights', icon: '📊', formType: 'request' },
+      { title: 'AI Integration', icon: '🔗', formType: 'request' },
+      { title: 'Custom AI Solution', icon: '🧠', formType: 'request' },
+    ],
+    roles: [
+      { 
+        title: 'AI/ML Lead', 
+        isFilled: false,
+        description: 'Leads AI strategy and oversees machine learning initiatives.',
+        responsibilities: ['Define AI roadmap', 'Lead ML projects', 'Evaluate AI tools', 'Guide team on best practices'],
+        skills: ['Machine learning', 'AI strategy', 'Technical leadership', 'Data science']
+      },
+      { 
+        title: 'AI Engineer', 
+        isFilled: false,
+        description: 'Builds and deploys AI models and automation solutions.',
+        responsibilities: ['Develop AI models', 'Integrate AI APIs', 'Optimize performance', 'Maintain AI systems'],
+        skills: ['Python', 'Machine learning frameworks', 'API integration', 'Cloud AI services']
+      },
+      { 
+        title: 'Automation Specialist', 
+        isFilled: false,
+        description: 'Creates automated workflows to improve efficiency across departments.',
+        responsibilities: ['Build automations', 'Integrate systems', 'Optimize workflows', 'Train teams on tools'],
+        skills: ['No-code/low-code platforms', 'API integration', 'Process optimization', 'Problem solving']
+      },
+      { 
+        title: 'Prompt Engineer', 
+        isFilled: false,
+        description: 'Designs and optimizes prompts for AI language models.',
+        responsibilities: ['Craft effective prompts', 'Test AI outputs', 'Document best practices', 'Train team on AI usage'],
+        skills: ['Prompt design', 'AI/LLM knowledge', 'Critical thinking', 'Clear communication']
+      },
+      { 
+        title: 'AI Product Manager', 
+        isFilled: false,
+        description: 'Manages AI product features and roadmap.',
+        responsibilities: ['Define AI product vision', 'Prioritize features', 'Coordinate with engineering', 'Measure AI impact'],
+        skills: ['Product management', 'AI/ML understanding', 'User research', 'Strategic thinking']
+      },
+    ],
+    resources: [
+      { title: 'Access AI SOPs', url: '#', icon: '📚' },
+      { title: 'AI Tools Directory', url: '#', icon: '🛠️' },
+      { title: 'Prompt Library', url: '#', icon: '📝' },
+      { title: 'Automation Templates', url: '#', icon: '⚡' },
+      { title: 'AI Best Practices', url: '#', icon: '✨' },
+    ],
+  },
 ];
 
 export const getDepartmentBySlug = (slug: string): DepartmentConfig | undefined => {
@@ -691,6 +756,7 @@ export const getDepartmentColorClasses = (color: string): { bg: string; border: 
     teal: { bg: 'bg-teal-500/10', border: 'border-teal-500/30', text: 'text-teal-500' },
     pink: { bg: 'bg-pink-500/10', border: 'border-pink-500/30', text: 'text-pink-500' },
     cyan: { bg: 'bg-cyan-500/10', border: 'border-cyan-500/30', text: 'text-cyan-500' },
+    violet: { bg: 'bg-violet-500/10', border: 'border-violet-500/30', text: 'text-violet-500' },
   };
   return colorMap[color] || colorMap.blue;
 };
