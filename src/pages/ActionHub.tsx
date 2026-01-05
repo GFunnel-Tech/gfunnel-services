@@ -1,14 +1,17 @@
-import { Eyebrow } from '@/components/ui/eyebrow';
 import { Button } from '@/components/ui/button';
 import { DepartmentCard } from '@/components/DepartmentCard';
+import { ServiceHubCarousel } from '@/components/ServiceHubCarousel';
 import { departmentConfigs } from '@/lib/departmentConfigs';
 import { Calendar, ChevronDown, Lightbulb } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getAllServices } from '@/lib/serviceConfigs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+
 const ActionHub = () => {
   const services = getAllServices();
-  return <div className="min-h-screen bg-background pb-32">
+
+  return (
+    <div className="min-h-screen bg-background pb-32">
       {/* Header with CTAs */}
       <header className="border-b border-border/50 py-4">
         <div className="container mx-auto px-4 flex items-center justify-end">
@@ -26,9 +29,11 @@ const ActionHub = () => {
                     View All Services
                   </Link>
                 </DropdownMenuItem>
-                {services.map(service => <DropdownMenuItem key={service.slug} asChild>
+                {services.map(service => (
+                  <DropdownMenuItem key={service.slug} asChild>
                     <Link to={`/${service.slug}`}>{service.name}</Link>
-                  </DropdownMenuItem>)}
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
             <Link to="/vision-intake">
@@ -42,27 +47,31 @@ const ActionHub = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative py-12 md:py-20">
+      {/* Main Content */}
+      <section className="py-8 md:py-12">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <Eyebrow>Organizational Hub</Eyebrow>
-            <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
-              <span className="gradient-text">Service Hub</span>
+          {/* Hero Carousel */}
+          <ServiceHubCarousel />
+
+          {/* Section Title */}
+          <div className="mt-12 mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground">
+              Service Hub Dashboard
             </h1>
-            <p className="text-lg text-muted-foreground">
-              Your organizational operating system. Submit requests, delegate tasks, and access
-              resources across all departments.
+            <p className="text-muted-foreground mt-1">
+              Your organizational operating system. Submit requests, delegate tasks, and access resources.
             </p>
           </div>
 
           {/* Department Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {departmentConfigs.map(department => <DepartmentCard key={department.slug} department={department} />)}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl">
+            {departmentConfigs.map(department => (
+              <DepartmentCard key={department.slug} department={department} />
+            ))}
           </div>
 
           {/* Active Projects Banner */}
-          <div className="max-w-4xl mx-auto mt-10">
+          <div className="max-w-6xl mt-8">
             <a 
               href="https://gitscrum.com/workspace" 
               target="_blank" 
@@ -121,6 +130,8 @@ const ActionHub = () => {
           </Button>
         </div>
       </section>
-    </div>;
+    </div>
+  );
 };
+
 export default ActionHub;
