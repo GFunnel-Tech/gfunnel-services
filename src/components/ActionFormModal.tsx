@@ -19,8 +19,8 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { DepartmentConfig, Role } from '@/lib/departmentConfigs';
-
 import { ServiceRequestType } from '@/components/ServiceTypeModal';
+import { Building2, User, Users, BookOpen, CheckCircle2, ExternalLink } from 'lucide-react';
 
 type FormType = 'request' | 'idea' | 'delegate' | 'hire';
 
@@ -33,6 +33,19 @@ interface ActionFormModalProps {
   selectedRole?: Role;
   serviceRequestType?: ServiceRequestType | null;
 }
+
+const getRequestTypeLabel = (type: ServiceRequestType | null | undefined) => {
+  switch (type) {
+    case 'done_for_you':
+      return { label: 'Do It For Me', icon: Building2, color: 'text-primary' };
+    case 'self_service':
+      return { label: "I'll Do It Myself", icon: User, color: 'text-emerald-500' };
+    case 'delegated':
+      return { label: 'Delegate to Someone', icon: Users, color: 'text-blue-500' };
+    default:
+      return null;
+  }
+};
 
 export const ActionFormModal = ({
   isOpen,
@@ -72,8 +85,6 @@ export const ActionFormModal = ({
       ...data,
     };
 
-    console.log('Submitting to webhook:', payload);
-
     try {
       await fetch(WEBHOOK_URL, {
         method: 'POST',
@@ -84,14 +95,19 @@ export const ActionFormModal = ({
         body: JSON.stringify(payload),
       });
 
+      const successMessage = serviceRequestType === 'self_service' 
+        ? "We'll send you resources to get started!"
+        : serviceRequestType === 'delegated'
+        ? "We'll notify your delegate with all the details."
+        : `Your ${formType} has been submitted to ${department.name}.`;
+
       toast({
         title: 'Submitted Successfully',
-        description: `Your ${formType} has been submitted to ${department.name}.`,
+        description: successMessage,
       });
 
       onClose();
     } catch (error) {
-      console.error('Error submitting form:', error);
       toast({
         title: 'Submission Error',
         description: 'There was an error submitting your request. Please try again.',
@@ -119,6 +135,245 @@ export const ActionFormModal = ({
     }
   };
 
+  const requestTypeInfo = getRequestTypeLabel(serviceRequestType);
+
+  // Render different form content based on serviceRequestType
+  const renderRequestTypeContent = () => {
+    // Self-service: simplified form with resources
+    if (serviceRequestType === 'self_service') {
+      return (
+        <>
+          <div className="space-y-2">
+            <Label htmlFor="goals">What are you trying to achieve? *</Label>
+            <Textarea
+              id="goals"
+              name="goals"
+              placeholder="Describe your goals for this project..."
+              rows={3}
+              required
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="experience">Your Experience Level</Label>
+            <Select name="experience">
+              <SelectTrigger className="bg-background">
+                <SelectValue placeholder="Select your experience" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="beginner">Beginner - New to this</SelectItem>
+                <SelectItem value="intermediate">Intermediate - Some experience</SelectItem>
+                <SelectItem value="advanced">Advanced - Very experienced</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="timeline">When do you want to complete this?</Label>
+            <Select name="timeline">
+              <SelectTrigger className="bg-background">
+                <SelectValue placeholder="Select timeline" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="this-week">This week</SelectItem>
+                <SelectItem value="this-month">This month</SelectItem>
+                <SelectItem value="next-month">Next month</SelectItem>
+                <SelectItem value="flexible">Flexible / No rush</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Resources Preview */}
+          <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 space-y-3">
+            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+              <BookOpen className="w-4 h-4" />
+              <span className="font-medium text-sm">What you'll receive:</span>
+            </div>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                <span>Step-by-step project checklist</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                <span>Curated resources and templates</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                <span>Best practices guide</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                <span>Access to community support</span>
+              </li>
+            </ul>
+          </div>
+        </>
+      );
+    }
+
+    // Delegated: form with delegate info
+    if (serviceRequestType === 'delegated') {
+      return (
+        <>
+          {/* Delegate Information Section */}
+          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 space-y-4">
+            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
+              <Users className="w-4 h-4" />
+              <span className="font-medium text-sm">Delegate Information</span>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="delegateName">Delegate's Name *</Label>
+              <Input
+                id="delegateName"
+                name="delegateName"
+                placeholder="John Smith"
+                required
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="delegateEmail">Delegate's Email *</Label>
+              <Input
+                id="delegateEmail"
+                name="delegateEmail"
+                type="email"
+                placeholder="delegate@company.com"
+                required
+              />
+              <p className="text-xs text-muted-foreground">
+                We'll send them project details and access information
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="delegateRole">Delegate's Role/Relationship</Label>
+              <Select name="delegateRole">
+                <SelectTrigger className="bg-background">
+                  <SelectValue placeholder="Select relationship" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="team-member">Team Member</SelectItem>
+                  <SelectItem value="contractor">Contractor / Freelancer</SelectItem>
+                  <SelectItem value="agency">Agency Partner</SelectItem>
+                  <SelectItem value="va">Virtual Assistant</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Project Instructions */}
+          <div className="space-y-2">
+            <Label htmlFor="projectTitle">Project Title *</Label>
+            <Input
+              id="projectTitle"
+              name="projectTitle"
+              placeholder="Brief title for this project"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="instructions">Instructions for Delegate *</Label>
+            <Textarea
+              id="instructions"
+              name="instructions"
+              placeholder="Provide clear instructions and expectations..."
+              rows={4}
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="dueDate">Due Date</Label>
+              <Input id="dueDate" name="dueDate" type="date" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="delegatePriority">Priority</Label>
+              <Select name="delegatePriority">
+                <SelectTrigger className="bg-background">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="urgent">Urgent</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="additionalNotes">Additional Notes</Label>
+            <Textarea
+              id="additionalNotes"
+              name="additionalNotes"
+              placeholder="Any additional context or resources to share..."
+              rows={2}
+            />
+          </div>
+        </>
+      );
+    }
+
+    // Done for you: full form (existing behavior)
+    return (
+      <>
+        <div className="space-y-2">
+          <Label htmlFor="requestType">Request Type</Label>
+          <Select name="requestType" required>
+            <SelectTrigger className="bg-background">
+              <SelectValue placeholder="Select type" />
+            </SelectTrigger>
+            <SelectContent>
+              {department.quickActions.map((action, i) => (
+                <SelectItem key={i} value={action.title}>
+                  {action.icon} {action.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="priority">Priority</Label>
+          <Select name="priority" required>
+            <SelectTrigger className="bg-background">
+              <SelectValue placeholder="Select priority" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="low">Low</SelectItem>
+              <SelectItem value="medium">Medium</SelectItem>
+              <SelectItem value="high">High</SelectItem>
+              <SelectItem value="urgent">Urgent</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="title">Title / Summary</Label>
+          <Input id="title" name="title" placeholder="Brief summary of your request" required />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="description">Detailed Description</Label>
+          <Textarea
+            id="description"
+            name="description"
+            placeholder="Provide details about your request"
+            rows={4}
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="targetDate">Target Completion Date</Label>
+          <Input id="targetDate" name="targetDate" type="date" />
+        </div>
+      </>
+    );
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
@@ -129,7 +384,15 @@ export const ActionFormModal = ({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        {/* Request Type Badge */}
+        {requestTypeInfo && (
+          <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted text-sm font-medium w-fit ${requestTypeInfo.color}`}>
+            <requestTypeInfo.icon className="w-4 h-4" />
+            {requestTypeInfo.label}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           {/* Email field - required on all forms */}
           <div className="space-y-2">
             <Label htmlFor="email">Your Email *</Label>
@@ -145,57 +408,8 @@ export const ActionFormModal = ({
             </p>
           </div>
 
-          {formType === 'request' && (
-            <>
-              <div className="space-y-2">
-                <Label htmlFor="requestType">Request Type</Label>
-                <Select name="requestType" required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {department.quickActions.map((action, i) => (
-                      <SelectItem key={i} value={action.title}>
-                        {action.icon} {action.title}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="priority">Priority</Label>
-                <Select name="priority" required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select priority" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="low">Low</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="urgent">Urgent</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="title">Title / Summary</Label>
-                <Input id="title" name="title" placeholder="Brief summary of your request" required />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="description">Detailed Description</Label>
-                <Textarea
-                  id="description"
-                  name="description"
-                  placeholder="Provide details about your request"
-                  rows={4}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="targetDate">Target Completion Date</Label>
-                <Input id="targetDate" name="targetDate" type="date" />
-              </div>
-            </>
-          )}
+          {/* Request type specific content */}
+          {formType === 'request' && renderRequestTypeContent()}
 
           {formType === 'idea' && (
             <>
@@ -253,7 +467,7 @@ export const ActionFormModal = ({
               <div className="space-y-2">
                 <Label htmlFor="assignTo">Assign To</Label>
                 <Select name="assignTo" required>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background">
                     <SelectValue placeholder="Select team member" />
                   </SelectTrigger>
                   <SelectContent>
@@ -268,7 +482,7 @@ export const ActionFormModal = ({
               <div className="space-y-2">
                 <Label htmlFor="taskPriority">Priority</Label>
                 <Select name="taskPriority" required>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background">
                     <SelectValue placeholder="Select priority" />
                   </SelectTrigger>
                   <SelectContent>
@@ -280,8 +494,8 @@ export const ActionFormModal = ({
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="dueDate">Due Date</Label>
-                <Input id="dueDate" name="dueDate" type="date" required />
+                <Label htmlFor="delegateDueDate">Due Date</Label>
+                <Input id="delegateDueDate" name="delegateDueDate" type="date" required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="taskDescription">Task Description</Label>
@@ -337,7 +551,7 @@ export const ActionFormModal = ({
               <div className="space-y-2">
                 <Label htmlFor="employmentType">Employment Type</Label>
                 <Select name="employmentType" required>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                   <SelectContent>
