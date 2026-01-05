@@ -74,16 +74,16 @@ const ActionHub = () => {
           {/* Resource Links Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Left Column - Stacked Cards */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 h-full">
               {/* Active Projects Card */}
               <a 
                 href="https://gitscrum.com/workspace" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="block group"
+                className="block group flex-1"
               >
-                <Card className="p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-border bg-card">
-                  <div className="flex items-center justify-between gap-4">
+                <Card className="h-full p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-border bg-card flex items-center">
+                  <div className="flex items-center justify-between gap-4 w-full">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                         <span className="text-lg">✓</span>
@@ -104,10 +104,10 @@ const ActionHub = () => {
 
               {/* Custom Request Card */}
               <Card 
-                className="relative overflow-hidden p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-r from-primary via-primary to-secondary border-0 cursor-pointer"
+                className="flex-1 relative overflow-hidden p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-r from-primary via-primary to-secondary border-0 cursor-pointer flex items-center"
                 onClick={() => window.open('https://www.GFunnel.com/discover', '_blank')}
               >
-                <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center justify-between gap-4 w-full">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
                       <Calendar className="w-5 h-5 text-white" />
@@ -183,7 +183,7 @@ const ActionHub = () => {
                   {/* CTA hint */}
                   <div className="mt-4 pt-3 border-t border-border/50">
                     <span className="text-sm font-medium text-primary group-hover:underline">
-                      Explore all courses →
+                      Explore Learning Hub →
                     </span>
                   </div>
                 </div>
