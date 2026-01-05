@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { DepartmentConfig, getDepartmentColorClasses } from '@/lib/departmentConfigs';
+import { ArrowRight } from 'lucide-react';
 
 interface DepartmentCardProps {
   department: DepartmentConfig;
@@ -11,44 +12,30 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
 
   return (
     <Link to={`/service-hub/${department.slug}`}>
-      <Card className="group relative overflow-hidden p-6 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border-border/50 bg-card">
-        {/* Color accent bar */}
-        <div
-          className={`absolute top-0 left-0 right-0 h-1 ${colorClasses.bg} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-          style={{
-            background: `linear-gradient(90deg, ${
-              department.color === 'blue' ? '#3b82f6' :
-              department.color === 'purple' ? '#a855f7' :
-              department.color === 'green' ? '#22c55e' :
-              department.color === 'orange' ? '#f97316' :
-              department.color === 'teal' ? '#14b8a6' :
-              '#ec4899'
-            }, transparent)`,
-          }}
-        />
+      <Card className="group relative overflow-hidden p-5 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border-border/50 bg-card h-full">
+        <div className="flex flex-col gap-3">
+          {/* Top row: Icon + Title + Arrow */}
+          <div className="flex items-center gap-3">
+            {/* Icon */}
+            <div
+              className={`flex-shrink-0 w-11 h-11 rounded-lg flex items-center justify-center text-xl ${colorClasses.bg} ${colorClasses.border} border`}
+            >
+              {department.icon}
+            </div>
 
-        <div className="flex items-start gap-4">
-          {/* Icon */}
-          <div
-            className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${colorClasses.bg} ${colorClasses.border} border`}
-          >
-            {department.icon}
+            {/* Title + Arrow */}
+            <div className="flex-1 flex items-center justify-between min-w-0">
+              <h3 className="font-semibold text-base text-foreground group-hover:text-primary transition-colors truncate">
+                {department.name}
+              </h3>
+              <ArrowRight className={`w-5 h-5 flex-shrink-0 ml-2 ${colorClasses.text} opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300`} />
+            </div>
           </div>
 
-          {/* Content */}
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors">
-              {department.name}
-            </h3>
-            <p className="text-sm text-muted-foreground mt-1 truncate">
-              {department.shortDescription}
-            </p>
-          </div>
-        </div>
-
-        {/* Hover arrow indicator */}
-        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <span className={`text-lg ${colorClasses.text}`}>→</span>
+          {/* Description */}
+          <p className="text-sm text-muted-foreground line-clamp-2">
+            {department.shortDescription}
+          </p>
         </div>
       </Card>
     </Link>
