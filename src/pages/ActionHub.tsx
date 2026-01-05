@@ -72,7 +72,7 @@ const ActionHub = () => {
           </div>
 
           {/* Bottom Cards Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {/* Active Projects Card */}
             <a 
               href="https://gitscrum.com/workspace" 
@@ -92,6 +92,33 @@ const ActionHub = () => {
                       </h3>
                       <p className="text-white/80 text-sm">
                         View and manage all your active projects
+                      </p>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+                </div>
+              </Card>
+            </a>
+
+            {/* Learning Hub Card */}
+            <a 
+              href="https://www.gfunnel.com/learning-hub" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block group"
+            >
+              <Card className="relative overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-br from-[hsl(160,60%,45%)] to-[hsl(180,50%,40%)] border-0">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                      <span className="text-2xl text-white">📚</span>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">
+                        Learning Hub
+                      </h3>
+                      <p className="text-white/80 text-sm">
+                        Tutorials, guides & training resources
                       </p>
                     </div>
                   </div>
