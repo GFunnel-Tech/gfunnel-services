@@ -71,8 +71,8 @@ const ActionHub = () => {
             ))}
           </div>
 
-          {/* Bottom Cards Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Resource Links Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Active Projects Card */}
             <a 
               href="https://gitscrum.com/workspace" 
@@ -80,22 +80,22 @@ const ActionHub = () => {
               rel="noopener noreferrer"
               className="block group"
             >
-              <Card className="relative overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-br from-[hsl(230,70%,55%)] to-[hsl(260,60%,50%)] border-0">
+              <Card className="p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-border bg-card">
                 <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                      <span className="text-2xl text-white">✓</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <span className="text-lg">✓</span>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white">
+                      <h3 className="text-base font-semibold text-foreground">
                         Active Projects & Tasks
                       </h3>
-                      <p className="text-white/80 text-sm">
-                        View and manage all your active projects
+                      <p className="text-muted-foreground text-sm">
+                        View and manage your projects
                       </p>
                     </div>
                   </div>
-                  <ExternalLink className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+                  <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </div>
               </Card>
             </a>
@@ -107,55 +107,54 @@ const ActionHub = () => {
               rel="noopener noreferrer"
               className="block group"
             >
-              <Card className="relative overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-br from-[hsl(160,60%,45%)] to-[hsl(180,50%,40%)] border-0">
+              <Card className="p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-border bg-card">
                 <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                      <span className="text-2xl text-white">📚</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <span className="text-lg">📚</span>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white">
+                      <h3 className="text-base font-semibold text-foreground">
                         Learning Hub
                       </h3>
-                      <p className="text-white/80 text-sm">
-                        Tutorials, guides & training resources
+                      <p className="text-muted-foreground text-sm">
+                        Tutorials, guides & training
                       </p>
                     </div>
                   </div>
-                  <ExternalLink className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+                  <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </div>
               </Card>
             </a>
-
-            {/* Custom Request Card */}
-            <Card 
-              className="relative overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-br from-primary to-secondary border-0 cursor-pointer"
-              onClick={() => window.open('https://www.GFunnel.com/discover', '_blank')}
-            >
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                    <Calendar className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-primary-foreground">
-                      Have a Custom Request?
-                    </h3>
-                    <p className="text-primary-foreground/80 text-sm">
-                      Schedule a discovery call for unique needs
-                    </p>
-                  </div>
-                </div>
-                <Button 
-                  variant="secondary" 
-                  size="sm"
-                  className="bg-white text-primary hover:bg-white/90 font-medium whitespace-nowrap"
-                >
-                  Schedule Call
-                </Button>
-              </div>
-            </Card>
           </div>
+
+          {/* Custom Request CTA */}
+          <Card 
+            className="relative overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-r from-primary via-primary to-secondary border-0 cursor-pointer"
+            onClick={() => window.open('https://www.GFunnel.com/discover', '_blank')}
+          >
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                  <Calendar className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-primary-foreground">
+                    Have a Custom Request?
+                  </h3>
+                  <p className="text-primary-foreground/80 text-sm">
+                    Schedule a discovery call to discuss your unique needs
+                  </p>
+                </div>
+              </div>
+              <Button 
+                variant="secondary" 
+                className="bg-white text-primary hover:bg-white/90 font-semibold whitespace-nowrap"
+              >
+                Schedule Call
+              </Button>
+            </div>
+          </Card>
         </div>
       </section>
     </div>
