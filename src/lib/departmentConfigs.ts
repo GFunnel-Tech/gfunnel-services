@@ -40,24 +40,24 @@ export interface DepartmentConfig {
 
 export const departmentConfigs: DepartmentConfig[] = [
   {
-    slug: 'sales-marketing',
-    name: 'Sales & Marketing',
+    slug: 'revenue-generation',
+    name: 'Revenue Generation',
     icon: '📈',
-    shortDescription: 'Email, social & scripts',
-    overview: 'Drives customer acquisition, brand awareness, and revenue growth through campaigns, content, and customer engagement.',
+    shortDescription: 'Sales, Marketing, Partnerships',
+    overview: 'Drives customer acquisition, revenue growth, and strategic partnerships through campaigns, outreach, and relationship building.',
     color: 'blue',
     coreActions: [
-      { title: 'Submit Marketing Request', icon: '📋', type: 'request', description: 'Form for campaigns, content, design needs' },
-      { title: 'Share Campaign Idea', icon: '💡', type: 'idea', description: 'Idea submission board' },
-      { title: 'Delegate Content Task', icon: '✅', type: 'delegate', description: 'Task assignment system' },
+      { title: 'Submit Sales Request', icon: '📋', type: 'request', description: 'Form for sales, marketing, partnership needs' },
+      { title: 'Share Growth Idea', icon: '💡', type: 'idea', description: 'Revenue growth suggestions' },
+      { title: 'Delegate Outreach Task', icon: '✅', type: 'delegate', description: 'Task assignment system' },
     ],
     quickActions: [
       { title: 'Create Campaign', icon: '🎯', formType: 'request' },
       { title: 'Request Newsletter', icon: '📧', formType: 'request' },
-      { title: 'Request Design Work', icon: '🎨', formType: 'request' },
+      { title: 'Partnership Outreach', icon: '🤝', formType: 'request' },
       { title: 'Request Analytics Report', icon: '📊', formType: 'request' },
       { title: 'Social Media Campaign', icon: '📱', formType: 'request' },
-      { title: 'SEO Initiative', icon: '🔍', formType: 'request' },
+      { title: 'Lead Generation', icon: '🎣', formType: 'request' },
     ],
     roles: [
       { 
@@ -168,24 +168,24 @@ export const departmentConfigs: DepartmentConfig[] = [
     ],
   },
   {
-    slug: 'product-development',
-    name: 'Product & Development',
-    icon: '💻',
-    shortDescription: 'Sites, funnels & video',
-    overview: "Builds and improves GFunnel's platform through user-centered design, engineering excellence, and continuous innovation.",
-    color: 'purple',
+    slug: 'creative-content',
+    name: 'Creative & Content',
+    icon: '🎨',
+    shortDescription: 'Design, Video, Copywriting',
+    overview: 'Creates compelling visual and written content that engages audiences and strengthens brand identity.',
+    color: 'pink',
     coreActions: [
-      { title: 'Submit Feature Request', icon: '📋', type: 'request', description: 'Product backlog intake' },
-      { title: 'Share Product Idea', icon: '💡', type: 'idea', description: 'Innovation pipeline' },
-      { title: 'Delegate Dev Task', icon: '✅', type: 'delegate', description: 'Engineering task board' },
+      { title: 'Submit Creative Request', icon: '📋', type: 'request', description: 'Design, video, copy requests' },
+      { title: 'Share Creative Idea', icon: '💡', type: 'idea', description: 'Creative innovation pipeline' },
+      { title: 'Delegate Creative Task', icon: '✅', type: 'delegate', description: 'Creative task board' },
     ],
     quickActions: [
-      { title: 'Report Bug', icon: '🐛', formType: 'request' },
-      { title: 'Request Integration', icon: '🔗', formType: 'request' },
-      { title: 'UX Improvement', icon: '✨', formType: 'idea' },
-      { title: 'Technical Documentation', icon: '📖', formType: 'request' },
-      { title: 'API Request', icon: '🔌', formType: 'request' },
-      { title: 'Create Project', icon: '🚀', formType: 'request' },
+      { title: 'Request Design Work', icon: '🎨', formType: 'request' },
+      { title: 'Video Production', icon: '🎬', formType: 'request' },
+      { title: 'Copywriting Request', icon: '✍️', formType: 'request' },
+      { title: 'Brand Assets', icon: '🏷️', formType: 'request' },
+      { title: 'Presentation Design', icon: '📊', formType: 'request' },
+      { title: 'Photography Request', icon: '📸', formType: 'request' },
     ],
     roles: [
       { 
@@ -282,24 +282,24 @@ export const departmentConfigs: DepartmentConfig[] = [
     ],
   },
   {
-    slug: 'operations',
-    name: 'Operations',
-    icon: '⚙️',
-    shortDescription: 'CRM & automations',
-    overview: 'Ensures smooth daily operations, process optimization, and efficient delivery of services across all functions.',
-    color: 'green',
+    slug: 'technology',
+    name: 'Technology',
+    icon: '💻',
+    shortDescription: 'Development, Automations, Integrations',
+    overview: 'Builds and maintains technology solutions including websites, apps, automations, and system integrations.',
+    color: 'purple',
     coreActions: [
-      { title: 'Submit Operations Request', icon: '📋', type: 'request', description: 'Process improvement intake' },
-      { title: 'Share Process Idea', icon: '💡', type: 'idea', description: 'Efficiency suggestions' },
-      { title: 'Delegate Operational Task', icon: '✅', type: 'delegate', description: 'Operations workflow' },
+      { title: 'Submit Tech Request', icon: '📋', type: 'request', description: 'Development and integration requests' },
+      { title: 'Share Tech Idea', icon: '💡', type: 'idea', description: 'Innovation pipeline' },
+      { title: 'Delegate Dev Task', icon: '✅', type: 'delegate', description: 'Engineering task board' },
     ],
     quickActions: [
-      { title: 'Request Process Documentation', icon: '📝', formType: 'request' },
-      { title: 'System Access Request', icon: '🔑', formType: 'request' },
-      { title: 'Vendor Management', icon: '🤝', formType: 'request' },
-      { title: 'Workflow Automation', icon: '🤖', formType: 'idea' },
-      { title: 'Infrastructure Request', icon: '🏗️', formType: 'request' },
-      { title: 'Create SOP', icon: '📋', formType: 'request' },
+      { title: 'Report Bug', icon: '🐛', formType: 'request' },
+      { title: 'Request Integration', icon: '🔗', formType: 'request' },
+      { title: 'Automation Request', icon: '🤖', formType: 'request' },
+      { title: 'Website Update', icon: '🌐', formType: 'request' },
+      { title: 'API Request', icon: '🔌', formType: 'request' },
+      { title: 'New Feature', icon: '🚀', formType: 'request' },
     ],
     roles: [
       { 
@@ -382,24 +382,89 @@ export const departmentConfigs: DepartmentConfig[] = [
     ],
   },
   {
-    slug: 'finance-admin',
-    name: 'Finance & Admin',
+    slug: 'operations',
+    name: 'Operations',
+    icon: '⚙️',
+    shortDescription: 'CRM, Workflows, Process Optimization',
+    overview: 'Streamlines daily operations through efficient workflows, CRM management, and continuous process optimization.',
+    color: 'green',
+    coreActions: [
+      { title: 'Submit Operations Request', icon: '📋', type: 'request', description: 'Process improvement intake' },
+      { title: 'Share Process Idea', icon: '💡', type: 'idea', description: 'Efficiency suggestions' },
+      { title: 'Delegate Operational Task', icon: '✅', type: 'delegate', description: 'Operations workflow' },
+    ],
+    quickActions: [
+      { title: 'CRM Update', icon: '📇', formType: 'request' },
+      { title: 'Workflow Automation', icon: '🤖', formType: 'request' },
+      { title: 'Process Documentation', icon: '📝', formType: 'request' },
+      { title: 'System Access Request', icon: '🔑', formType: 'request' },
+      { title: 'Vendor Management', icon: '🤝', formType: 'request' },
+      { title: 'SOP Creation', icon: '📋', formType: 'request' },
+    ],
+    roles: [
+      { 
+        title: 'Chief Operating Officer (COO)', 
+        isFilled: false,
+        description: 'Oversees daily operations and drives operational excellence.',
+        responsibilities: ['Operational strategy', 'Process optimization', 'Resource allocation', 'Cross-department coordination'],
+        skills: ['Operations management', 'Strategic planning', 'Process improvement', 'Leadership']
+      },
+      { 
+        title: 'Operations Manager', 
+        isFilled: false,
+        description: 'Manages day-to-day operations and ensures smooth workflow.',
+        responsibilities: ['Team coordination', 'Process management', 'Performance monitoring', 'Issue resolution'],
+        skills: ['Project management', 'Problem solving', 'Team management', 'Process documentation']
+      },
+      { 
+        title: 'CRM Administrator', 
+        isFilled: false,
+        description: 'Manages and optimizes CRM systems for the organization.',
+        responsibilities: ['CRM configuration', 'Data management', 'User training', 'Workflow automation'],
+        skills: ['CRM platforms', 'Data analysis', 'Process automation', 'User support']
+      },
+      { 
+        title: 'Process Analyst', 
+        isFilled: false,
+        description: 'Analyzes and improves business processes for efficiency.',
+        responsibilities: ['Process mapping', 'Bottleneck identification', 'Improvement recommendations', 'Metrics tracking'],
+        skills: ['Process analysis', 'Data analysis', 'Documentation', 'Continuous improvement']
+      },
+      { 
+        title: 'Operations Coordinator', 
+        isFilled: false,
+        description: 'Coordinates operational activities and supports team execution.',
+        responsibilities: ['Schedule management', 'Communication coordination', 'Task tracking', 'Administrative support'],
+        skills: ['Organization', 'Communication', 'Multitasking', 'Attention to detail']
+      },
+    ],
+    resources: [
+      { title: 'Access Operations SOPs', url: '#', icon: '📚' },
+      { title: 'CRM Documentation', url: '#', icon: '📇' },
+      { title: 'Process Templates', url: '#', icon: '📋' },
+      { title: 'Workflow Guides', url: '#', icon: '🔄' },
+      { title: 'Automation Playbooks', url: '#', icon: '🤖' },
+    ],
+  },
+  {
+    slug: 'finance',
+    name: 'Finance',
     icon: '💰',
-    shortDescription: 'Billing, budgets & contracts',
-    overview: 'Manages financial planning, accounting, compliance, and administrative operations to support sustainable growth.',
+    shortDescription: 'Billing, Budgets, Contracts, Reporting',
+    overview: 'Manages financial planning, accounting, budgets, contracts, and fiscal reporting.',
     color: 'orange',
     coreActions: [
       { title: 'Submit Finance Request', icon: '📋', type: 'request', description: 'Budget, expenses, invoices' },
       { title: 'Share Financial Idea', icon: '💡', type: 'idea', description: 'Cost optimization suggestions' },
-      { title: 'Delegate Admin Task', icon: '✅', type: 'delegate', description: 'Administrative workflow' },
+      { title: 'Delegate Finance Task', icon: '✅', type: 'delegate', description: 'Financial workflow' },
     ],
     quickActions: [
       { title: 'Expense Approval', icon: '💳', formType: 'request' },
       { title: 'Budget Request', icon: '📊', formType: 'request' },
       { title: 'Invoice Submission', icon: '🧾', formType: 'request' },
       { title: 'Contract Review', icon: '📄', formType: 'request' },
-      { title: 'Compliance Check', icon: '✅', formType: 'request' },
-      { title: 'Financial Report Request', icon: '📈', formType: 'request' },
+      { title: 'Financial Report', icon: '📈', formType: 'request' },
+      { title: 'Billing Update', icon: '💵', formType: 'request' },
     ],
     roles: [
       { 
@@ -424,60 +489,11 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Bookkeeping', 'Accounting software', 'Attention to detail', 'Organization']
       },
       { 
-        title: 'Accounts Payable Specialist', 
-        isFilled: false,
-        description: 'Manages vendor payments and expense processing.',
-        responsibilities: ['Process invoices', 'Manage vendor relationships', 'Payment scheduling', 'Expense auditing'],
-        skills: ['AP processes', 'Vendor management', 'Attention to detail', 'ERP systems']
-      },
-      { 
-        title: 'Accounts Receivable Specialist', 
-        isFilled: false,
-        description: 'Manages customer invoicing and collections.',
-        responsibilities: ['Generate invoices', 'Process payments', 'Collections follow-up', 'AR reporting'],
-        skills: ['AR processes', 'Customer communication', 'Collections', 'Financial software']
-      },
-      { 
-        title: 'Payroll Specialist', 
-        isFilled: false,
-        description: 'Processes payroll and manages compensation administration.',
-        responsibilities: ['Process payroll', 'Benefits administration', 'Tax compliance', 'Employee inquiries'],
-        skills: ['Payroll systems', 'Tax knowledge', 'Attention to detail', 'Confidentiality']
-      },
-      { 
         title: 'Financial Analyst', 
         isFilled: false,
         description: 'Analyzes financial data to support business decisions.',
         responsibilities: ['Financial modeling', 'Variance analysis', 'Forecasting', 'Performance reporting'],
         skills: ['Financial modeling', 'Excel expertise', 'Data analysis', 'Business intelligence']
-      },
-      { 
-        title: 'Office Manager', 
-        isFilled: false,
-        description: 'Oversees office operations and administrative functions.',
-        responsibilities: ['Office administration', 'Vendor management', 'Facilities', 'Employee support'],
-        skills: ['Administration', 'Organization', 'Communication', 'Problem solving']
-      },
-      { 
-        title: 'Executive Assistant', 
-        isFilled: false,
-        description: 'Provides high-level administrative support to executives.',
-        responsibilities: ['Calendar management', 'Travel coordination', 'Meeting preparation', 'Communication management'],
-        skills: ['Organization', 'Communication', 'Discretion', 'Time management']
-      },
-      { 
-        title: 'Legal Counsel', 
-        isFilled: false,
-        description: 'Provides legal guidance and manages contracts and compliance.',
-        responsibilities: ['Contract review', 'Legal compliance', 'Risk assessment', 'Litigation management'],
-        skills: ['Legal expertise', 'Contract law', 'Risk management', 'Negotiation']
-      },
-      { 
-        title: 'Compliance Officer', 
-        isFilled: false,
-        description: 'Ensures adherence to regulations and internal policies.',
-        responsibilities: ['Policy development', 'Compliance monitoring', 'Training', 'Risk assessment'],
-        skills: ['Regulatory knowledge', 'Risk management', 'Documentation', 'Analytical thinking']
       },
     ],
     resources: [
@@ -485,14 +501,14 @@ export const departmentConfigs: DepartmentConfig[] = [
       { title: 'Budget Templates', url: '#', icon: '📊' },
       { title: 'Expense Policies', url: '#', icon: '💳' },
       { title: 'Contract Templates', url: '#', icon: '📄' },
-      { title: 'Compliance Guidelines', url: '#', icon: '✅' },
+      { title: 'Financial Reports', url: '#', icon: '📈' },
     ],
   },
   {
     slug: 'strategy-analytics',
     name: 'Strategy & Analytics',
-    icon: '🎯',
-    shortDescription: 'Strategy & analytics',
+    icon: '📊',
+    shortDescription: 'Business Intelligence, KPIs, Planning',
     overview: 'Drives strategic planning, business intelligence, and data-driven decision making across the organization.',
     color: 'teal',
     coreActions: [
@@ -502,11 +518,11 @@ export const departmentConfigs: DepartmentConfig[] = [
     ],
     quickActions: [
       { title: 'Request Market Research', icon: '🔍', formType: 'request' },
+      { title: 'KPI Dashboard', icon: '📊', formType: 'request' },
+      { title: 'Strategic Planning', icon: '🗓️', formType: 'request' },
       { title: 'Competitive Analysis', icon: '⚔️', formType: 'request' },
-      { title: 'Strategic Planning Session', icon: '🗓️', formType: 'request' },
-      { title: 'Data Dashboard Request', icon: '📊', formType: 'request' },
-      { title: 'Business Case Development', icon: '💼', formType: 'request' },
-      { title: 'KPI Review', icon: '📈', formType: 'request' },
+      { title: 'Business Case', icon: '💼', formType: 'request' },
+      { title: 'Performance Report', icon: '📈', formType: 'request' },
     ],
     roles: [
       { 
@@ -544,27 +560,6 @@ export const departmentConfigs: DepartmentConfig[] = [
         responsibilities: ['Data analysis', 'Report creation', 'Dashboard building', 'Ad-hoc queries'],
         skills: ['SQL', 'Excel', 'Data visualization', 'Statistical analysis']
       },
-      { 
-        title: 'BI Developer', 
-        isFilled: false,
-        description: 'Builds dashboards and data pipelines for business intelligence.',
-        responsibilities: ['Dashboard development', 'ETL pipelines', 'Data modeling', 'Report automation'],
-        skills: ['BI tools', 'SQL', 'Data warehousing', 'Visualization']
-      },
-      { 
-        title: 'Market Research Lead', 
-        isFilled: false,
-        description: 'Conducts market research to inform strategic decisions.',
-        responsibilities: ['Market analysis', 'Competitor research', 'Customer insights', 'Trend identification'],
-        skills: ['Research methods', 'Data analysis', 'Presentation', 'Industry knowledge']
-      },
-      { 
-        title: 'Strategic Planner', 
-        isFilled: false,
-        description: 'Develops actionable plans to achieve strategic objectives.',
-        responsibilities: ['Planning frameworks', 'Goal setting', 'Progress tracking', 'Cross-functional coordination'],
-        skills: ['Strategic planning', 'Project management', 'Analytical thinking', 'Communication']
-      },
     ],
     resources: [
       { title: 'Access Strategy SOPs', url: '#', icon: '📚' },
@@ -575,21 +570,21 @@ export const departmentConfigs: DepartmentConfig[] = [
     ],
   },
   {
-    slug: 'people-culture',
-    name: 'People & Culture',
+    slug: 'team-support',
+    name: 'Team & Support',
     icon: '👥',
-    shortDescription: 'Dedicated support',
-    overview: 'Attracts, develops, and retains top talent while fostering a positive, productive workplace culture.',
-    color: 'pink',
+    shortDescription: 'HR, Training, Customer Success',
+    overview: 'Manages HR, employee training, and customer success to support both internal teams and clients.',
+    color: 'cyan',
     coreActions: [
       { title: 'Submit HR Request', icon: '📋', type: 'request', description: 'Hiring, benefits, issues' },
-      { title: 'Share Culture Idea', icon: '💡', type: 'idea', description: 'Team building, engagement' },
-      { title: 'Delegate People Task', icon: '✅', type: 'delegate', description: 'HR workflow' },
+      { title: 'Share Team Idea', icon: '💡', type: 'idea', description: 'Team building, engagement' },
+      { title: 'Delegate Support Task', icon: '✅', type: 'delegate', description: 'Support workflow' },
     ],
     quickActions: [
       { title: 'Start Hiring Process', icon: '🎯', formType: 'request' },
       { title: 'Request Training', icon: '📚', formType: 'request' },
-      { title: 'Report Issue', icon: '⚠️', formType: 'request' },
+      { title: 'Customer Success Request', icon: '🤝', formType: 'request' },
       { title: 'Benefits Question', icon: '❓', formType: 'request' },
       { title: 'Performance Review', icon: '📊', formType: 'request' },
       { title: 'Team Building Event', icon: '🎉', formType: 'idea' },
@@ -695,6 +690,7 @@ export const getDepartmentColorClasses = (color: string): { bg: string; border: 
     orange: { bg: 'bg-orange-500/10', border: 'border-orange-500/30', text: 'text-orange-500' },
     teal: { bg: 'bg-teal-500/10', border: 'border-teal-500/30', text: 'text-teal-500' },
     pink: { bg: 'bg-pink-500/10', border: 'border-pink-500/30', text: 'text-pink-500' },
+    cyan: { bg: 'bg-cyan-500/10', border: 'border-cyan-500/30', text: 'text-cyan-500' },
   };
   return colorMap[color] || colorMap.blue;
 };
