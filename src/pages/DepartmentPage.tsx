@@ -13,6 +13,7 @@ import { QuickActionsGrid } from '@/components/QuickActionsGrid';
 import { RolesStructure } from '@/components/RolesStructure';
 import { DepartmentResources } from '@/components/DepartmentResources';
 import { ActionFormModal } from '@/components/ActionFormModal';
+import { ServiceTypeModal, ServiceRequestType } from '@/components/ServiceTypeModal';
 import {
   getDepartmentBySlug,
   getDepartmentColorClasses,
@@ -29,6 +30,9 @@ const DepartmentPage = () => {
   const [formType, setFormType] = useState<'request' | 'idea' | 'delegate' | 'hire'>('request');
   const [actionTitle, setActionTitle] = useState<string | undefined>();
   const [selectedRole, setSelectedRole] = useState<Role | undefined>();
+  const [showTypeModal, setShowTypeModal] = useState(false);
+  const [serviceRequestType, setServiceRequestType] = useState<ServiceRequestType | null>(null);
+  const [pendingAction, setPendingAction] = useState<{ type: 'core' | 'quick'; action: CoreAction | QuickAction } | null>(null);
 
   if (!department) {
     return (
@@ -46,24 +50,40 @@ const DepartmentPage = () => {
   const colorClasses = getDepartmentColorClasses(department.color);
 
   const handleCoreActionClick = (action: CoreAction) => {
+    // Show the service type modal first
+    setPendingAction({ type: 'core', action });
     setFormType(action.type);
     setActionTitle(action.title);
     setSelectedRole(undefined);
-    setModalOpen(true);
+    setShowTypeModal(true);
   };
 
   const handleQuickActionClick = (action: QuickAction) => {
+    // Show the service type modal first
+    setPendingAction({ type: 'quick', action });
     setFormType(action.formType);
     setActionTitle(action.title);
     setSelectedRole(undefined);
-    setModalOpen(true);
+    setShowTypeModal(true);
   };
 
   const handleHireClick = (role: Role) => {
+    // Hire doesn't need the type modal, go straight to form
     setFormType('hire');
     setActionTitle(undefined);
     setSelectedRole(role);
     setModalOpen(true);
+  };
+
+  const handleTypeSelect = (type: ServiceRequestType) => {
+    setServiceRequestType(type);
+    setShowTypeModal(false);
+    setModalOpen(true);
+  };
+
+  const handleTypeModalClose = () => {
+    setShowTypeModal(false);
+    setPendingAction(null);
   };
 
   return (
@@ -158,14 +178,27 @@ const DepartmentPage = () => {
         </div>
       </section>
 
+      {/* Service Type Selection Modal */}
+      <ServiceTypeModal
+        isOpen={showTypeModal}
+        onSelect={handleTypeSelect}
+        serviceName={actionTitle || department.name}
+        onClose={handleTypeModalClose}
+      />
+
       {/* Form Modal */}
       <ActionFormModal
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => {
+          setModalOpen(false);
+          setServiceRequestType(null);
+          setPendingAction(null);
+        }}
         formType={formType}
         department={department}
         actionTitle={actionTitle}
         selectedRole={selectedRole}
+        serviceRequestType={serviceRequestType}
       />
     </div>
   );

@@ -20,6 +20,8 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { DepartmentConfig, Role } from '@/lib/departmentConfigs';
 
+import { ServiceRequestType } from '@/components/ServiceTypeModal';
+
 type FormType = 'request' | 'idea' | 'delegate' | 'hire';
 
 interface ActionFormModalProps {
@@ -29,6 +31,7 @@ interface ActionFormModalProps {
   department: DepartmentConfig;
   actionTitle?: string;
   selectedRole?: Role;
+  serviceRequestType?: ServiceRequestType | null;
 }
 
 export const ActionFormModal = ({
@@ -38,6 +41,7 @@ export const ActionFormModal = ({
   department,
   actionTitle,
   selectedRole,
+  serviceRequestType,
 }: ActionFormModalProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,6 +65,7 @@ export const ActionFormModal = ({
       departmentSlug: department.slug,
       formType,
       actionTitle: actionTitle || getFormTitle(),
+      serviceRequestType: serviceRequestType || null,
       submittedAt: new Date().toISOString(),
       
       // Form data
