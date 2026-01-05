@@ -85,14 +85,14 @@ const ActionHub = () => {
                 rel="noopener noreferrer"
                 className="block group flex-1"
               >
-                <Card className="h-full p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border-0 bg-gradient-to-br from-emerald-500/20 via-teal-500/15 to-cyan-500/20 flex items-center relative overflow-hidden">
+                <Card className="h-full p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-emerald-500/30 bg-gradient-to-br from-emerald-600/30 via-teal-600/25 to-cyan-600/30 flex items-center relative overflow-hidden">
                   {/* Decorative elements */}
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/15 rounded-full -translate-y-1/2 translate-x-1/2" />
-                  <div className="absolute bottom-0 left-0 w-16 h-16 bg-cyan-500/10 rounded-full translate-y-1/2 -translate-x-1/2" />
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-400/25 rounded-full -translate-y-1/2 translate-x-1/2" />
+                  <div className="absolute bottom-0 left-0 w-16 h-16 bg-cyan-400/20 rounded-full translate-y-1/2 -translate-x-1/2" />
 
                   <div className="flex items-center justify-between gap-4 w-full relative z-10">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-emerald-500/25 flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 rounded-lg bg-emerald-500/40 flex items-center justify-center flex-shrink-0">
                         <span className="text-lg">✓</span>
                       </div>
                       <div>
@@ -100,7 +100,7 @@ const ActionHub = () => {
                         <p className="text-muted-foreground text-sm">View and manage your projects</p>
                       </div>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-emerald-600/70 group-hover:text-emerald-600 transition-colors" />
+                    <ExternalLink className="w-4 h-4 text-emerald-500 group-hover:text-emerald-400 transition-colors" />
                   </div>
                 </Card>
               </a>
