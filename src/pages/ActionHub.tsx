@@ -71,90 +71,125 @@ const ActionHub = () => {
             ))}
           </div>
 
-          {/* Resource Links Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Active Projects Card */}
-            <a 
-              href="https://gitscrum.com/workspace" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block group"
-            >
-              <Card className="p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-border bg-card">
+          {/* Resource Links Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Left Column - Stacked Cards */}
+            <div className="flex flex-col gap-4">
+              {/* Active Projects Card */}
+              <a 
+                href="https://gitscrum.com/workspace" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block group"
+              >
+                <Card className="p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-border bg-card">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <span className="text-lg">✓</span>
+                      </div>
+                      <div>
+                        <h3 className="text-base font-semibold text-foreground">
+                          Active Projects & Tasks
+                        </h3>
+                        <p className="text-muted-foreground text-sm">
+                          View and manage your projects
+                        </p>
+                      </div>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  </div>
+                </Card>
+              </a>
+
+              {/* Custom Request Card */}
+              <Card 
+                className="relative overflow-hidden p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-r from-primary via-primary to-secondary border-0 cursor-pointer"
+                onClick={() => window.open('https://www.GFunnel.com/discover', '_blank')}
+              >
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg">✓</span>
+                    <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                      <Calendar className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-base font-semibold text-foreground">
-                        Active Projects & Tasks
+                      <h3 className="text-base font-semibold text-primary-foreground">
+                        Have a Custom Request?
                       </h3>
-                      <p className="text-muted-foreground text-sm">
-                        View and manage your projects
+                      <p className="text-primary-foreground/80 text-sm">
+                        Schedule a discovery call
                       </p>
                     </div>
                   </div>
-                  <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  <Button 
+                    variant="secondary" 
+                    size="sm"
+                    className="bg-white text-primary hover:bg-white/90 font-semibold whitespace-nowrap"
+                  >
+                    Schedule
+                  </Button>
                 </div>
               </Card>
-            </a>
+            </div>
 
-            {/* Learning Hub Card */}
+            {/* Right Column - Learning Hub Feature Card */}
             <a 
               href="https://www.gfunnel.com/learning-hub" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block group"
+              className="block group h-full"
             >
-              <Card className="p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-border bg-card">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg">📚</span>
+              <Card className="h-full p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-border bg-gradient-to-br from-card via-card to-primary/5 overflow-hidden relative">
+                {/* Decorative background element */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <span className="text-2xl">📚</span>
                     </div>
-                    <div>
-                      <h3 className="text-base font-semibold text-foreground">
-                        Learning Hub
-                      </h3>
-                      <p className="text-muted-foreground text-sm">
-                        Tutorials, guides & training
-                      </p>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-bold text-foreground mb-2">
+                    Learning Hub
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    Courses, workshops & training to grow your business
+                  </p>
+
+                  {/* Preview Topics */}
+                  <div className="grid grid-cols-2 gap-2 mt-auto">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 rounded-md px-2 py-1.5">
+                      <span>🚀</span>
+                      <span>Starting a Business</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 rounded-md px-2 py-1.5">
+                      <span>📈</span>
+                      <span>Marketing & Sales</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 rounded-md px-2 py-1.5">
+                      <span>💰</span>
+                      <span>Finance</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 rounded-md px-2 py-1.5">
+                      <span>⚙️</span>
+                      <span>Operations</span>
                     </div>
                   </div>
-                  <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+
+                  {/* CTA hint */}
+                  <div className="mt-4 pt-3 border-t border-border/50">
+                    <span className="text-sm font-medium text-primary group-hover:underline">
+                      Explore all courses →
+                    </span>
+                  </div>
                 </div>
               </Card>
             </a>
           </div>
-
-          {/* Custom Request CTA */}
-          <Card 
-            className="relative overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-r from-primary via-primary to-secondary border-0 cursor-pointer"
-            onClick={() => window.open('https://www.GFunnel.com/discover', '_blank')}
-          >
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                  <Calendar className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-primary-foreground">
-                    Have a Custom Request?
-                  </h3>
-                  <p className="text-primary-foreground/80 text-sm">
-                    Schedule a discovery call to discuss your unique needs
-                  </p>
-                </div>
-              </div>
-              <Button 
-                variant="secondary" 
-                className="bg-white text-primary hover:bg-white/90 font-semibold whitespace-nowrap"
-              >
-                Schedule Call
-              </Button>
-            </div>
-          </Card>
         </div>
       </section>
     </div>
