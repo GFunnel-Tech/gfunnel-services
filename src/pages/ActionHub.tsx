@@ -1,12 +1,17 @@
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { DepartmentCard } from '@/components/DepartmentCard';
-import { ServiceHubCarousel } from '@/components/ServiceHubCarousel';
-import { departmentConfigs } from '@/lib/departmentConfigs';
-import { Calendar, ChevronDown, Lightbulb, ExternalLink } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { getAllServices } from '@/lib/serviceConfigs';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { DepartmentCard } from "@/components/DepartmentCard";
+import { ServiceHubCarousel } from "@/components/ServiceHubCarousel";
+import { departmentConfigs } from "@/lib/departmentConfigs";
+import { Calendar, ChevronDown, Lightbulb, ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
+import { getAllServices } from "@/lib/serviceConfigs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const ActionHub = () => {
   const services = getAllServices();
@@ -30,7 +35,7 @@ const ActionHub = () => {
                     View All Services
                   </Link>
                 </DropdownMenuItem>
-                {services.map(service => (
+                {services.map((service) => (
                   <DropdownMenuItem key={service.slug} asChild>
                     <Link to={`/${service.slug}`}>{service.name}</Link>
                   </DropdownMenuItem>
@@ -56,9 +61,7 @@ const ActionHub = () => {
 
           {/* Section Title */}
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-              Browse Departments
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Browse Departments</h2>
             <p className="text-muted-foreground mt-2">
               Submit requests, delegate tasks, and access resources across all departments.
             </p>
@@ -66,7 +69,7 @@ const ActionHub = () => {
 
           {/* Department Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {departmentConfigs.map(department => (
+            {departmentConfigs.map((department) => (
               <DepartmentCard key={department.slug} department={department} />
             ))}
           </div>
@@ -76,9 +79,9 @@ const ActionHub = () => {
             {/* Left Column - Stacked Cards */}
             <div className="flex flex-col gap-4 h-full">
               {/* Active Projects Card */}
-              <a 
-                href="https://gitscrum.com/workspace" 
-                target="_blank" 
+              <a
+                href="https://gitscrum.com/workspace"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="block group flex-1"
               >
@@ -86,19 +89,15 @@ const ActionHub = () => {
                   {/* Decorative elements */}
                   <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/15 rounded-full -translate-y-1/2 translate-x-1/2" />
                   <div className="absolute bottom-0 left-0 w-16 h-16 bg-cyan-500/10 rounded-full translate-y-1/2 -translate-x-1/2" />
-                  
+
                   <div className="flex items-center justify-between gap-4 w-full relative z-10">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg bg-emerald-500/25 flex items-center justify-center flex-shrink-0">
                         <span className="text-lg">✓</span>
                       </div>
                       <div>
-                        <h3 className="text-base font-semibold text-foreground">
-                          Active Projects & Tasks
-                        </h3>
-                        <p className="text-muted-foreground text-sm">
-                          View and manage your projects
-                        </p>
+                        <h3 className="text-base font-semibold text-foreground">Active Projects & Tasks</h3>
+                        <p className="text-muted-foreground text-sm">View and manage your projects</p>
                       </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-emerald-600/70 group-hover:text-emerald-600 transition-colors" />
@@ -107,9 +106,9 @@ const ActionHub = () => {
               </a>
 
               {/* Custom Request Card */}
-              <Card 
+              <Card
                 className="flex-1 relative overflow-hidden p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-r from-primary via-primary to-secondary border-0 cursor-pointer flex items-center"
-                onClick={() => window.open('https://www.GFunnel.com/discover', '_blank')}
+                onClick={() => window.open("https://www.GFunnel.com/discover", "_blank")}
               >
                 <div className="flex items-center justify-between gap-4 w-full">
                   <div className="flex items-center gap-3">
@@ -117,29 +116,25 @@ const ActionHub = () => {
                       <Calendar className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-base font-semibold text-primary-foreground">
-                        Have a Custom Request?
-                      </h3>
-                      <p className="text-primary-foreground/80 text-sm">
-                        Schedule a discovery call
-                      </p>
+                      <h3 className="text-base font-semibold text-primary-foreground">Have a Custom Request?</h3>
+                      <p className="text-primary-foreground/80 text-sm">Schedule a discovery call</p>
                     </div>
                   </div>
-                  <Button 
-                    variant="secondary" 
+                  <Button
+                    variant="secondary"
                     size="sm"
                     className="bg-white text-primary hover:bg-white/90 font-semibold whitespace-nowrap"
                   >
-                    Schedule
+                    Schedule Discovery
                   </Button>
                 </div>
               </Card>
             </div>
 
             {/* Right Column - Learning Hub Feature Card */}
-            <a 
-              href="https://www.gfunnel.com/learning-hub" 
-              target="_blank" 
+            <a
+              href="https://www.gfunnel.com/learning-hub"
+              target="_blank"
               rel="noopener noreferrer"
               className="block group h-full"
             >
@@ -147,7 +142,7 @@ const ActionHub = () => {
                 {/* Decorative background elements */}
                 <div className="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-rose-500/10 rounded-full translate-y-1/2 -translate-x-1/2" />
-                
+
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
@@ -158,9 +153,7 @@ const ActionHub = () => {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-bold text-foreground mb-2">
-                    Learning Hub
-                  </h3>
+                  <h3 className="text-xl font-bold text-foreground mb-2">Learning Hub</h3>
                   <p className="text-muted-foreground text-sm mb-4">
                     Courses, workshops & training to grow your business
                   </p>
