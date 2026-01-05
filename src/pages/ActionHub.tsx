@@ -82,10 +82,13 @@ const ActionHub = () => {
                 rel="noopener noreferrer"
                 className="block group flex-1"
               >
-                <Card className="h-full p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-border bg-card flex items-center">
-                  <div className="flex items-center justify-between gap-4 w-full">
+                <Card className="h-full p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border-0 bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-cyan-500/10 flex items-center relative overflow-hidden">
+                  {/* Decorative element */}
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+                  
+                  <div className="flex items-center justify-between gap-4 w-full relative z-10">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
                         <span className="text-lg">✓</span>
                       </div>
                       <div>
@@ -97,7 +100,7 @@ const ActionHub = () => {
                         </p>
                       </div>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-emerald-600 transition-colors" />
                   </div>
                 </Card>
               </a>
@@ -139,17 +142,18 @@ const ActionHub = () => {
               rel="noopener noreferrer"
               className="block group h-full"
             >
-              <Card className="h-full p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-border bg-gradient-to-br from-card via-card to-primary/5 overflow-hidden relative">
-                {/* Decorative background element */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <Card className="h-full p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border-0 bg-gradient-to-br from-amber-500/15 via-orange-500/10 to-rose-500/15 overflow-hidden relative">
+                {/* Decorative background elements */}
+                <div className="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-rose-500/10 rounded-full translate-y-1/2 -translate-x-1/2" />
                 
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center">
                       <span className="text-2xl">📚</span>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-amber-600 transition-colors" />
                   </div>
 
                   {/* Title */}
@@ -162,27 +166,27 @@ const ActionHub = () => {
 
                   {/* Preview Topics */}
                   <div className="grid grid-cols-2 gap-2 mt-auto">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 rounded-md px-2 py-1.5">
+                    <div className="flex items-center gap-2 text-xs text-foreground/80 bg-amber-500/10 rounded-md px-2 py-1.5">
                       <span>🚀</span>
                       <span>Starting a Business</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 rounded-md px-2 py-1.5">
+                    <div className="flex items-center gap-2 text-xs text-foreground/80 bg-orange-500/10 rounded-md px-2 py-1.5">
                       <span>📈</span>
                       <span>Marketing & Sales</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 rounded-md px-2 py-1.5">
+                    <div className="flex items-center gap-2 text-xs text-foreground/80 bg-rose-500/10 rounded-md px-2 py-1.5">
                       <span>💰</span>
                       <span>Finance</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 rounded-md px-2 py-1.5">
+                    <div className="flex items-center gap-2 text-xs text-foreground/80 bg-amber-500/10 rounded-md px-2 py-1.5">
                       <span>⚙️</span>
                       <span>Operations</span>
                     </div>
                   </div>
 
                   {/* CTA hint */}
-                  <div className="mt-4 pt-3 border-t border-border/50">
-                    <span className="text-sm font-medium text-primary group-hover:underline">
+                  <div className="mt-4 pt-3 border-t border-amber-500/20">
+                    <span className="text-sm font-medium text-amber-600 group-hover:underline">
                       Explore Learning Hub →
                     </span>
                   </div>
