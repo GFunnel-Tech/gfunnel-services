@@ -36,16 +36,16 @@ export const ServiceHubCarousel = () => {
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-4">
-          <Link to="/vision-intake">
-            <Button
-              size="lg"
-              className="bg-white text-primary hover:bg-white/90 font-semibold gap-2 px-6 h-12"
-            >
-              Get Started
-              <ArrowRight className="w-5 h-5" />
-            </Button>
-          </Link>
-          <Link to="/services">
+          <Button
+            id="service-hub-get-started"
+            data-tour="service-hub-get-started"
+            size="lg"
+            className="bg-white text-primary hover:bg-white/90 font-semibold gap-2 px-6 h-12"
+          >
+            Get Started
+            <ArrowRight className="w-5 h-5" />
+          </Button>
+          <a href="https://www.gfunnel.com/service-plans" target="_blank" rel="noopener noreferrer">
             <Button
               size="lg"
               variant="outline"
@@ -53,7 +53,7 @@ export const ServiceHubCarousel = () => {
             >
               View Plans
             </Button>
-          </Link>
+          </a>
         </div>
       </div>
     </div>
