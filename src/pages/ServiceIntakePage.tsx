@@ -24,6 +24,7 @@ import { getFormFieldsForService } from "@/lib/serviceFormFields";
 import { Navigation } from "@/components/Navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Send, CheckCircle, Sparkles, Target, Clock, MessageSquare } from "lucide-react";
+import { ServiceTypeModal, ServiceRequestType } from "@/components/ServiceTypeModal";
 
 const WEBHOOK_URL = "https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067";
 
@@ -33,6 +34,8 @@ const ServiceIntakePage = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [showTypeModal, setShowTypeModal] = useState(true);
+  const [requestType, setRequestType] = useState<ServiceRequestType | null>(null);
   
   if (!slug) {
     return <Navigate to="/" replace />;
@@ -84,6 +87,7 @@ const ServiceIntakePage = () => {
           form_category: "service_intake",
           service_name: service.name,
           service_slug: service.slug,
+          request_type: requestType,
           submitted_at: new Date().toISOString(),
           source_url: window.location.href,
           ...formData,
@@ -99,6 +103,7 @@ const ServiceIntakePage = () => {
         state: {
           serviceName: service.name,
           serviceSlug: service.slug,
+          requestType: requestType,
         },
       });
     } catch (error) {
@@ -169,9 +174,22 @@ const ServiceIntakePage = () => {
   const step1Complete = formData.email && formData.companyName;
   const step2Complete = serviceFields.length === 0 || serviceFields.some(f => formData[f.name]);
 
+  const handleTypeSelect = (type: ServiceRequestType) => {
+    setRequestType(type);
+    setShowTypeModal(false);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+
+      {/* Service Type Selection Modal */}
+      <ServiceTypeModal
+        isOpen={showTypeModal}
+        onSelect={handleTypeSelect}
+        serviceName={service.name}
+        onClose={() => navigate(-1)}
+      />
       
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
