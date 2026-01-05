@@ -23,8 +23,9 @@ import { getServiceBySlug } from "@/lib/serviceConfigs";
 import { getFormFieldsForService } from "@/lib/serviceFormFields";
 import { Navigation } from "@/components/Navigation";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Send, CheckCircle, Sparkles, Target, Clock, MessageSquare } from "lucide-react";
+import { Loader2, Send, CheckCircle, Sparkles, Target, Clock, MessageSquare, Users, BookOpen, CheckCircle2, Building2, User } from "lucide-react";
 import { ServiceTypeModal, ServiceRequestType } from "@/components/ServiceTypeModal";
+import { PostSubmitModal } from "@/components/PostSubmitModal";
 
 const WEBHOOK_URL = "https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067";
 
@@ -36,6 +37,7 @@ const ServiceIntakePage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [showTypeModal, setShowTypeModal] = useState(true);
   const [requestType, setRequestType] = useState<ServiceRequestType | null>(null);
+  const [showPostSubmit, setShowPostSubmit] = useState(false);
   
   if (!slug) {
     return <Navigate to="/" replace />;
@@ -57,6 +59,16 @@ const ServiceIntakePage = () => {
     goals: "",
     currentChallenges: "",
     additionalInfo: "",
+    // Self-service fields
+    experience: "",
+    // Delegation fields
+    delegateName: "",
+    delegateEmail: "",
+    delegateRole: "",
+    projectTitle: "",
+    instructions: "",
+    delegatePriority: "",
+    dueDate: "",
   });
 
   const handleFieldChange = (name: string, value: string) => {
@@ -66,13 +78,25 @@ const ServiceIntakePage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.email || !formData.goals) {
-      toast({
-        title: "Required fields missing",
-        description: "Please fill in your email and project goals.",
-        variant: "destructive",
-      });
-      return;
+    // Validate based on request type
+    if (requestType === 'delegated') {
+      if (!formData.email || !formData.delegateName || !formData.delegateEmail || !formData.instructions) {
+        toast({
+          title: "Required fields missing",
+          description: "Please fill in all required delegation fields.",
+          variant: "destructive",
+        });
+        return;
+      }
+    } else {
+      if (!formData.email || !formData.goals) {
+        toast({
+          title: "Required fields missing",
+          description: "Please fill in your email and project goals.",
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     setIsSubmitting(true);
@@ -94,18 +118,8 @@ const ServiceIntakePage = () => {
         }),
       });
 
-      toast({
-        title: "Request submitted!",
-        description: "Redirecting to your confirmation...",
-      });
-
-      navigate("/service-confirmation", {
-        state: {
-          serviceName: service.name,
-          serviceSlug: service.slug,
-          requestType: requestType,
-        },
-      });
+      // Show post-submit modal instead of navigating immediately
+      setShowPostSubmit(true);
     } catch (error) {
       toast({
         title: "Submission failed",
@@ -115,6 +129,29 @@ const ServiceIntakePage = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleScheduleMeeting = () => {
+    window.open('https://gfunnel.com/discover', '_blank');
+    setShowPostSubmit(false);
+    navigate("/service-confirmation", {
+      state: {
+        serviceName: service.name,
+        serviceSlug: service.slug,
+        requestType: requestType,
+      },
+    });
+  };
+
+  const handleSkipMeeting = () => {
+    setShowPostSubmit(false);
+    navigate("/service-confirmation", {
+      state: {
+        serviceName: service.name,
+        serviceSlug: service.slug,
+        requestType: requestType,
+      },
+    });
   };
 
   const renderField = (field: { name: string; label: string; type: string; placeholder?: string; options?: { value: string; label: string }[]; required?: boolean }) => {
@@ -227,7 +264,24 @@ const ServiceIntakePage = () => {
           </p>
         </div>
 
-        {/* Progress Steps */}
+        {/* Request Type Badge */}
+        {requestType && (
+          <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium w-fit mx-auto mb-6 ${
+            requestType === 'done_for_you' ? 'bg-primary/10 text-primary' :
+            requestType === 'self_service' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' :
+            'bg-blue-500/10 text-blue-600 dark:text-blue-400'
+          }`}>
+            {requestType === 'done_for_you' && <Building2 className="w-4 h-4" />}
+            {requestType === 'self_service' && <User className="w-4 h-4" />}
+            {requestType === 'delegated' && <Users className="w-4 h-4" />}
+            {requestType === 'done_for_you' && 'Do It For Me'}
+            {requestType === 'self_service' && "I'll Do It Myself"}
+            {requestType === 'delegated' && 'Delegate to Someone'}
+          </div>
+        )}
+
+        {/* Progress Steps - Hide for delegated (simpler flow) */}
+        {requestType !== 'delegated' && (
         <div className="flex items-center justify-center gap-2 md:gap-4 mb-10">
           <div className="flex items-center gap-2">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
@@ -260,6 +314,7 @@ const ServiceIntakePage = () => {
             <span className="text-sm text-muted-foreground hidden sm:inline">Submit</span>
           </div>
         </div>
+        )}
 
         {/* Form Card */}
         <div className="bg-card border border-border rounded-xl p-6 md:p-8 shadow-lg">
@@ -302,95 +357,178 @@ const ServiceIntakePage = () => {
               </div>
             </div>
 
-            {/* Section 2: Service-Specific Fields */}
-            {serviceFields.length > 0 && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 pb-2 border-b border-border">
-                  <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <Sparkles className="w-4 h-4 text-accent" />
+            {/* Request Type Specific Content */}
+            {requestType === 'delegated' ? (
+              <>
+                {/* Delegation Form */}
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 space-y-4">
+                  <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
+                    <Users className="w-4 h-4" />
+                    <span className="font-medium text-sm">Delegate Information</span>
                   </div>
-                  <div>
-                    <h2 className="font-semibold text-foreground">{service.name} Details</h2>
-                    <p className="text-sm text-muted-foreground">Tell us more about your specific needs</p>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="delegateName">Delegate's Name *</Label>
+                    <Input
+                      id="delegateName"
+                      placeholder="John Smith"
+                      value={formData.delegateName}
+                      onChange={(e) => handleFieldChange("delegateName", e.target.value)}
+                      className="bg-background"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="delegateEmail">Delegate's Email *</Label>
+                    <Input
+                      id="delegateEmail"
+                      type="email"
+                      placeholder="delegate@company.com"
+                      value={formData.delegateEmail}
+                      onChange={(e) => handleFieldChange("delegateEmail", e.target.value)}
+                      className="bg-background"
+                      required
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      We'll send them project details and access information
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="delegateRole">Delegate's Role/Relationship</Label>
+                    <Select
+                      value={formData.delegateRole}
+                      onValueChange={(value) => handleFieldChange("delegateRole", value)}
+                    >
+                      <SelectTrigger className="bg-background">
+                        <SelectValue placeholder="Select relationship" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="team-member">Team Member</SelectItem>
+                        <SelectItem value="contractor">Contractor / Freelancer</SelectItem>
+                        <SelectItem value="agency">Agency Partner</SelectItem>
+                        <SelectItem value="va">Virtual Assistant</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {serviceFields.map((field) => renderField(field))}
-                </div>
-              </div>
-            )}
 
-            {/* Section 3: Budget & Timeline */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 pb-2 border-b border-border">
-                <div className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center">
-                  <Clock className="w-4 h-4 text-foreground" />
-                </div>
-                <div>
-                  <h2 className="font-semibold text-foreground">Budget & Timeline</h2>
-                  <p className="text-sm text-muted-foreground">Help us understand your constraints</p>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Project Instructions */}
                 <div className="space-y-2">
-                  <Label htmlFor="budget">Monthly Budget</Label>
-                  <Select
-                    value={formData.budget}
-                    onValueChange={(value) => handleFieldChange("budget", value)}
-                  >
-                    <SelectTrigger className="bg-background">
-                      <SelectValue placeholder="Select budget range" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="under-1k">Under $1,000</SelectItem>
-                      <SelectItem value="1k-5k">$1,000 - $5,000</SelectItem>
-                      <SelectItem value="5k-10k">$5,000 - $10,000</SelectItem>
-                      <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
-                      <SelectItem value="25k-plus">$25,000+</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="projectTitle">Project Title *</Label>
+                  <Input
+                    id="projectTitle"
+                    placeholder="Brief title for this project"
+                    value={formData.projectTitle}
+                    onChange={(e) => handleFieldChange("projectTitle", e.target.value)}
+                    className="bg-background"
+                    required
+                  />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="timeline">Timeline</Label>
-                  <Select
-                    value={formData.timeline}
-                    onValueChange={(value) => handleFieldChange("timeline", value)}
-                  >
-                    <SelectTrigger className="bg-background">
-                      <SelectValue placeholder="When do you want to start?" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="asap">ASAP</SelectItem>
-                      <SelectItem value="this-month">This month</SelectItem>
-                      <SelectItem value="next-month">Next month</SelectItem>
-                      <SelectItem value="next-quarter">Next quarter</SelectItem>
-                      <SelectItem value="exploring">Just exploring</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </div>
 
-            {/* Section 4: Goals */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 pb-2 border-b border-border">
-                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Target className="w-4 h-4 text-primary" />
-                </div>
-                <div>
-                  <h2 className="font-semibold text-foreground">Goals & Challenges</h2>
-                  <p className="text-sm text-muted-foreground">What are you trying to achieve?</p>
-                </div>
-              </div>
-              
-              <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="goals">What are your goals? *</Label>
+                  <Label htmlFor="instructions">Instructions for Delegate *</Label>
+                  <Textarea
+                    id="instructions"
+                    placeholder="Provide clear instructions and expectations..."
+                    value={formData.instructions}
+                    onChange={(e) => handleFieldChange("instructions", e.target.value)}
+                    rows={4}
+                    className="bg-background"
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="dueDate">Due Date</Label>
+                    <Input 
+                      id="dueDate" 
+                      type="date"
+                      value={formData.dueDate}
+                      onChange={(e) => handleFieldChange("dueDate", e.target.value)}
+                      className="bg-background"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="delegatePriority">Priority</Label>
+                    <Select
+                      value={formData.delegatePriority}
+                      onValueChange={(value) => handleFieldChange("delegatePriority", value)}
+                    >
+                      <SelectTrigger className="bg-background">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="low">Low</SelectItem>
+                        <SelectItem value="medium">Medium</SelectItem>
+                        <SelectItem value="high">High</SelectItem>
+                        <SelectItem value="urgent">Urgent</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="additionalInfo">Additional Notes</Label>
+                  <Textarea
+                    id="additionalInfo"
+                    placeholder="Any additional context or resources to share..."
+                    value={formData.additionalInfo}
+                    onChange={(e) => handleFieldChange("additionalInfo", e.target.value)}
+                    rows={2}
+                    className="bg-background"
+                  />
+                </div>
+
+                {/* What happens next for delegation */}
+                <div className="bg-muted/50 rounded-lg p-4">
+                  <p className="text-sm font-medium text-foreground mb-2">What happens next?</p>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 mt-0.5">•</span>
+                      Your delegate will receive an email with project details
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 mt-0.5">•</span>
+                      They'll have access to complete the request
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 mt-0.5">•</span>
+                      You'll be notified of progress and completion
+                    </li>
+                  </ul>
+                </div>
+              </>
+            ) : requestType === 'self_service' ? (
+              <>
+                {/* Self-service simplified form */}
+                {/* Section 2: Service-Specific Fields - still show for self_service */}
+                {serviceFields.length > 0 && (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 pb-2 border-b border-border">
+                      <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                        <Sparkles className="w-4 h-4 text-accent" />
+                      </div>
+                      <div>
+                        <h2 className="font-semibold text-foreground">{service.name} Details</h2>
+                        <p className="text-sm text-muted-foreground">Tell us more about your specific needs</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {serviceFields.map((field) => renderField(field))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="goals">What are you trying to achieve? *</Label>
                   <Textarea
                     id="goals"
-                    placeholder="Describe what success looks like for this project..."
+                    placeholder="Describe your goals for this project..."
                     value={formData.goals}
                     onChange={(e) => handleFieldChange("goals", e.target.value)}
                     rows={3}
@@ -398,49 +536,231 @@ const ServiceIntakePage = () => {
                     required
                   />
                 </div>
+                
                 <div className="space-y-2">
-                  <Label htmlFor="currentChallenges">Current Challenges</Label>
-                  <Textarea
-                    id="currentChallenges"
-                    placeholder="What obstacles are you facing right now?"
-                    value={formData.currentChallenges}
-                    onChange={(e) => handleFieldChange("currentChallenges", e.target.value)}
-                    rows={2}
-                    className="bg-background"
-                  />
+                  <Label htmlFor="experience">Your Experience Level</Label>
+                  <Select
+                    value={formData.experience}
+                    onValueChange={(value) => handleFieldChange("experience", value)}
+                  >
+                    <SelectTrigger className="bg-background">
+                      <SelectValue placeholder="Select your experience" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="beginner">Beginner - New to this</SelectItem>
+                      <SelectItem value="intermediate">Intermediate - Some experience</SelectItem>
+                      <SelectItem value="advanced">Advanced - Very experienced</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="additionalInfo">Additional Information</Label>
-                  <Textarea
-                    id="additionalInfo"
-                    placeholder="Anything else we should know about your project?"
-                    value={formData.additionalInfo}
-                    onChange={(e) => handleFieldChange("additionalInfo", e.target.value)}
-                    rows={2}
-                    className="bg-background"
-                  />
-                </div>
-              </div>
-            </div>
 
-            {/* What happens next */}
-            <div className="bg-muted/50 rounded-lg p-4">
-              <p className="text-sm font-medium text-foreground mb-2">What happens next?</p>
-              <ul className="space-y-1 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  We'll review your request within 24 hours
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  A specialist will reach out with a tailored proposal
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">•</span>
-                  No commitment required — just a conversation
-                </li>
-              </ul>
-            </div>
+                <div className="space-y-2">
+                  <Label htmlFor="timeline">When do you want to complete this?</Label>
+                  <Select
+                    value={formData.timeline}
+                    onValueChange={(value) => handleFieldChange("timeline", value)}
+                  >
+                    <SelectTrigger className="bg-background">
+                      <SelectValue placeholder="Select timeline" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="this-week">This week</SelectItem>
+                      <SelectItem value="this-month">This month</SelectItem>
+                      <SelectItem value="next-month">Next month</SelectItem>
+                      <SelectItem value="flexible">Flexible / No rush</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Resources Preview */}
+                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 space-y-3">
+                  <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                    <BookOpen className="w-4 h-4" />
+                    <span className="font-medium text-sm">What you'll receive:</span>
+                  </div>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                      <span>Step-by-step project checklist</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                      <span>Curated resources and templates</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                      <span>Best practices guide</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                      <span>Access to community support</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* What happens next for self-service */}
+                <div className="bg-muted/50 rounded-lg p-4">
+                  <p className="text-sm font-medium text-foreground mb-2">What happens next?</p>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-500 mt-0.5">•</span>
+                      You'll receive an email with your DIY resources
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-500 mt-0.5">•</span>
+                      Access our templates and guides immediately
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-500 mt-0.5">•</span>
+                      Join our community for support
+                    </li>
+                  </ul>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Done for you - Full form (existing) */}
+                {/* Section 2: Service-Specific Fields */}
+                {serviceFields.length > 0 && (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 pb-2 border-b border-border">
+                      <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                        <Sparkles className="w-4 h-4 text-accent" />
+                      </div>
+                      <div>
+                        <h2 className="font-semibold text-foreground">{service.name} Details</h2>
+                        <p className="text-sm text-muted-foreground">Tell us more about your specific needs</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {serviceFields.map((field) => renderField(field))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Section 3: Budget & Timeline */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 pb-2 border-b border-border">
+                    <div className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center">
+                      <Clock className="w-4 h-4 text-foreground" />
+                    </div>
+                    <div>
+                      <h2 className="font-semibold text-foreground">Budget & Timeline</h2>
+                      <p className="text-sm text-muted-foreground">Help us understand your constraints</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="budget">Monthly Budget</Label>
+                      <Select
+                        value={formData.budget}
+                        onValueChange={(value) => handleFieldChange("budget", value)}
+                      >
+                        <SelectTrigger className="bg-background">
+                          <SelectValue placeholder="Select budget range" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="under-1k">Under $1,000</SelectItem>
+                          <SelectItem value="1k-5k">$1,000 - $5,000</SelectItem>
+                          <SelectItem value="5k-10k">$5,000 - $10,000</SelectItem>
+                          <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
+                          <SelectItem value="25k-plus">$25,000+</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="timeline">Timeline</Label>
+                      <Select
+                        value={formData.timeline}
+                        onValueChange={(value) => handleFieldChange("timeline", value)}
+                      >
+                        <SelectTrigger className="bg-background">
+                          <SelectValue placeholder="When do you want to start?" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="asap">ASAP</SelectItem>
+                          <SelectItem value="this-month">This month</SelectItem>
+                          <SelectItem value="next-month">Next month</SelectItem>
+                          <SelectItem value="next-quarter">Next quarter</SelectItem>
+                          <SelectItem value="exploring">Just exploring</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 4: Goals */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 pb-2 border-b border-border">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Target className="w-4 h-4 text-primary" />
+                    </div>
+                    <div>
+                      <h2 className="font-semibold text-foreground">Goals & Challenges</h2>
+                      <p className="text-sm text-muted-foreground">What are you trying to achieve?</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="goals">What are your goals? *</Label>
+                      <Textarea
+                        id="goals"
+                        placeholder="Describe what success looks like for this project..."
+                        value={formData.goals}
+                        onChange={(e) => handleFieldChange("goals", e.target.value)}
+                        rows={3}
+                        className="bg-background"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="currentChallenges">Current Challenges</Label>
+                      <Textarea
+                        id="currentChallenges"
+                        placeholder="What obstacles are you facing right now?"
+                        value={formData.currentChallenges}
+                        onChange={(e) => handleFieldChange("currentChallenges", e.target.value)}
+                        rows={2}
+                        className="bg-background"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="additionalInfo">Additional Information</Label>
+                      <Textarea
+                        id="additionalInfo"
+                        placeholder="Anything else we should know about your project?"
+                        value={formData.additionalInfo}
+                        onChange={(e) => handleFieldChange("additionalInfo", e.target.value)}
+                        rows={2}
+                        className="bg-background"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* What happens next */}
+                <div className="bg-muted/50 rounded-lg p-4">
+                  <p className="text-sm font-medium text-foreground mb-2">What happens next?</p>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <span className="text-primary mt-0.5">•</span>
+                      We'll review your request within 24 hours
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-primary mt-0.5">•</span>
+                      A specialist will reach out with a tailored proposal
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-primary mt-0.5">•</span>
+                      No commitment required — just a conversation
+                    </li>
+                  </ul>
+                </div>
+              </>
+            )}
 
             {/* Submit */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -475,11 +795,31 @@ const ServiceIntakePage = () => {
           </form>
         </div>
 
-        {/* Footer note */}
         <p className="text-xs text-muted-foreground text-center mt-6">
           We respect your privacy. No spam, ever. Your information is secure.
         </p>
       </div>
+
+      {/* Post-Submit Modal */}
+      <PostSubmitModal
+        isOpen={showPostSubmit}
+        onClose={() => {
+          setShowPostSubmit(false);
+          navigate("/service-confirmation", {
+            state: {
+              serviceName: service.name,
+              serviceSlug: service.slug,
+              requestType: requestType,
+            },
+          });
+        }}
+        requestType={requestType}
+        onScheduleMeeting={handleScheduleMeeting}
+        onSkip={handleSkipMeeting}
+        serviceName={service.name}
+        delegateName={formData.delegateName}
+        delegateEmail={formData.delegateEmail}
+      />
     </div>
   );
 };

@@ -20,7 +20,8 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { DepartmentConfig, Role } from '@/lib/departmentConfigs';
 import { ServiceRequestType } from '@/components/ServiceTypeModal';
-import { Building2, User, Users, BookOpen, CheckCircle2, ExternalLink } from 'lucide-react';
+import { PostSubmitModal } from '@/components/PostSubmitModal';
+import { Building2, User, Users, BookOpen, CheckCircle2 } from 'lucide-react';
 
 type FormType = 'request' | 'idea' | 'delegate' | 'hire';
 
@@ -58,6 +59,8 @@ export const ActionFormModal = ({
 }: ActionFormModalProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPostSubmit, setShowPostSubmit] = useState(false);
+  const [submittedDelegateInfo, setSubmittedDelegateInfo] = useState<{ name?: string; email?: string }>({});
 
   const DEFAULT_WEBHOOK_URL = 'https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067';
   const HIRING_WEBHOOK_URL = 'https://apihub.gfunnel.com/webhook-test/4da968a1-bc07-420c-9697-762ace996e95';
@@ -95,18 +98,25 @@ export const ActionFormModal = ({
         body: JSON.stringify(payload),
       });
 
-      const successMessage = serviceRequestType === 'self_service' 
-        ? "We'll send you resources to get started!"
-        : serviceRequestType === 'delegated'
-        ? "We'll notify your delegate with all the details."
-        : `Your ${formType} has been submitted to ${department.name}.`;
+      // Store delegate info for post-submit modal
+      if (serviceRequestType === 'delegated') {
+        setSubmittedDelegateInfo({
+          name: data.delegateName as string,
+          email: data.delegateEmail as string,
+        });
+      }
 
-      toast({
-        title: 'Submitted Successfully',
-        description: successMessage,
-      });
-
-      onClose();
+      // Show post-submit modal for request forms with a serviceRequestType
+      if (formType === 'request' && serviceRequestType) {
+        setShowPostSubmit(true);
+      } else {
+        // For other form types, show toast and close
+        toast({
+          title: 'Submitted Successfully',
+          description: `Your ${formType} has been submitted to ${department.name}.`,
+        });
+        onClose();
+      }
     } catch (error) {
       toast({
         title: 'Submission Error',
@@ -116,6 +126,17 @@ export const ActionFormModal = ({
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleScheduleMeeting = () => {
+    window.open('https://gfunnel.com/discover', '_blank');
+    setShowPostSubmit(false);
+    onClose();
+  };
+
+  const handleSkipMeeting = () => {
+    setShowPostSubmit(false);
+    onClose();
   };
 
   const getFormTitle = () => {
@@ -574,6 +595,20 @@ export const ActionFormModal = ({
           </div>
         </form>
       </DialogContent>
+
+      {/* Post-Submit Modal */}
+      <PostSubmitModal
+        isOpen={showPostSubmit}
+        onClose={() => {
+          setShowPostSubmit(false);
+          onClose();
+        }}
+        requestType={serviceRequestType || null}
+        onScheduleMeeting={handleScheduleMeeting}
+        onSkip={handleSkipMeeting}
+        delegateName={submittedDelegateInfo.name}
+        delegateEmail={submittedDelegateInfo.email}
+      />
     </Dialog>
   );
 };
