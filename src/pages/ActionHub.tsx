@@ -49,30 +49,30 @@ const ActionHub = () => {
       </header>
 
       {/* Main Content */}
-      <section className="py-6 md:py-10">
-        <div className="container mx-auto px-4">
-          {/* Hero Carousel */}
+      <section className="py-8 md:py-12">
+        <div className="container mx-auto px-4 space-y-10">
+          {/* Hero Banner */}
           <ServiceHubCarousel />
 
           {/* Section Title */}
-          <div className="mt-10 mb-6">
-            <h1 className="text-xl md:text-2xl font-bold text-foreground">
-              Service Hub Dashboard
-            </h1>
-            <p className="text-muted-foreground text-sm mt-1">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+              Browse Departments
+            </h2>
+            <p className="text-muted-foreground mt-2">
               Submit requests, delegate tasks, and access resources across all departments.
             </p>
           </div>
 
-          {/* Department Grid - 2 columns on tablet, 3-4 on desktop */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          {/* Department Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {departmentConfigs.map(department => (
               <DepartmentCard key={department.slug} department={department} />
             ))}
           </div>
 
           {/* Bottom Cards Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {/* Active Projects Card */}
             <a 
               href="https://gitscrum.com/workspace" 
@@ -80,17 +80,17 @@ const ActionHub = () => {
               rel="noopener noreferrer"
               className="block group"
             >
-              <Card className="relative overflow-hidden p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-br from-[hsl(230,70%,55%)] to-[hsl(260,60%,50%)] border-0">
+              <Card className="relative overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-br from-[hsl(230,70%,55%)] to-[hsl(260,60%,50%)] border-0">
                 <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                      <span className="text-xl text-white">✓</span>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                      <span className="text-2xl text-white">✓</span>
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-white">
+                      <h3 className="text-lg font-bold text-white">
                         Active Projects & Tasks
                       </h3>
-                      <p className="text-white/80 text-xs hidden sm:block">
+                      <p className="text-white/80 text-sm">
                         View and manage all your active projects
                       </p>
                     </div>
@@ -102,19 +102,19 @@ const ActionHub = () => {
 
             {/* Custom Request Card */}
             <Card 
-              className="relative overflow-hidden p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-br from-primary to-secondary border-0 cursor-pointer"
+              className="relative overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg bg-gradient-to-br from-primary to-secondary border-0 cursor-pointer"
               onClick={() => window.open('https://www.GFunnel.com/discover', '_blank')}
             >
               <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
                     <Calendar className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-primary-foreground">
+                    <h3 className="text-lg font-bold text-primary-foreground">
                       Have a Custom Request?
                     </h3>
-                    <p className="text-primary-foreground/80 text-xs hidden sm:block">
+                    <p className="text-primary-foreground/80 text-sm">
                       Schedule a discovery call for unique needs
                     </p>
                   </div>
