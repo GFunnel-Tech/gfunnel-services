@@ -701,6 +701,72 @@ export const departmentConfigs: DepartmentConfig[] = [
     ],
     resources: generalResources,
   },
+  {
+    slug: 'legal-compliance',
+    name: 'Legal & Compliance',
+    icon: '⚖️',
+    shortDescription: 'Contracts, Compliance, Risk',
+    overview: 'Manages contracts, compliance, risk mitigation, and legal documentation.',
+    color: 'slate',
+    coreActions: [
+      { title: 'Submit Legal Request', icon: '📋', type: 'request', description: 'Contracts, compliance, legal needs' },
+      { title: 'Share Compliance Idea', icon: '💡', type: 'idea', description: 'Risk mitigation suggestions' },
+      { title: 'Delegate Legal Task', icon: '✅', type: 'delegate', description: 'Legal workflow' },
+    ],
+    quickActions: [
+      { title: 'Contract Review', icon: '📄', formType: 'request' },
+      { title: 'Legal Consultation', icon: '⚖️', formType: 'request' },
+      { title: 'Compliance Check', icon: '🛡️', formType: 'request' },
+      { title: 'NDA Request', icon: '📝', formType: 'request' },
+      { title: 'Privacy Review', icon: '🔒', formType: 'request' },
+      { title: 'Risk Assessment', icon: '⚠️', formType: 'request' },
+    ],
+    roles: [
+      { 
+        title: 'General Counsel', 
+        isFilled: false,
+        description: 'Oversees all legal matters and provides strategic legal guidance.',
+        responsibilities: ['Legal strategy', 'Contract negotiations', 'Risk management', 'Regulatory compliance'],
+        skills: ['Legal expertise', 'Strategic thinking', 'Negotiation', 'Business acumen']
+      },
+      { 
+        title: 'Compliance Officer', 
+        isFilled: false,
+        description: 'Ensures organizational compliance with laws and regulations.',
+        responsibilities: ['Compliance monitoring', 'Policy development', 'Audit coordination', 'Training programs'],
+        skills: ['Regulatory knowledge', 'Risk assessment', 'Policy writing', 'Attention to detail']
+      },
+      { 
+        title: 'Contract Manager', 
+        isFilled: false,
+        description: 'Manages contract lifecycle from drafting to execution.',
+        responsibilities: ['Contract drafting', 'Review and negotiation', 'Vendor management', 'Contract database'],
+        skills: ['Contract law', 'Negotiation', 'Organization', 'Communication']
+      },
+      { 
+        title: 'Privacy Officer', 
+        isFilled: false,
+        description: 'Manages data privacy policies and ensures regulatory compliance.',
+        responsibilities: ['Privacy policy management', 'GDPR/CCPA compliance', 'Data protection', 'Privacy audits'],
+        skills: ['Privacy regulations', 'Data protection', 'Policy development', 'Risk assessment']
+      },
+      { 
+        title: 'Legal Analyst', 
+        isFilled: false,
+        description: 'Conducts legal research and supports legal team operations.',
+        responsibilities: ['Legal research', 'Document preparation', 'Case analysis', 'Compliance tracking'],
+        skills: ['Legal research', 'Documentation', 'Analytical thinking', 'Communication']
+      },
+      { 
+        title: 'Risk Manager', 
+        isFilled: false,
+        description: 'Identifies and mitigates organizational risks.',
+        responsibilities: ['Risk assessment', 'Mitigation strategies', 'Insurance coordination', 'Incident response'],
+        skills: ['Risk analysis', 'Strategic planning', 'Problem solving', 'Communication']
+      },
+    ],
+    resources: generalResources,
+  },
 ];
 
 export const getDepartmentBySlug = (slug: string): DepartmentConfig | undefined => {
@@ -717,6 +783,7 @@ export const getDepartmentColorClasses = (color: string): { bg: string; border: 
     pink: { bg: 'bg-pink-500/10', border: 'border-pink-500/30', text: 'text-pink-500' },
     cyan: { bg: 'bg-cyan-500/10', border: 'border-cyan-500/30', text: 'text-cyan-500' },
     violet: { bg: 'bg-violet-500/10', border: 'border-violet-500/30', text: 'text-violet-500' },
+    slate: { bg: 'bg-slate-500/10', border: 'border-slate-500/30', text: 'text-slate-500' },
   };
   return colorMap[color] || colorMap.blue;
 };
