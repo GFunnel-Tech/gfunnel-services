@@ -14,6 +14,8 @@ const colorHoverClasses: Record<string, string> = {
   orange: 'hover:bg-orange-500/10 hover:border-orange-500/30',
   teal: 'hover:bg-teal-500/10 hover:border-teal-500/30',
   pink: 'hover:bg-pink-500/10 hover:border-pink-500/30',
+  slate: 'hover:bg-slate-500/10 hover:border-slate-500/30',
+  violet: 'hover:bg-violet-500/10 hover:border-violet-500/30',
 };
 
 export const QuickActionsGrid = ({ department, onActionClick }: QuickActionsGridProps) => {
