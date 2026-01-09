@@ -40,6 +40,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
     goals: "",
     currentChallenges: "",
     additionalInfo: "",
+    videoLink: "",
   });
 
   const handleFieldChange = (name: string, value: string) => {
@@ -264,6 +265,22 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             rows={2}
             maxLength={2000}
           />
+        </div>
+
+        {/* Video Link Field */}
+        <div className="space-y-2">
+          <Label htmlFor="videoLink">Video Explanation (Optional)</Label>
+          <Input
+            id="videoLink"
+            type="url"
+            placeholder="https://www.loom.com/share/... or OnScreen link"
+            value={formData.videoLink}
+            onChange={(e) => handleFieldChange("videoLink", e.target.value)}
+            maxLength={500}
+          />
+          <p className="text-xs text-muted-foreground">
+            Add a <a href="https://www.loom.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Loom</a> or <a href="https://onscreen.gfunnel.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OnScreen</a> video to explain your project
+          </p>
         </div>
 
         <div className="space-y-2">

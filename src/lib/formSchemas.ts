@@ -11,6 +11,7 @@ export const baseFormSchema = z.object({
   email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
   submitted_at: z.string(),
   source_url: z.string(),
+  video_link: z.string().url("Invalid URL").max(500, "Video link must be less than 500 characters").optional().or(z.literal("")),
 });
 
 // ============================================================

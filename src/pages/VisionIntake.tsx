@@ -25,6 +25,7 @@ const VisionIntake = () => {
     email: "",
     visionTitle: "",
     description: "",
+    videoLink: "",
     timeframe: "",
     revenueTarget: "",
     availableHours: "",
@@ -154,6 +155,22 @@ const VisionIntake = () => {
               required
               maxLength={5000}
             />
+          </div>
+
+          {/* Video Link Field */}
+          <div className="space-y-2">
+            <Label htmlFor="videoLink">Video Explanation (Optional)</Label>
+            <Input
+              id="videoLink"
+              type="url"
+              placeholder="https://www.loom.com/share/... or OnScreen link"
+              value={formData.videoLink}
+              onChange={(e) => setFormData({ ...formData, videoLink: e.target.value })}
+              maxLength={500}
+            />
+            <p className="text-xs text-muted-foreground">
+              Add a <a href="https://www.loom.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Loom</a> or <a href="https://onscreen.gfunnel.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OnScreen</a> video to explain your vision
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
