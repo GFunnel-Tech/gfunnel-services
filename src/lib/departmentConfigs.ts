@@ -12,6 +12,14 @@ export interface Resource {
   icon: string;
 }
 
+// General resources shared across all departments
+export const generalResources: Resource[] = [
+  { title: 'Standard Operating Procedures', url: '/resources?category=sops', icon: '📚' },
+  { title: 'Templates Library', url: '/resources?category=templates', icon: '📝' },
+  { title: 'Best Practices', url: '/resources?category=best-practices', icon: '✨' },
+  { title: 'Documentation', url: '/resources?category=documentation', icon: '📖' },
+];
+
 export interface QuickAction {
   title: string;
   icon: string;
@@ -159,13 +167,7 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Data analysis', 'Google Analytics', 'Excel/Sheets', 'Statistical thinking']
       },
     ],
-    resources: [
-      { title: 'Access Marketing SOPs', url: '#', icon: '📚' },
-      { title: 'Brand Guidelines', url: '#', icon: '🎨' },
-      { title: 'Campaign Templates', url: '#', icon: '📝' },
-      { title: 'Content Calendar', url: '#', icon: '📅' },
-      { title: 'Analytics Dashboards', url: '#', icon: '📊' },
-    ],
+    resources: generalResources,
   },
   {
     slug: 'creative-content',
@@ -273,13 +275,7 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Technical writing', 'Documentation tools', 'API knowledge', 'Clear communication']
       },
     ],
-    resources: [
-      { title: 'Access Product SOPs', url: '#', icon: '📚' },
-      { title: 'Technical Documentation', url: '#', icon: '📖' },
-      { title: 'Design System', url: '#', icon: '🎨' },
-      { title: 'API Documentation', url: '#', icon: '🔌' },
-      { title: 'Development Standards', url: '#', icon: '📋' },
-    ],
+    resources: generalResources,
   },
   {
     slug: 'technology',
@@ -373,13 +369,7 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Product expertise', 'Training skills', 'Project management', 'Customer communication']
       },
     ],
-    resources: [
-      { title: 'Access Operations SOPs', url: '#', icon: '📚' },
-      { title: 'Process Templates', url: '#', icon: '📝' },
-      { title: 'Vendor List', url: '#', icon: '🤝' },
-      { title: 'System Documentation', url: '#', icon: '💻' },
-      { title: 'Automation Workflows', url: '#', icon: '🤖' },
-    ],
+    resources: generalResources,
   },
   {
     slug: 'operations',
@@ -438,13 +428,7 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Organization', 'Communication', 'Multitasking', 'Attention to detail']
       },
     ],
-    resources: [
-      { title: 'Access Operations SOPs', url: '#', icon: '📚' },
-      { title: 'CRM Documentation', url: '#', icon: '📇' },
-      { title: 'Process Templates', url: '#', icon: '📋' },
-      { title: 'Workflow Guides', url: '#', icon: '🔄' },
-      { title: 'Automation Playbooks', url: '#', icon: '🤖' },
-    ],
+    resources: generalResources,
   },
   {
     slug: 'finance',
@@ -496,13 +480,7 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Financial modeling', 'Excel expertise', 'Data analysis', 'Business intelligence']
       },
     ],
-    resources: [
-      { title: 'Access Finance SOPs', url: '#', icon: '📚' },
-      { title: 'Budget Templates', url: '#', icon: '📊' },
-      { title: 'Expense Policies', url: '#', icon: '💳' },
-      { title: 'Contract Templates', url: '#', icon: '📄' },
-      { title: 'Financial Reports', url: '#', icon: '📈' },
-    ],
+    resources: generalResources,
   },
   {
     slug: 'strategy-analytics',
@@ -561,13 +539,7 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['SQL', 'Excel', 'Data visualization', 'Statistical analysis']
       },
     ],
-    resources: [
-      { title: 'Access Strategy SOPs', url: '#', icon: '📚' },
-      { title: 'Analysis Templates', url: '#', icon: '📝' },
-      { title: 'Market Research Tools', url: '#', icon: '🔍' },
-      { title: 'Strategic Planning Frameworks', url: '#', icon: '🗺️' },
-      { title: 'KPI Dashboards', url: '#', icon: '📊' },
-    ],
+    resources: generalResources,
   },
   {
     slug: 'team-support',
@@ -668,13 +640,7 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Event planning', 'Communication', 'Creativity', 'Relationship building']
       },
     ],
-    resources: [
-      { title: 'Access HR SOPs', url: '#', icon: '📚' },
-      { title: 'Onboarding Materials', url: '#', icon: '👋' },
-      { title: 'Training Resources', url: '#', icon: '🎓' },
-      { title: 'Benefits Information', url: '#', icon: '💝' },
-      { title: 'Employee Handbook', url: '#', icon: '📖' },
-    ],
+    resources: generalResources,
   },
   {
     slug: 'ai-automation',
@@ -733,13 +699,7 @@ export const departmentConfigs: DepartmentConfig[] = [
         skills: ['Product management', 'AI/ML understanding', 'User research', 'Strategic thinking']
       },
     ],
-    resources: [
-      { title: 'Access AI SOPs', url: '#', icon: '📚' },
-      { title: 'AI Tools Directory', url: '#', icon: '🛠️' },
-      { title: 'Prompt Library', url: '#', icon: '📝' },
-      { title: 'Automation Templates', url: '#', icon: '⚡' },
-      { title: 'AI Best Practices', url: '#', icon: '✨' },
-    ],
+    resources: generalResources,
   },
 ];
 
