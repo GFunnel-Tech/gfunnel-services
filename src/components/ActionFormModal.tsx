@@ -477,6 +477,21 @@ export const ActionFormModal = ({
             </p>
           </div>
 
+          {/* Video Link field - optional on all forms */}
+          <div className="space-y-2">
+            <Label htmlFor="videoLink">Video Explanation (Optional)</Label>
+            <Input
+              id="videoLink"
+              name="videoLink"
+              type="url"
+              placeholder="https://www.loom.com/share/... or OnScreen link"
+              maxLength={500}
+            />
+            <p className="text-xs text-muted-foreground">
+              Add a <a href="https://www.loom.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Loom</a> or <a href="https://onscreen.gfunnel.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OnScreen</a> video to explain your request
+            </p>
+          </div>
+
           {/* Request type specific content */}
           {formType === 'request' && renderRequestTypeContent()}
 
