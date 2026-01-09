@@ -26,8 +26,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Send, CheckCircle, Sparkles, Target, Clock, MessageSquare, Users, BookOpen, CheckCircle2, Building2, User } from "lucide-react";
 import { ServiceTypeModal, ServiceRequestType } from "@/components/ServiceTypeModal";
 import { PostSubmitModal } from "@/components/PostSubmitModal";
-
-const WEBHOOK_URL = "https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067";
+import { submitForm, buildServiceIntakePayload } from "@/lib/webhookService";
+import { serviceIntakeSchema } from "@/lib/formSchemas";
 
 const ServiceIntakePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -102,21 +102,25 @@ const ServiceIntakePage = () => {
     setIsSubmitting(true);
 
     try {
-      await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        mode: "no-cors",
-        body: JSON.stringify({
-          form_type: `service_intake_${service.slug}`,
-          form_category: "service_intake",
-          service_name: service.name,
-          service_slug: service.slug,
-          request_type: requestType,
-          submitted_at: new Date().toISOString(),
-          source_url: window.location.href,
-          ...formData,
-        }),
-      });
+      // Build standardized payload with snake_case field names
+      const payload = buildServiceIntakePayload(
+        service.name,
+        service.slug,
+        requestType,
+        formData
+      );
+
+      const result = await submitForm(payload, serviceIntakeSchema);
+
+      if (!result.success) {
+        toast({
+          title: "Validation Error",
+          description: result.error || "Please check your inputs.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       // Show post-submit modal instead of navigating immediately
       setShowPostSubmit(true);

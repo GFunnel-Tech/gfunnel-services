@@ -16,12 +16,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Send } from "lucide-react";
 import { ServiceConfig } from "@/lib/serviceConfigs";
 import { getFormFieldsForService } from "@/lib/serviceFormFields";
+import { submitForm, buildServiceIntakePayload } from "@/lib/webhookService";
+import { serviceIntakeSchema } from "@/lib/formSchemas";
 
 interface ServiceIntakeFormProps {
   service: ServiceConfig;
 }
-
-const WEBHOOK_URL = "https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067";
 
 export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
   const { toast } = useToast();
@@ -61,27 +61,25 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
     setIsSubmitting(true);
 
     try {
-      await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        mode: "no-cors",
-        body: JSON.stringify({
-          // Form identification for n8n routing
-          form_type: `service_intake_${service.slug}`,
-          form_category: "service_intake",
-          
-          // Service details
-          service_name: service.name,
-          service_slug: service.slug,
-          
-          // Metadata
-          submitted_at: new Date().toISOString(),
-          source_url: window.location.href,
-          
-          // Form data
-          ...formData,
-        }),
-      });
+      // Build standardized payload with snake_case field names
+      const payload = buildServiceIntakePayload(
+        service.name,
+        service.slug,
+        null, // No request type for this simpler form
+        formData
+      );
+
+      const result = await submitForm(payload, serviceIntakeSchema);
+
+      if (!result.success) {
+        toast({
+          title: "Validation Error",
+          description: result.error || "Please check your inputs.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       toast({
         title: "Request submitted!",
@@ -140,6 +138,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             value={formData[field.name] || ""}
             onChange={(e) => handleFieldChange(field.name, e.target.value)}
             rows={2}
+            maxLength={2000}
           />
         </div>
       );
@@ -153,6 +152,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
           placeholder={field.placeholder}
           value={formData[field.name] || ""}
           onChange={(e) => handleFieldChange(field.name, e.target.value)}
+          maxLength={500}
         />
       </div>
     );
@@ -172,6 +172,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             value={formData.email}
             onChange={(e) => handleFieldChange("email", e.target.value)}
             required
+            maxLength={255}
           />
         </div>
 
@@ -182,6 +183,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             placeholder="Your company name"
             value={formData.companyName}
             onChange={(e) => handleFieldChange("companyName", e.target.value)}
+            maxLength={200}
           />
         </div>
 
@@ -248,6 +250,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             onChange={(e) => handleFieldChange("goals", e.target.value)}
             rows={3}
             required
+            maxLength={2000}
           />
         </div>
 
@@ -259,6 +262,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             value={formData.currentChallenges}
             onChange={(e) => handleFieldChange("currentChallenges", e.target.value)}
             rows={2}
+            maxLength={2000}
           />
         </div>
 
@@ -270,6 +274,7 @@ export const ServiceIntakeForm = ({ service }: ServiceIntakeFormProps) => {
             value={formData.additionalInfo}
             onChange={(e) => handleFieldChange("additionalInfo", e.target.value)}
             rows={2}
+            maxLength={2000}
           />
         </div>
 
