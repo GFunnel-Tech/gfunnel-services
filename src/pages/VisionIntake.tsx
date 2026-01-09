@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { submitForm, buildVisionIntakePayload } from "@/lib/webhookService";
+import { visionIntakeSchema } from "@/lib/formSchemas";
 
 const VisionIntake = () => {
   const navigate = useNavigate();
@@ -45,16 +47,20 @@ const VisionIntake = () => {
     setIsSubmitting(true);
 
     try {
-      await fetch("https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        mode: "no-cors",
-        body: JSON.stringify({
-          formType: "vision-intake",
-          submittedAt: new Date().toISOString(),
-          ...formData,
-        }),
-      });
+      // Build standardized payload with snake_case field names
+      const payload = buildVisionIntakePayload(formData);
+
+      const result = await submitForm(payload, visionIntakeSchema);
+
+      if (!result.success) {
+        toast({
+          title: "Validation Error",
+          description: result.error || "Please check your inputs.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       navigate("/vision-processing", { state: { visionTitle: formData.visionTitle } });
     } catch (error) {
@@ -120,6 +126,7 @@ const VisionIntake = () => {
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
+              maxLength={255}
             />
             <p className="text-xs text-muted-foreground">We'll use this to connect you with your projects</p>
           </div>
@@ -132,6 +139,7 @@ const VisionIntake = () => {
               value={formData.visionTitle}
               onChange={(e) => setFormData({ ...formData, visionTitle: e.target.value })}
               required
+              maxLength={200}
             />
           </div>
 
@@ -144,6 +152,7 @@ const VisionIntake = () => {
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={4}
               required
+              maxLength={5000}
             />
           </div>
 
@@ -155,6 +164,7 @@ const VisionIntake = () => {
                 placeholder="e.g., 12 months"
                 value={formData.timeframe}
                 onChange={(e) => setFormData({ ...formData, timeframe: e.target.value })}
+                maxLength={50}
               />
             </div>
             <div className="space-y-2">
@@ -164,6 +174,7 @@ const VisionIntake = () => {
                 placeholder="e.g., $500,000"
                 value={formData.revenueTarget}
                 onChange={(e) => setFormData({ ...formData, revenueTarget: e.target.value })}
+                maxLength={50}
               />
             </div>
             <div className="space-y-2">
@@ -173,6 +184,7 @@ const VisionIntake = () => {
                 placeholder="e.g., 40"
                 value={formData.availableHours}
                 onChange={(e) => setFormData({ ...formData, availableHours: e.target.value })}
+                maxLength={20}
               />
             </div>
           </div>
@@ -185,6 +197,7 @@ const VisionIntake = () => {
               value={formData.challenges}
               onChange={(e) => setFormData({ ...formData, challenges: e.target.value })}
               rows={3}
+              maxLength={2000}
             />
           </div>
 
@@ -196,6 +209,7 @@ const VisionIntake = () => {
               value={formData.rawPaste}
               onChange={(e) => setFormData({ ...formData, rawPaste: e.target.value })}
               rows={4}
+              maxLength={10000}
             />
             <p className="text-xs text-muted-foreground">
               Examples: CSV data, JSON, markdown lists, meeting notes, code snippets, or freeform text

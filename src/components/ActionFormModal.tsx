@@ -22,6 +22,17 @@ import { DepartmentConfig, Role } from '@/lib/departmentConfigs';
 import { ServiceRequestType } from '@/components/ServiceTypeModal';
 import { PostSubmitModal } from '@/components/PostSubmitModal';
 import { Building2, User, Users, BookOpen, CheckCircle2 } from 'lucide-react';
+import { 
+  submitForm, 
+  buildActionPayload,
+  WEBHOOKS 
+} from '@/lib/webhookService';
+import {
+  actionRequestSchema,
+  actionIdeaSchema,
+  actionDelegateSchema,
+  actionHireSchema,
+} from '@/lib/formSchemas';
 
 type FormType = 'request' | 'idea' | 'delegate' | 'hire';
 
@@ -62,47 +73,70 @@ export const ActionFormModal = ({
   const [showPostSubmit, setShowPostSubmit] = useState(false);
   const [submittedDelegateInfo, setSubmittedDelegateInfo] = useState<{ name?: string; email?: string }>({});
 
-  const DEFAULT_WEBHOOK_URL = 'https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067';
-  const HIRING_WEBHOOK_URL = 'https://apihub.gfunnel.com/webhook-test/4da968a1-bc07-420c-9697-762ace996e95';
-  
-  const WEBHOOK_URL = formType === 'hire' ? HIRING_WEBHOOK_URL : DEFAULT_WEBHOOK_URL;
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    const formElement = e.currentTarget;
+    const formDataRaw = new FormData(formElement);
+    const data = Object.fromEntries(formDataRaw.entries()) as Record<string, string>;
 
-    // Build payload with department and action context
-    const payload = {
-      // Meta information
-      department: department.name,
-      departmentSlug: department.slug,
-      formType,
-      actionTitle: actionTitle || getFormTitle(),
-      serviceRequestType: serviceRequestType || null,
-      submittedAt: new Date().toISOString(),
-      
-      // Form data
-      ...data,
+    // Get the appropriate form type string
+    const formTypeMap = {
+      request: 'action_request',
+      idea: 'action_idea',
+      delegate: 'action_delegate',
+      hire: 'action_hire',
+    } as const;
+
+    const formTypeString = formTypeMap[formType];
+    const title = actionTitle || getFormTitle();
+
+    // Build the standardized payload
+    const payload = buildActionPayload(
+      formTypeString,
+      department.name,
+      department.slug,
+      title,
+      {
+        ...data,
+        // Include request type for request forms
+        ...(formType === 'request' && { request_type: serviceRequestType || null }),
+      }
+    );
+
+    // Select the appropriate schema based on form type
+    const schemaMap = {
+      action_request: actionRequestSchema,
+      action_idea: actionIdeaSchema,
+      action_delegate: actionDelegateSchema,
+      action_hire: actionHireSchema,
     };
 
+    const schema = schemaMap[formTypeString];
+    const useHiringWebhook = formType === 'hire';
+
     try {
-      await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        mode: 'no-cors',
-        body: JSON.stringify(payload),
+      const result = await submitForm(payload, schema, { 
+        useHiringWebhook,
+        webhookUrl: useHiringWebhook ? WEBHOOKS.HIRING : WEBHOOKS.DEFAULT,
       });
+
+      if (!result.success) {
+        toast({
+          title: 'Validation Error',
+          description: result.error || 'Please check your inputs.',
+          variant: 'destructive',
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       // Store delegate info for post-submit modal
       if (serviceRequestType === 'delegated') {
         setSubmittedDelegateInfo({
-          name: data.delegateName as string,
-          email: data.delegateEmail as string,
+          name: data.delegateName,
+          email: data.delegateEmail,
         });
       }
 
@@ -172,6 +206,7 @@ export const ActionFormModal = ({
               placeholder="Describe your goals for this project..."
               rows={3}
               required
+              maxLength={2000}
             />
           </div>
           
@@ -251,6 +286,7 @@ export const ActionFormModal = ({
                 name="delegateName"
                 placeholder="John Smith"
                 required
+                maxLength={100}
               />
             </div>
             
@@ -262,6 +298,7 @@ export const ActionFormModal = ({
                 type="email"
                 placeholder="delegate@company.com"
                 required
+                maxLength={255}
               />
               <p className="text-xs text-muted-foreground">
                 We'll send them project details and access information
@@ -293,6 +330,7 @@ export const ActionFormModal = ({
               name="projectTitle"
               placeholder="Brief title for this project"
               required
+              maxLength={200}
             />
           </div>
 
@@ -304,6 +342,7 @@ export const ActionFormModal = ({
               placeholder="Provide clear instructions and expectations..."
               rows={4}
               required
+              maxLength={2000}
             />
           </div>
 
@@ -335,6 +374,7 @@ export const ActionFormModal = ({
               name="additionalNotes"
               placeholder="Any additional context or resources to share..."
               rows={2}
+              maxLength={1000}
             />
           </div>
         </>
@@ -375,7 +415,13 @@ export const ActionFormModal = ({
         </div>
         <div className="space-y-2">
           <Label htmlFor="title">Title / Summary</Label>
-          <Input id="title" name="title" placeholder="Brief summary of your request" required />
+          <Input 
+            id="title" 
+            name="title" 
+            placeholder="Brief summary of your request" 
+            required 
+            maxLength={200}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="description">Detailed Description</Label>
@@ -385,6 +431,7 @@ export const ActionFormModal = ({
             placeholder="Provide details about your request"
             rows={4}
             required
+            maxLength={2000}
           />
         </div>
         <div className="space-y-2">
@@ -423,6 +470,7 @@ export const ActionFormModal = ({
               type="email"
               placeholder="you@company.com"
               required
+              maxLength={255}
             />
             <p className="text-xs text-muted-foreground">
               Required for tracking and follow-up
@@ -436,7 +484,13 @@ export const ActionFormModal = ({
             <>
               <div className="space-y-2">
                 <Label htmlFor="ideaTitle">Idea Title</Label>
-                <Input id="ideaTitle" name="ideaTitle" placeholder="Name your idea" required />
+                <Input 
+                  id="ideaTitle" 
+                  name="ideaTitle" 
+                  placeholder="Name your idea" 
+                  required 
+                  maxLength={200}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="areaOfImpact">Department / Area of Impact</Label>
@@ -445,6 +499,7 @@ export const ActionFormModal = ({
                   name="areaOfImpact"
                   defaultValue={department.name}
                   required
+                  maxLength={100}
                 />
               </div>
               <div className="space-y-2">
@@ -455,6 +510,7 @@ export const ActionFormModal = ({
                   placeholder="What problem does this solve?"
                   rows={3}
                   required
+                  maxLength={2000}
                 />
               </div>
               <div className="space-y-2">
@@ -465,6 +521,7 @@ export const ActionFormModal = ({
                   placeholder="Describe your proposed solution"
                   rows={3}
                   required
+                  maxLength={2000}
                 />
               </div>
               <div className="space-y-2">
@@ -474,6 +531,7 @@ export const ActionFormModal = ({
                   name="benefits"
                   placeholder="What benefits would this bring?"
                   rows={2}
+                  maxLength={1000}
                 />
               </div>
             </>
@@ -483,7 +541,13 @@ export const ActionFormModal = ({
             <>
               <div className="space-y-2">
                 <Label htmlFor="taskTitle">Task Title</Label>
-                <Input id="taskTitle" name="taskTitle" placeholder="Name the task" required />
+                <Input 
+                  id="taskTitle" 
+                  name="taskTitle" 
+                  placeholder="Name the task" 
+                  required 
+                  maxLength={200}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="assignTo">Assign To</Label>
@@ -526,6 +590,7 @@ export const ActionFormModal = ({
                   placeholder="Describe the task in detail"
                   rows={3}
                   required
+                  maxLength={2000}
                 />
               </div>
               <div className="space-y-2">
@@ -535,6 +600,7 @@ export const ActionFormModal = ({
                   name="deliverables"
                   placeholder="What should be delivered?"
                   rows={2}
+                  maxLength={1000}
                 />
               </div>
             </>
@@ -549,6 +615,7 @@ export const ActionFormModal = ({
                   name="roleTitle"
                   defaultValue={selectedRole?.title || ''}
                   required
+                  maxLength={100}
                 />
               </div>
               <div className="space-y-2">
@@ -563,6 +630,7 @@ export const ActionFormModal = ({
                   placeholder="Describe the role responsibilities"
                   rows={4}
                   required
+                  maxLength={3000}
                 />
               </div>
               <div className="space-y-2">
