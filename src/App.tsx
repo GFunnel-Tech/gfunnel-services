@@ -14,6 +14,7 @@ import VisionIntake from "./pages/VisionIntake";
 import VisionProcessing from "./pages/VisionProcessing";
 import ServiceConfirmation from "./pages/ServiceConfirmation";
 import Resources from "./pages/Resources";
+import UsageWalletPage from "./pages/UsageWalletPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/vision-processing" element={<VisionProcessing />} />
           <Route path="/service-confirmation" element={<ServiceConfirmation />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/wallet" element={<UsageWalletPage />} />
           <Route path="/get-started/:slug" element={<ServiceIntakePage />} />
           <Route path="/:slug" element={<ServicePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
