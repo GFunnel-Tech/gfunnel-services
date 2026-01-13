@@ -1,11 +1,18 @@
-import { RefreshCw, Clock, TrendingUp, Calendar, CreditCard, Zap, ExternalLink } from "lucide-react";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Progress } from "./ui/progress";
-import { Separator } from "./ui/separator";
-import { Badge } from "./ui/badge";
-import { WalletData, PAYMENT_LINKS, PLAN_COLORS } from "@/lib/walletTypes";
-import { formatCurrency, getPercentageUsed } from "@/lib/walletService";
+import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { WalletAccessItems } from "./WalletAccessItems";
+import { WalletData, PLAN_DETAILS, PAYMENT_LINKS } from "@/lib/walletTypes";
+import {
+  formatCurrency,
+  getPercentageUsed,
+  getTimeUntilReset,
+  isUnlimitedPlan,
+  getRelativeTime,
+} from "@/lib/walletService";
 
 interface UsageWalletProps {
   data: WalletData;
@@ -14,151 +21,198 @@ interface UsageWalletProps {
 }
 
 export const UsageWallet = ({ data, onRefresh, isRefreshing }: UsageWalletProps) => {
-  const percentUsed = getPercentageUsed(data.hours_used, data.hours_included);
-  const billingDate = new Date(data.billing_cycle_end).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-
-  const getProgressColor = () => {
-    if (percentUsed >= 90) return "bg-destructive";
-    if (percentUsed >= 80) return "bg-yellow-500";
-    return "bg-accent";
-  };
+  const unlimited = isUnlimitedPlan(data.hours_included);
+  const percentageUsed = unlimited ? 0 : getPercentageUsed(data.hours_used, data.hours_included);
+  const planDetails = PLAN_DETAILS[data.plan_name];
+  const isPro = data.plan_name === "Pro";
+  
+  // Get plan values - prefer data from API, fallback to static config
+  const planPrice = data.plan_price || planDetails?.price || 0;
+  const planValue = data.plan_value || planDetails?.value || 0;
+  const savingsPercent = data.savings_percentage || planDetails?.savings || 0;
+  const responseTime = data.response_time || planDetails?.response || "";
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-            <CreditCard className="w-5 h-5 text-accent" />
-          </div>
-          <div>
-            <CardTitle className="text-xl">Your Usage Wallet</CardTitle>
-            <p className="text-sm text-muted-foreground">{data.user_email}</p>
-          </div>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold">Usage Dashboard</h2>
+          <p className="text-sm text-muted-foreground">{data.user_email}</p>
         </div>
         <Button
           variant="ghost"
           size="icon"
           onClick={onRefresh}
           disabled={isRefreshing}
-          className="shrink-0"
+          className="h-8 w-8"
         >
           <RefreshCw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
         </Button>
-      </CardHeader>
+      </div>
 
-      <CardContent className="space-y-6">
-        {/* Hours Section */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-muted-foreground" />
-              <span className="font-medium">Hours This Cycle</span>
+      {/* Plan Card */}
+      <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+        <CardContent className="p-5">
+          <div className="flex items-start justify-between">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-bold">{data.plan_name} Plan</h3>
+                {isPro && (
+                  <Badge variant="secondary" className="text-xs">
+                    <Star className="w-3 h-3 mr-1" />
+                    Most Popular
+                  </Badge>
+                )}
+              </div>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <span className="flex items-center gap-1">
+                  {unlimited ? (
+                    <>
+                      <Infinity className="w-4 h-4" />
+                      Unlimited hours
+                    </>
+                  ) : (
+                    <>
+                      <Clock className="w-4 h-4" />
+                      {data.hours_included} hours/month
+                    </>
+                  )}
+                </span>
+                <span>•</span>
+                <span>{responseTime}</span>
+              </div>
             </div>
-            <span className="text-sm text-muted-foreground">
-              {data.hours_used} / {data.hours_included} hrs
-            </span>
+            <div className="text-right">
+              <p className="text-2xl font-bold">{formatCurrency(planPrice)}</p>
+              <p className="text-xs text-muted-foreground">/month</p>
+            </div>
           </div>
-          <div className="relative">
-            <Progress value={percentUsed} className="h-3" />
-            <div 
-              className={`absolute top-0 left-0 h-3 rounded-full transition-all ${getProgressColor()}`}
-              style={{ width: `${percentUsed}%` }}
-            />
-          </div>
-          <p className="text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">{data.hours_remaining} hours</span> remaining
-          </p>
-        </div>
-
-        <Separator />
-
-        {/* Savings Section */}
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-green-500" />
-            <span className="font-medium">Development Savings</span>
-          </div>
-          <div className="bg-green-500/10 rounded-lg p-4 border border-green-500/20">
-            <p className="text-2xl font-bold text-green-600">
-              {formatCurrency(data.total_savings)}
-            </p>
-            <p className="text-sm text-muted-foreground mt-1">
-              saved vs. market rates ({formatCurrency(data.market_rate)}/hr vs {formatCurrency(data.hourly_rate)}/hr)
+          
+          <div className="mt-4 pt-4 border-t border-border/50">
+            <p className="text-xs text-muted-foreground">
+              {getTimeUntilReset(data.billing_cycle_end)}
             </p>
           </div>
-        </div>
+        </CardContent>
+      </Card>
 
-        <Separator />
-
-        {/* Plan Details */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-muted-foreground" />
-            <span className="font-medium">Plan Details</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Badge 
-                variant="secondary" 
-                className={`${PLAN_COLORS[data.plan_name] || "bg-muted"} text-white`}
-              >
-                {data.plan_name} Plan
+      {/* Hours Usage */}
+      {!unlimited ? (
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary" />
+              Hours This Cycle
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">
+                  {data.hours_used} of {data.hours_included} hours used
+                </span>
+                <span className="font-medium">{Math.round(percentageUsed)}%</span>
+              </div>
+              <Progress value={percentageUsed} className="h-2" />
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Remaining</span>
+              <span className="font-semibold text-primary">{data.hours_remaining} hours</span>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Infinity className="w-4 h-4 text-primary" />
+              Unlimited Hours
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <p className="text-2xl font-bold">{data.hours_used} hrs</p>
+                <p className="text-sm text-muted-foreground">used this cycle</p>
+              </div>
+              <Badge variant="outline" className="text-xs">
+                <Zap className="w-3 h-3 mr-1" />
+                5 active tasks max
               </Badge>
             </div>
-            <span className="text-sm text-muted-foreground">
-              Renews {billingDate}
-            </span>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Savings Card */}
+      <Card className="bg-accent/5 border-accent/20">
+        <CardContent className="p-5">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+              <TrendingUp className="w-5 h-5 text-accent" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="font-semibold">Your Savings</h4>
+              <p className="text-sm text-muted-foreground">
+                You're saving <span className="font-bold text-accent">{savingsPercent}%</span> vs. traditional agencies
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {formatCurrency(planValue)}/mo value → {formatCurrency(planPrice)}/mo your price
+              </p>
+              <p className="text-sm font-medium text-accent mt-2">
+                That's {formatCurrency(planValue - planPrice)} saved every month!
+              </p>
+            </div>
           </div>
-          {data.overage_rate > 0 && (
-            <p className="text-xs text-muted-foreground">
-              Overage rate: {formatCurrency(data.overage_rate)}/hr after included hours
-            </p>
-          )}
-        </div>
+        </CardContent>
+      </Card>
 
-        <Separator />
+      <Separator />
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Button variant="outline" className="flex-1" asChild>
-            <a 
-              href={PAYMENT_LINKS.addHours} 
-              target="_parent" 
-              rel="noopener noreferrer"
-            >
-              <Clock className="w-4 h-4 mr-2" />
+      {/* Quick Access Items */}
+      {data.access_items && data.access_items.length > 0 && (
+        <>
+          <WalletAccessItems items={data.access_items} />
+          <Separator />
+        </>
+      )}
+
+      {/* Action Buttons */}
+      <div className="grid grid-cols-2 gap-3">
+        {!unlimited && (
+          <Button asChild variant="outline" className="h-12">
+            <a href={PAYMENT_LINKS.addHours} target="_blank" rel="noopener noreferrer">
+              <Plus className="w-4 h-4 mr-2" />
               Add Hours
             </a>
           </Button>
-          <Button variant="gradient" className="flex-1" asChild>
-            <a 
-              href={PAYMENT_LINKS.upgradePlan} 
-              target="_parent" 
-              rel="noopener noreferrer"
-            >
-              <Zap className="w-4 h-4 mr-2" />
-              Upgrade to {data.plan_name === "Premium" ? "Enterprise" : "Premium"}
-            </a>
-          </Button>
-        </div>
-
-        {/* View Billing Link */}
-        <div className="text-center">
-          <a 
-            href={PAYMENT_LINKS.viewBilling} 
-            target="_parent" 
-            rel="noopener noreferrer"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
-          >
-            View Billing History
-            <ExternalLink className="w-3 h-3" />
+        )}
+        <Button asChild className={unlimited ? "col-span-2" : ""}>
+          <a href={PAYMENT_LINKS.upgradePlan} target="_blank" rel="noopener noreferrer">
+            <ArrowUpRight className="w-4 h-4 mr-2" />
+            {unlimited ? "View Plan Options" : "Upgrade Plan"}
           </a>
-        </div>
-      </CardContent>
-    </Card>
+        </Button>
+      </div>
+
+      {/* View Billing Link */}
+      <div className="text-center">
+        <a
+          href={PAYMENT_LINKS.viewBilling}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+        >
+          View Billing History
+          <ExternalLink className="w-3 h-3" />
+        </a>
+      </div>
+
+      {/* Last Updated */}
+      <p className="text-center text-xs text-muted-foreground">
+        Last updated: {getRelativeTime(data.last_updated)}
+      </p>
+    </div>
   );
 };
