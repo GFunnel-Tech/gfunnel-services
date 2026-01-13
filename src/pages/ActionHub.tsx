@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { DepartmentCard } from "@/components/DepartmentCard";
 import { ServiceHubCarousel } from "@/components/ServiceHubCarousel";
 import { departmentConfigs } from "@/lib/departmentConfigs";
-import { Calendar, ChevronDown, Lightbulb, ExternalLink } from "lucide-react";
+import { Calendar, ChevronDown, Lightbulb, ExternalLink, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getAllServices } from "@/lib/serviceConfigs";
 import {
@@ -20,7 +20,16 @@ const ActionHub = () => {
     <div className="min-h-screen bg-background">
       {/* Header with CTAs */}
       <header className="border-b border-border/50 py-4">
-        <div className="container mx-auto px-4 flex items-center justify-end">
+        <div className="container mx-auto px-4 flex items-center justify-between">
+          {/* Left side - Usage Wallet */}
+          <Link to="/wallet">
+            <Button variant="outline" size="sm" className="gap-2">
+              <Wallet className="w-4 h-4" />
+              <span className="hidden sm:inline">My Usage</span>
+            </Button>
+          </Link>
+
+          {/* Right side - Actions */}
           <div className="flex items-center gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
