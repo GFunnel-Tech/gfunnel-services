@@ -1,26 +1,17 @@
+import { supabase } from "@/integrations/supabase/client";
 import { WalletData, WalletLookupResponse, WarningLevel } from "./walletTypes";
-
-const WALLET_WEBHOOK_URL = "https://apihub.gfunnel.com/webhook/wallet-lookup";
 
 export async function fetchWalletData(email: string): Promise<WalletLookupResponse> {
   try {
-    const response = await fetch(WALLET_WEBHOOK_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        action: "get_wallet_data",
-        email: email.toLowerCase().trim(),
-      }),
+    const { data, error } = await supabase.functions.invoke("wallet-proxy", {
+      body: { email: email.toLowerCase().trim() },
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    if (error) {
+      throw new Error(error.message);
     }
 
-    const result = await response.json();
-    return result;
+    return data as WalletLookupResponse;
   } catch (error) {
     console.error("Error fetching wallet data:", error);
     return {
@@ -34,21 +25,14 @@ export function calculateWarningLevel(
   hoursRemaining: number,
   hoursIncluded: number
 ): WarningLevel {
-  if (hoursIncluded <= 0) return "none";
+  // Unlimited plans don't have warnings
+  if (hoursIncluded <= 0 || hoursRemaining < 0) return "none";
   
   const percentRemaining = (hoursRemaining / hoursIncluded) * 100;
   
   if (percentRemaining <= 10) return "critical";
   if (percentRemaining <= 20) return "low";
   return "none";
-}
-
-export function calculateSavings(
-  hoursUsed: number,
-  hourlyRate: number,
-  marketRate: number
-): number {
-  return hoursUsed * (marketRate - hourlyRate);
 }
 
 export function formatCurrency(amount: number): string {
@@ -63,6 +47,42 @@ export function formatCurrency(amount: number): string {
 export function getPercentageUsed(hoursUsed: number, hoursIncluded: number): number {
   if (hoursIncluded <= 0) return 0;
   return Math.min((hoursUsed / hoursIncluded) * 100, 100);
+}
+
+export function getTimeUntilReset(resetDate: string): string {
+  const now = new Date();
+  const reset = new Date(resetDate);
+  const diff = reset.getTime() - now.getTime();
+  
+  if (diff <= 0) return "Resetting soon";
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  
+  if (days > 0) return `Resets in ${days}d ${hours}h`;
+  if (hours > 0) return `Resets in ${hours}h ${minutes}m`;
+  return `Resets in ${minutes}m`;
+}
+
+export function isUnlimitedPlan(hoursIncluded: number): boolean {
+  return hoursIncluded < 0;
+}
+
+export function getRelativeTime(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / (1000 * 60));
+  
+  if (diffMins < 1) return "less than a minute ago";
+  if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+  
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+  
+  const diffDays = Math.floor(diffHours / 24);
+  return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
 }
 
 // Session storage helpers for email persistence

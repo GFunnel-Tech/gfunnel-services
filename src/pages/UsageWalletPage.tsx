@@ -120,13 +120,6 @@ const UsageWalletPage = () => {
               isRefreshing={isLoading}
             />
           )}
-
-          {/* Last Updated */}
-          {walletData && (
-            <p className="text-center text-xs text-muted-foreground">
-              Last updated: {new Date(walletData.last_updated).toLocaleString()}
-            </p>
-          )}
         </div>
       </main>
     </div>
