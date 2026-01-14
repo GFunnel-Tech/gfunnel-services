@@ -21,6 +21,26 @@ export async function fetchWalletData(email: string): Promise<WalletLookupRespon
   }
 }
 
+export async function fetchWalletByCompanyId(companyId: string): Promise<WalletLookupResponse> {
+  try {
+    const { data, error } = await supabase.functions.invoke("wallet-proxy", {
+      body: { company_id: companyId },
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data as WalletLookupResponse;
+  } catch (error) {
+    console.error("Error fetching wallet by company:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to fetch company wallet data",
+    };
+  }
+}
+
 export function calculateWarningLevel(
   hoursRemaining: number,
   hoursIncluded: number

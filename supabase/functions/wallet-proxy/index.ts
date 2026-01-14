@@ -14,53 +14,88 @@ serve(async (req) => {
   }
 
   try {
-    const { email } = await req.json();
+    const { email, company_id } = await req.json();
     const normalizedEmail = email?.toLowerCase().trim();
-
-    if (!normalizedEmail) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Email is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
 
     // Create Supabase client with service role key to bypass RLS
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // First, try to find the user in company_users
-    const { data: companyUser, error: userError } = await supabase
-      .from('company_users')
-      .select('company_id, display_name, role, is_primary')
-      .eq('email', normalizedEmail)
-      .maybeSingle();
+    let companyData = null;
+    let userEmail = normalizedEmail || '';
 
-    if (userError) {
-      console.error('Error querying company_users:', userError);
-      throw userError;
-    }
-
-    // If user found in database, get company data
-    if (companyUser) {
-      console.log(`Found user in database for ${normalizedEmail}`);
+    // If company_id is provided (admin impersonation), fetch directly
+    if (company_id) {
+      console.log(`Admin impersonation: fetching company ${company_id}`);
       
       const { data: company, error: companyError } = await supabase
         .from('companies')
         .select('*')
-        .eq('id', companyUser.company_id)
+        .eq('id', company_id)
         .single();
 
-      if (companyError) {
-        console.error('Error querying company:', companyError);
-        throw companyError;
+      if (companyError || !company) {
+        return new Response(
+          JSON.stringify({ success: false, error: "Company not found" }),
+          { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
       }
+
+      // Get primary user email for display
+      const { data: primaryUser } = await supabase
+        .from('company_users')
+        .select('email')
+        .eq('company_id', company_id)
+        .eq('is_primary', true)
+        .maybeSingle();
+
+      userEmail = primaryUser?.email || 'admin@company.com';
+      companyData = { company, company_id };
+    } else if (normalizedEmail) {
+      // Normal email lookup flow
+      const { data: companyUser, error: userError } = await supabase
+        .from('company_users')
+        .select('company_id, display_name, role, is_primary')
+        .eq('email', normalizedEmail)
+        .maybeSingle();
+
+      if (userError) {
+        console.error('Error querying company_users:', userError);
+        throw userError;
+      }
+
+      if (companyUser) {
+        const { data: company, error: companyError } = await supabase
+          .from('companies')
+          .select('*')
+          .eq('id', companyUser.company_id)
+          .single();
+
+        if (companyError) {
+          console.error('Error querying company:', companyError);
+          throw companyError;
+        }
+
+        companyData = { company, company_id: companyUser.company_id };
+      }
+    } else {
+      return new Response(
+        JSON.stringify({ success: false, error: "Email or company_id is required" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // If company data found in database
+    if (companyData) {
+      const { company, company_id: companyId } = companyData;
+      console.log(`Found company in database: ${company.name}`);
 
       // Get access items for this company
       const { data: accessItems, error: itemsError } = await supabase
         .from('access_items')
         .select('*')
-        .eq('company_id', companyUser.company_id)
+        .eq('company_id', companyId)
         .eq('is_active', true)
         .order('display_order', { ascending: true });
 
@@ -75,8 +110,9 @@ serve(async (req) => {
         : Math.max(0, company.hours_included - company.hours_used);
 
       const walletData = {
-        user_email: normalizedEmail,
-        user_id: companyUser.company_id,
+        user_email: userEmail,
+        user_id: companyId,
+        company_name: company.name,
         plan_name: company.plan_name,
         plan_price: company.plan_price,
         plan_value: company.plan_value,
