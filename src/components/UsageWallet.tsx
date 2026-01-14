@@ -1,9 +1,19 @@
-import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity } from "lucide-react";
+import { useState } from "react";
+import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { WalletAccessItems } from "./WalletAccessItems";
 import { WalletData, PLAN_DETAILS, PAYMENT_LINKS } from "@/lib/walletTypes";
 import {
@@ -18,9 +28,15 @@ interface UsageWalletProps {
   data: WalletData;
   onRefresh: () => void;
   isRefreshing?: boolean;
+  isAdmin?: boolean;
+  onUpdateHours?: (hours: number) => Promise<void>;
 }
 
-export const UsageWallet = ({ data, onRefresh, isRefreshing }: UsageWalletProps) => {
+export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHours }: UsageWalletProps) => {
+  const [isEditingHours, setIsEditingHours] = useState(false);
+  const [editHoursValue, setEditHoursValue] = useState(data.hours_used.toString());
+  const [isSaving, setIsSaving] = useState(false);
+  
   const unlimited = isUnlimitedPlan(data.hours_included);
   const percentageUsed = unlimited ? 0 : getPercentageUsed(data.hours_used, data.hours_included);
   const planDetails = PLAN_DETAILS[data.plan_name];
@@ -31,6 +47,26 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing }: UsageWalletProps)
   const planValue = data.plan_value || planDetails?.value || 0;
   const savingsPercent = data.savings_percentage || planDetails?.savings || 0;
   const responseTime = data.response_time || planDetails?.response || "";
+
+  const handleOpenEditHours = () => {
+    setEditHoursValue(data.hours_used.toString());
+    setIsEditingHours(true);
+  };
+
+  const handleSaveHours = async () => {
+    if (!onUpdateHours) return;
+    
+    const hours = parseFloat(editHoursValue);
+    if (isNaN(hours) || hours < 0) return;
+    
+    setIsSaving(true);
+    try {
+      await onUpdateHours(hours);
+      setIsEditingHours(false);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -100,48 +136,74 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing }: UsageWalletProps)
       {/* Hours Usage */}
       {!unlimited ? (
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center justify-between">
+            <span className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-primary" />
               Hours This Cycle
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">
-                  {data.hours_used} of {data.hours_included} hours used
-                </span>
-                <span className="font-medium">{Math.round(percentageUsed)}%</span>
-              </div>
-              <Progress value={percentageUsed} className="h-2" />
-            </div>
+            </span>
+            {isAdmin && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleOpenEditHours}
+                className="h-7 px-2 text-muted-foreground hover:text-foreground"
+              >
+                <Pencil className="w-3 h-3 mr-1" />
+                Edit
+              </Button>
+            )}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Remaining</span>
-              <span className="font-semibold text-primary">{data.hours_remaining} hours</span>
+              <span className="text-muted-foreground">
+                {data.hours_used} of {data.hours_included} hours used
+              </span>
+              <span className="font-medium">{Math.round(percentageUsed)}%</span>
             </div>
-          </CardContent>
+            <Progress value={percentageUsed} className="h-2" />
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Remaining</span>
+            <span className="font-semibold text-primary">{data.hours_remaining} hours</span>
+          </div>
+        </CardContent>
         </Card>
       ) : (
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center justify-between">
+            <span className="flex items-center gap-2">
               <Infinity className="w-4 h-4 text-primary" />
               Unlimited Hours
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-2xl font-bold">{data.hours_used} hrs</p>
-                <p className="text-sm text-muted-foreground">used this cycle</p>
-              </div>
-              <Badge variant="outline" className="text-xs">
-                <Zap className="w-3 h-3 mr-1" />
-                5 active tasks max
-              </Badge>
+            </span>
+            {isAdmin && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleOpenEditHours}
+                className="h-7 px-2 text-muted-foreground hover:text-foreground"
+              >
+                <Pencil className="w-3 h-3 mr-1" />
+                Edit
+              </Button>
+            )}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <p className="text-2xl font-bold">{data.hours_used} hrs</p>
+              <p className="text-sm text-muted-foreground">used this cycle</p>
             </div>
-          </CardContent>
+            <Badge variant="outline" className="text-xs">
+              <Zap className="w-3 h-3 mr-1" />
+              5 active tasks max
+            </Badge>
+          </div>
+        </CardContent>
         </Card>
       )}
 
@@ -213,6 +275,47 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing }: UsageWalletProps)
       <p className="text-center text-xs text-muted-foreground">
         Last updated: {getRelativeTime(data.last_updated)}
       </p>
+
+      {/* Edit Hours Dialog */}
+      <Dialog open={isEditingHours} onOpenChange={setIsEditingHours}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>Edit Hours Used</DialogTitle>
+            <DialogDescription>
+              Adjust the hours used for this billing cycle.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <div className="space-y-2">
+              <label htmlFor="hours" className="text-sm font-medium">
+                Hours Used
+              </label>
+              <Input
+                id="hours"
+                type="number"
+                step="0.5"
+                min="0"
+                value={editHoursValue}
+                onChange={(e) => setEditHoursValue(e.target.value)}
+                placeholder="Enter hours"
+              />
+              {!unlimited && (
+                <p className="text-xs text-muted-foreground">
+                  Plan includes {data.hours_included} hours
+                </p>
+              )}
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditingHours(false)} disabled={isSaving}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveHours} disabled={isSaving}>
+              {isSaving ? "Saving..." : "Save Changes"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
