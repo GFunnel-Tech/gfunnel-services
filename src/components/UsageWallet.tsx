@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity, Pencil } from "lucide-react";
+import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity, Pencil, CalendarCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -242,21 +242,38 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
 
       {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-3">
-        {!unlimited && (
+        <Button asChild variant="outline" className="h-12">
+          <a href={PAYMENT_LINKS.scheduleMeeting} target="_blank" rel="noopener noreferrer">
+            <CalendarCheck className="w-4 h-4 mr-2" />
+            Schedule Meeting
+          </a>
+        </Button>
+        {!unlimited ? (
           <Button asChild variant="outline" className="h-12">
             <a href={PAYMENT_LINKS.addHours} target="_blank" rel="noopener noreferrer">
               <Plus className="w-4 h-4 mr-2" />
               Add Hours
             </a>
           </Button>
+        ) : (
+          <Button asChild className="h-12">
+            <a href={PAYMENT_LINKS.upgradePlan} target="_blank" rel="noopener noreferrer">
+              <ArrowUpRight className="w-4 h-4 mr-2" />
+              View Plan Options
+            </a>
+          </Button>
         )}
-        <Button asChild className={unlimited ? "col-span-2" : ""}>
+      </div>
+      
+      {/* Upgrade Button for non-unlimited */}
+      {!unlimited && (
+        <Button asChild className="w-full h-12">
           <a href={PAYMENT_LINKS.upgradePlan} target="_blank" rel="noopener noreferrer">
             <ArrowUpRight className="w-4 h-4 mr-2" />
-            {unlimited ? "View Plan Options" : "Upgrade Plan"}
+            Upgrade Plan
           </a>
         </Button>
-      </div>
+      )}
 
       {/* View Billing Link */}
       <div className="text-center">
