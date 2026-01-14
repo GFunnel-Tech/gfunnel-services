@@ -127,6 +127,7 @@ export function QuickAccessManager({ companyId }: QuickAccessManagerProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsSaving(true);
 
     try {
