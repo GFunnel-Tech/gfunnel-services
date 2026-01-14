@@ -22,6 +22,7 @@ import CompaniesPage from "./pages/admin/CompaniesPage";
 import CompanyFormPage from "./pages/admin/CompanyFormPage";
 import CompanyUsersPage from "./pages/admin/CompanyUsersPage";
 import AccessItemsPage from "./pages/admin/AccessItemsPage";
+import ProjectRequestsPage from "./pages/admin/ProjectRequestsPage";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
           <Route path="/admin/companies/:id" element={<CompanyFormPage />} />
           <Route path="/admin/companies/:id/users" element={<CompanyUsersPage />} />
           <Route path="/admin/companies/:id/access" element={<AccessItemsPage />} />
+          <Route path="/admin/requests" element={<ProjectRequestsPage />} />
           <Route path="/get-started/:slug" element={<ServiceIntakePage />} />
           <Route path="/:slug" element={<ServicePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

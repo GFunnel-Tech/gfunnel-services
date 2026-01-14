@@ -147,6 +147,71 @@ export type Database = {
           },
         ]
       }
+      project_requests: {
+        Row: {
+          company_id: string | null
+          created_at: string | null
+          delegate_email: string | null
+          delegate_name: string | null
+          description: string | null
+          email: string
+          form_category: string
+          form_type: string
+          id: string
+          payload: Json
+          priority: string | null
+          request_title: string | null
+          status: string | null
+          submitted_at: string
+          updated_at: string | null
+          video_link: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string | null
+          delegate_email?: string | null
+          delegate_name?: string | null
+          description?: string | null
+          email: string
+          form_category: string
+          form_type: string
+          id?: string
+          payload: Json
+          priority?: string | null
+          request_title?: string | null
+          status?: string | null
+          submitted_at?: string
+          updated_at?: string | null
+          video_link?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string | null
+          delegate_email?: string | null
+          delegate_name?: string | null
+          description?: string | null
+          email?: string
+          form_category?: string
+          form_type?: string
+          id?: string
+          payload?: Json
+          priority?: string | null
+          request_title?: string | null
+          status?: string | null
+          submitted_at?: string
+          updated_at?: string | null
+          video_link?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_requests_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
