@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -6,51 +7,6 @@ const corsHeaders = {
 };
 
 const APIHUB_URL = "https://apihub.gfunnel.com/webhook/wallet-lookup";
-
-// Mock data for testing
-const MOCK_DATA: Record<string, unknown> = {
-  "cam@gfunnel.com": {
-    success: true,
-    data: {
-      user_email: "cam@gfunnel.com",
-      user_id: "usr_cam123",
-      plan_name: "Pro",
-      plan_price: 2497,
-      plan_value: 13720,
-      savings_percentage: 82,
-      response_time: "24-48 hrs",
-      hours_included: 80,
-      hours_used: 48,
-      hours_remaining: 32,
-      billing_cycle_end: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000).toISOString(),
-      overage_rate: 75,
-      access_items: [
-        {
-          id: "recordings",
-          label: "Recording Sessions",
-          icon: "video",
-          url: "https://onscreen.gfunnel.com/users/usr_cam123/recordings",
-          description: "View your screen recordings"
-        },
-        {
-          id: "projects",
-          label: "Projects",
-          icon: "folder",
-          url: "https://projects.gfunnel.com/usr_cam123",
-          description: "Access your project files"
-        },
-        {
-          id: "documents",
-          label: "Documents",
-          icon: "file",
-          url: "https://docs.gfunnel.com/usr_cam123",
-          description: "View shared documents"
-        }
-      ],
-      last_updated: new Date().toISOString()
-    }
-  }
-};
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -68,16 +24,88 @@ serve(async (req) => {
       );
     }
 
-    // Check for mock data first
-    if (MOCK_DATA[normalizedEmail]) {
-      console.log(`Returning mock data for ${normalizedEmail}`);
+    // Create Supabase client with service role key to bypass RLS
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // First, try to find the user in company_users
+    const { data: companyUser, error: userError } = await supabase
+      .from('company_users')
+      .select('company_id, display_name, role, is_primary')
+      .eq('email', normalizedEmail)
+      .maybeSingle();
+
+    if (userError) {
+      console.error('Error querying company_users:', userError);
+      throw userError;
+    }
+
+    // If user found in database, get company data
+    if (companyUser) {
+      console.log(`Found user in database for ${normalizedEmail}`);
+      
+      const { data: company, error: companyError } = await supabase
+        .from('companies')
+        .select('*')
+        .eq('id', companyUser.company_id)
+        .single();
+
+      if (companyError) {
+        console.error('Error querying company:', companyError);
+        throw companyError;
+      }
+
+      // Get access items for this company
+      const { data: accessItems, error: itemsError } = await supabase
+        .from('access_items')
+        .select('*')
+        .eq('company_id', companyUser.company_id)
+        .eq('is_active', true)
+        .order('display_order', { ascending: true });
+
+      if (itemsError) {
+        console.error('Error querying access_items:', itemsError);
+        throw itemsError;
+      }
+
+      // Calculate hours remaining
+      const hoursRemaining = company.hours_included === -1 
+        ? -1 
+        : Math.max(0, company.hours_included - company.hours_used);
+
+      const walletData = {
+        user_email: normalizedEmail,
+        user_id: companyUser.company_id,
+        plan_name: company.plan_name,
+        plan_price: company.plan_price,
+        plan_value: company.plan_value,
+        savings_percentage: company.savings_percentage,
+        response_time: company.response_time,
+        hours_included: company.hours_included,
+        hours_used: parseFloat(company.hours_used) || 0,
+        hours_remaining: hoursRemaining,
+        billing_cycle_end: company.billing_cycle_end,
+        overage_rate: company.overage_rate,
+        access_items: accessItems?.map(item => ({
+          id: item.id,
+          label: item.label,
+          icon: item.icon,
+          url: item.url,
+          description: item.description,
+        })) || [],
+        last_updated: company.updated_at,
+      };
+
       return new Response(
-        JSON.stringify(MOCK_DATA[normalizedEmail]),
+        JSON.stringify({ success: true, data: walletData }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // Call APIHUB for real data
+    // If not in database, fall back to APIHUB
+    console.log(`User not in database, calling APIHUB for ${normalizedEmail}`);
+    
     const response = await fetch(APIHUB_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -88,7 +116,14 @@ serve(async (req) => {
     });
 
     if (!response.ok) {
-      throw new Error(`APIHUB returned status ${response.status}`);
+      // User not found anywhere
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "No wallet found for this email. Please contact support if you believe this is an error." 
+        }),
+        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     const data = await response.json();
