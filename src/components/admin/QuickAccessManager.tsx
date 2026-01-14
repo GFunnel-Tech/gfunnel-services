@@ -204,7 +204,7 @@ export function QuickAccessManager({ companyId }: QuickAccessManagerProps) {
         <p className="text-sm text-muted-foreground">
           Manage quick access links that appear in the company's workspace
         </p>
-        <Button onClick={() => handleOpenDialog()} size="sm">
+        <Button type="button" onClick={() => handleOpenDialog()} size="sm">
           <Plus className="h-4 w-4 mr-2" />
           Add Item
         </Button>
@@ -215,7 +215,7 @@ export function QuickAccessManager({ companyId }: QuickAccessManagerProps) {
           <CardContent className="py-8 text-center text-muted-foreground">
             <Folder className="h-8 w-8 mx-auto mb-2 opacity-50" />
             <p>No quick access items yet</p>
-            <Button variant="link" onClick={() => handleOpenDialog()}>
+            <Button type="button" variant="link" onClick={() => handleOpenDialog()}>
               Add your first item
             </Button>
           </CardContent>
@@ -240,6 +240,7 @@ export function QuickAccessManager({ companyId }: QuickAccessManagerProps) {
                       onCheckedChange={() => handleToggleActive(item)}
                     />
                     <Button
+                      type="button"
                       variant="ghost"
                       size="icon"
                       onClick={() => handleOpenDialog(item)}
@@ -247,6 +248,7 @@ export function QuickAccessManager({ companyId }: QuickAccessManagerProps) {
                       <Pencil className="h-4 w-4" />
                     </Button>
                     <Button
+                      type="button"
                       variant="ghost"
                       size="icon"
                       onClick={() => {
