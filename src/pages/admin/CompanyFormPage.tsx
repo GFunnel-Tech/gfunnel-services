@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Loader2, Save } from 'lucide-react';
+import { ArrowLeft, Loader2, Save, FolderOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,6 +15,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { ProtectedAdminRoute } from '@/components/admin/ProtectedAdminRoute';
+import { QuickAccessManager } from '@/components/admin/QuickAccessManager';
 import { getCompany, createCompany, updateCompany } from '@/lib/adminService';
 import { PLAN_OPTIONS, Company } from '@/lib/adminTypes';
 import { useToast } from '@/hooks/use-toast';
@@ -169,6 +170,7 @@ export default function CompanyFormPage() {
                 <TabsTrigger value="general">General</TabsTrigger>
                 <TabsTrigger value="plan">Plan & Billing</TabsTrigger>
                 <TabsTrigger value="usage">Usage</TabsTrigger>
+                {isEditing && <TabsTrigger value="access">Quick Access</TabsTrigger>}
               </TabsList>
 
               <TabsContent value="general">
@@ -330,6 +332,25 @@ export default function CompanyFormPage() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              {isEditing && id && (
+                <TabsContent value="access">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <FolderOpen className="h-5 w-5" />
+                        Quick Access Items
+                      </CardTitle>
+                      <CardDescription>
+                        Manage shortcuts and links that appear in the company's workspace
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <QuickAccessManager companyId={id} />
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              )}
             </Tabs>
 
             <div className="flex justify-end gap-4 mt-6">
