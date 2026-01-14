@@ -14,16 +14,172 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      access_items: {
+        Row: {
+          company_id: string
+          created_at: string
+          description: string | null
+          display_order: number | null
+          icon: string
+          id: string
+          is_active: boolean | null
+          label: string
+          url: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          icon?: string
+          id?: string
+          is_active?: boolean | null
+          label: string
+          url: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          icon?: string
+          id?: string
+          is_active?: boolean | null
+          label?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "access_items_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      companies: {
+        Row: {
+          billing_cycle_end: string | null
+          created_at: string
+          hours_included: number
+          hours_used: number
+          id: string
+          name: string
+          overage_rate: number
+          plan_name: string
+          plan_price: number
+          plan_value: number
+          response_time: string
+          savings_percentage: number
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          billing_cycle_end?: string | null
+          created_at?: string
+          hours_included?: number
+          hours_used?: number
+          id?: string
+          name: string
+          overage_rate?: number
+          plan_name?: string
+          plan_price?: number
+          plan_value?: number
+          response_time?: string
+          savings_percentage?: number
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          billing_cycle_end?: string | null
+          created_at?: string
+          hours_included?: number
+          hours_used?: number
+          id?: string
+          name?: string
+          overage_rate?: number
+          plan_name?: string
+          plan_price?: number
+          plan_value?: number
+          response_time?: string
+          savings_percentage?: number
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      company_users: {
+        Row: {
+          company_id: string
+          created_at: string
+          display_name: string | null
+          email: string
+          id: string
+          is_primary: boolean | null
+          role: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          display_name?: string | null
+          email: string
+          id?: string
+          is_primary?: boolean | null
+          role?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          display_name?: string | null
+          email?: string
+          id?: string
+          is_primary?: boolean | null
+          role?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_users_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +306,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
