@@ -1,4 +1,8 @@
-import { Video, Folder, FileText, HelpCircle, ExternalLink, Settings, BarChart3, Users } from "lucide-react";
+import { 
+  Video, Folder, FileText, HelpCircle, ExternalLink, Settings, BarChart3, Users,
+  Image, Link, Globe, User, Calendar, Mail, Phone, MessageCircle, Bookmark, 
+  Star, Heart, Home, Briefcase, Database, Cloud, Download, Upload, File
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { AccessItem } from "@/lib/walletTypes";
 
@@ -9,11 +13,30 @@ interface WalletAccessItemsProps {
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   video: Video,
   folder: Folder,
-  file: FileText,
+  file: File,
+  'file-text': FileText,
   help: HelpCircle,
   settings: Settings,
   chart: BarChart3,
   users: Users,
+  image: Image,
+  link: Link,
+  globe: Globe,
+  user: User,
+  calendar: Calendar,
+  mail: Mail,
+  phone: Phone,
+  'message-circle': MessageCircle,
+  bookmark: Bookmark,
+  star: Star,
+  heart: Heart,
+  home: Home,
+  briefcase: Briefcase,
+  database: Database,
+  cloud: Cloud,
+  download: Download,
+  upload: Upload,
+  'external-link': ExternalLink,
 };
 
 export const WalletAccessItems = ({ items }: WalletAccessItemsProps) => {
@@ -25,9 +48,9 @@ export const WalletAccessItems = ({ items }: WalletAccessItemsProps) => {
         <Folder className="w-4 h-4" />
         My Workspace
       </h3>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 gap-3">
         {items.map((item) => {
-          const IconComponent = iconMap[item.icon] || FileText;
+          const IconComponent = iconMap[item.icon] || Folder;
           
           return (
             <a
@@ -38,17 +61,16 @@ export const WalletAccessItems = ({ items }: WalletAccessItemsProps) => {
               className="group"
             >
               <Card className="h-full transition-all duration-200 hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5">
-                <CardContent className="p-4 flex flex-col items-center text-center gap-2">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <IconComponent className="w-5 h-5 text-primary" />
+                <CardContent className="p-4 flex flex-col items-center text-center gap-2 min-h-[120px] justify-center">
+                  <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                    <IconComponent className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
-                  <div className="space-y-0.5">
-                    <p className="text-sm font-medium flex items-center gap-1">
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium leading-tight">
                       {item.label}
-                      <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </p>
                     {item.description && (
-                      <p className="text-xs text-muted-foreground line-clamp-2">
+                      <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                         {item.description}
                       </p>
                     )}

@@ -66,4 +66,5 @@ export const PAYMENT_LINKS = {
   addHours: "https://www.gfunnel.com/add-hours",
   upgradePlan: "https://www.gfunnel.com/service-plans",
   viewBilling: "https://cportal.gfunnel.com/account?activeTab=BillingSubscription",
+  scheduleMeeting: "https://www.gfunnel.com/schedule",
 } as const;
