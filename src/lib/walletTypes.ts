@@ -9,6 +9,7 @@ export interface AccessItem {
 export interface WalletData {
   user_email: string;
   user_id: string;
+  company_name?: string;
   
   // Plan info
   plan_name: "Starter" | "Pro" | "Scale" | "Unlimited" | string;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Building2, Edit, MoreHorizontal, Plus, Trash2, Users } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Building2, Edit, Eye, MoreHorizontal, Plus, Trash2, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -42,6 +42,13 @@ export default function CompaniesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleImpersonate = (companyId: string) => {
+    // Store company ID for impersonation and navigate to wallet
+    sessionStorage.setItem('admin_impersonate_company', companyId);
+    navigate('/wallet');
+  };
 
   const loadCompanies = async () => {
     try {
@@ -136,7 +143,11 @@ export default function CompaniesPage() {
                     {filteredCompanies.map((company) => (
                       <TableRow key={company.id}>
                         <TableCell>
-                          <div className="flex items-center gap-3">
+                          <button 
+                            onClick={() => handleImpersonate(company.id)}
+                            className="flex items-center gap-3 hover:opacity-70 transition-opacity text-left"
+                            title="View wallet as this company"
+                          >
                             <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
                               <Building2 className="h-5 w-5 text-primary" />
                             </div>
@@ -144,7 +155,7 @@ export default function CompaniesPage() {
                               <div className="font-medium">{company.name}</div>
                               <div className="text-sm text-muted-foreground">{company.slug}</div>
                             </div>
-                          </div>
+                          </button>
                         </TableCell>
                         <TableCell>
                           <Badge variant="secondary">{company.plan_name}</Badge>
@@ -165,6 +176,10 @@ export default function CompaniesPage() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => handleImpersonate(company.id)}>
+                                <Eye className="h-4 w-4 mr-2" />
+                                View Wallet
+                              </DropdownMenuItem>
                               <DropdownMenuItem asChild>
                                 <Link to={`/admin/companies/${company.id}`}>
                                   <Edit className="h-4 w-4 mr-2" />
