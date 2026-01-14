@@ -6,9 +6,13 @@ import type { FormCategory } from "./formSchemas";
 // ============================================================
 
 const WEBHOOKS = {
-  DEFAULT: "https://apihub.gfunnel.com/webhook-test/e996d857-0666-4224-b63c-31ab5296b067",
-  HIRING: "https://apihub.gfunnel.com/webhook-test/4da968a1-bc07-420c-9697-762ace996e95",
+  DEFAULT: "https://apihub.gfunnel.com/webhook/project-intake",
+  HIRING: "https://apihub.gfunnel.com/webhook/project-intake",
+  PROJECT_INTAKE: "https://apihub.gfunnel.com/webhook/project-intake",
 } as const;
+
+// Edge function URL for project submission
+const SUBMIT_PROJECT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-project`;
 
 // ============================================================
 // TYPES
@@ -18,11 +22,14 @@ export interface SubmissionResult {
   success: boolean;
   error?: string;
   validationErrors?: Record<string, string>;
+  project_request_id?: string;
+  company_id?: string;
 }
 
 export interface SubmissionOptions {
   webhookUrl?: string;
   useHiringWebhook?: boolean;
+  skipEdgeFunction?: boolean; // For direct webhook submission if needed
 }
 
 // ============================================================
@@ -66,6 +73,7 @@ export function buildMetadata(): { submitted_at: string; source_url: string } {
 
 /**
  * Submit form data with validation and error handling
+ * Routes through edge function for database storage and webhook forwarding
  * 
  * @param data - The form data to submit (will be validated against schema)
  * @param schema - Zod schema to validate the data against
@@ -97,25 +105,38 @@ export async function submitForm<T extends z.ZodSchema>(
     };
   }
   
-  // Step 2: Determine webhook URL
-  const webhookUrl = options?.webhookUrl || 
-    (options?.useHiringWebhook ? WEBHOOKS.HIRING : WEBHOOKS.DEFAULT);
-  
-  // Step 3: Submit to webhook
+  // Step 2: Route through edge function (stores in DB + forwards to webhook)
   try {
-    await fetch(webhookUrl, {
+    const response = await fetch(SUBMIT_PROJECT_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      mode: "no-cors",
+      headers: { 
+        "Content-Type": "application/json",
+        "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+      },
       body: JSON.stringify(validationResult.data),
     });
+    
+    const result = await response.json();
+    
+    if (!response.ok) {
+      console.error("[webhookService] Edge function error:", result);
+      return {
+        success: false,
+        error: result.error || "Failed to submit form. Please try again.",
+      };
+    }
     
     console.log("[webhookService] Form submitted successfully:", {
       form_type: (validationResult.data as Record<string, unknown>).form_type,
       form_category: (validationResult.data as Record<string, unknown>).form_category,
+      project_request_id: result.project_request_id,
     });
     
-    return { success: true };
+    return { 
+      success: true,
+      project_request_id: result.project_request_id,
+      company_id: result.company_id,
+    };
   } catch (error) {
     console.error("[webhookService] Submission failed:", error);
     
