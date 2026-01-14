@@ -144,6 +144,16 @@ export async function deleteAccessItem(id: string): Promise<void> {
   if (error) throw error;
 }
 
+// Update hours used for a company
+export async function updateCompanyHours(companyId: string, hoursUsed: number): Promise<void> {
+  const { error } = await supabase
+    .from('companies')
+    .update({ hours_used: hoursUsed })
+    .eq('id', companyId);
+
+  if (error) throw error;
+}
+
 // Stats
 export async function getAdminStats() {
   const [companiesRes, usersRes] = await Promise.all([

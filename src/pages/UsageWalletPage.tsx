@@ -7,6 +7,8 @@ import { UsageWallet } from "@/components/UsageWallet";
 import { WalletWarning } from "@/components/WalletWarning";
 import { WalletData } from "@/lib/walletTypes";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useToast } from "@/hooks/use-toast";
+import { updateCompanyHours } from "@/lib/adminService";
 import {
   fetchWalletData,
   fetchWalletByCompanyId,
@@ -18,6 +20,7 @@ import {
 
 const UsageWalletPage = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [isImpersonating, setIsImpersonating] = useState(false);
   const [email, setEmail] = useState<string | null>(null);
   const [walletData, setWalletData] = useState<WalletData | null>(null);
@@ -105,6 +108,26 @@ const UsageWalletPage = () => {
     navigate('/admin/companies');
   };
 
+  const handleUpdateHours = async (hours: number) => {
+    const companyId = sessionStorage.getItem('admin_impersonate_company');
+    if (!companyId) return;
+
+    try {
+      await updateCompanyHours(companyId, hours);
+      toast({ title: "Hours updated successfully" });
+      // Refresh the wallet data
+      handleFetchWalletByCompany(companyId);
+    } catch (err) {
+      console.error('Failed to update hours:', err);
+      toast({
+        title: "Failed to update hours",
+        description: "Please try again",
+        variant: "destructive",
+      });
+      throw err;
+    }
+  };
+
   const warningLevel = walletData
     ? calculateWarningLevel(walletData.hours_remaining, walletData.hours_included)
     : "none";
@@ -174,13 +197,15 @@ const UsageWalletPage = () => {
               isLoading={isLoading}
               error={error}
             />
-          ) : (
+          ) : walletData ? (
             <UsageWallet
               data={walletData}
               onRefresh={handleRefresh}
               isRefreshing={isLoading}
+              isAdmin={isImpersonating}
+              onUpdateHours={isImpersonating ? handleUpdateHours : undefined}
             />
-          )}
+          ) : null}
         </div>
       </main>
     </div>
