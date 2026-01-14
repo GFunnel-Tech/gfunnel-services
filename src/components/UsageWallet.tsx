@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { WalletAccessItems } from "./WalletAccessItems";
+import { UserProjectRequests } from "./UserProjectRequests";
 import { WalletData, PLAN_DETAILS, PAYMENT_LINKS } from "@/lib/walletTypes";
 import {
   formatCurrency,
@@ -239,6 +240,11 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
           <Separator />
         </>
       )}
+
+      {/* Project Requests */}
+      <UserProjectRequests requests={data.project_requests || []} />
+
+      <Separator />
 
       {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-3">

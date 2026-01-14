@@ -6,6 +6,18 @@ export interface AccessItem {
   description?: string;
 }
 
+export interface ProjectRequest {
+  id: string;
+  form_type: string;
+  form_category: string;
+  request_title: string | null;
+  description: string | null;
+  video_link: string | null;
+  status: string;
+  priority: string;
+  submitted_at: string;
+}
+
 export interface WalletData {
   user_email: string;
   user_id: string;
@@ -29,6 +41,9 @@ export interface WalletData {
   
   // Quick access items
   access_items: AccessItem[];
+  
+  // Project requests
+  project_requests: ProjectRequest[];
   
   last_updated: string;
 }

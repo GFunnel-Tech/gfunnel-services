@@ -104,6 +104,19 @@ serve(async (req) => {
         throw itemsError;
       }
 
+      // Get project requests for this company
+      const { data: projectRequests, error: requestsError } = await supabase
+        .from('project_requests')
+        .select('id, form_type, form_category, request_title, description, video_link, status, priority, submitted_at')
+        .eq('company_id', companyId)
+        .order('submitted_at', { ascending: false })
+        .limit(20);
+
+      if (requestsError) {
+        console.error('Error querying project_requests:', requestsError);
+        // Don't throw - just continue without requests
+      }
+
       // Calculate hours remaining
       const hoursRemaining = company.hours_included === -1 
         ? -1 
@@ -130,6 +143,7 @@ serve(async (req) => {
           url: item.url,
           description: item.description,
         })) || [],
+        project_requests: projectRequests || [],
         last_updated: company.updated_at,
       };
 
