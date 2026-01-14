@@ -63,6 +63,6 @@ export const PLAN_COLORS: Record<string, string> = {
 
 export const PAYMENT_LINKS = {
   addHours: "https://www.gfunnel.com/add-hours",
-  upgradePlan: "https://www.gfunnel.com/software-plans",
-  viewBilling: "https://www.gfunnel.com/billing",
+  upgradePlan: "https://www.gfunnel.com/service-plans",
+  viewBilling: "https://cportal.gfunnel.com/account?activeTab=BillingSubscription",
 } as const;

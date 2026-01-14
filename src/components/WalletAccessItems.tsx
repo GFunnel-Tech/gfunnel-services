@@ -23,7 +23,7 @@ export const WalletAccessItems = ({ items }: WalletAccessItemsProps) => {
     <div className="space-y-3">
       <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-2">
         <Folder className="w-4 h-4" />
-        Quick Access
+        My Workspace
       </h3>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {items.map((item) => {
