@@ -145,7 +145,7 @@ const UsageWalletPage = () => {
                 </Link>
               </Button>
               <div>
-                <h1 className="text-xl font-semibold">Usage Wallet</h1>
+                <h1 className="text-xl font-semibold">My Service Account</h1>
                 <p className="text-sm text-muted-foreground">Track your hours and savings</p>
               </div>
             </div>

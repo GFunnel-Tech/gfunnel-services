@@ -85,7 +85,7 @@ export default function AdminDashboard() {
                   <li>Go to <strong>Companies</strong> to create your first company</li>
                   <li>Add user emails to the company so they can access the wallet</li>
                   <li>Configure workspace access items for quick links</li>
-                  <li>Users can now look up their wallet using their email at <code>/wallet</code></li>
+                  <li>Users can now look up their service account using their email at <code>/wallet</code></li>
                 </ol>
               </div>
             </CardContent>

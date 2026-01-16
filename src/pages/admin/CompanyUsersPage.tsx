@@ -180,7 +180,7 @@ export default function CompanyUsersPage() {
               <div>
                 <CardTitle>Linked Users</CardTitle>
                 <CardDescription>
-                  These email addresses can look up this company's wallet data
+                  These email addresses can look up this company's service account
                 </CardDescription>
               </div>
               <Button onClick={() => setShowAddDialog(true)}>
