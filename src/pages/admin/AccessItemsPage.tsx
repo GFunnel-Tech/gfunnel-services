@@ -236,7 +236,7 @@ export default function AccessItemsPage() {
               <div>
                 <CardTitle>Workspace Items</CardTitle>
                 <CardDescription>
-                  These links appear in the user's wallet under "My Workspace"
+                  These links appear in the user's service account under "My Workspace"
                 </CardDescription>
               </div>
               <Button onClick={() => handleOpenDialog()}>

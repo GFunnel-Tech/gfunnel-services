@@ -75,7 +75,7 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold">Usage Dashboard</h2>
+          <h2 className="text-lg font-semibold">My Service Account</h2>
           <p className="text-sm text-muted-foreground">{data.user_email}</p>
         </div>
         <Button

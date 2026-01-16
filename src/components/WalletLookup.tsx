@@ -28,7 +28,7 @@ export const WalletLookup = ({ onEmailSubmit, isLoading, error }: WalletLookupPr
         <div className="mx-auto w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-4">
           <Mail className="w-6 h-6 text-accent" />
         </div>
-        <CardTitle>View Your Usage Wallet</CardTitle>
+        <CardTitle>View Your Service Account</CardTitle>
         <CardDescription>
           Enter your email address to view your usage details and savings
         </CardDescription>

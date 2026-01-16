@@ -146,7 +146,7 @@ export default function CompaniesPage() {
                           <button 
                             onClick={() => handleImpersonate(company.id)}
                             className="flex items-center gap-3 hover:opacity-70 transition-opacity text-left"
-                            title="View wallet as this company"
+                            title="View service account as this company"
                           >
                             <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
                               <Building2 className="h-5 w-5 text-primary" />
@@ -178,7 +178,7 @@ export default function CompaniesPage() {
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem onClick={() => handleImpersonate(company.id)}>
                                 <Eye className="h-4 w-4 mr-2" />
-                                View Wallet
+                                View Account
                               </DropdownMenuItem>
                               <DropdownMenuItem asChild>
                                 <Link to={`/admin/companies/${company.id}`}>
