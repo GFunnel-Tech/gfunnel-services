@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Loader2, Save, FolderOpen } from 'lucide-react';
+import { ArrowLeft, Loader2, Save, FolderOpen, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -334,6 +334,46 @@ export default function CompanyFormPage() {
                           Comparison hourly rate for value calculation (default: $15)
                         </p>
                       </div>
+                    </div>
+
+                    {/* ROTI Preview */}
+                    <div className="mt-4 p-4 rounded-lg bg-accent/5 border border-accent/20">
+                      <div className="flex items-center gap-2 mb-3">
+                        <TrendingUp className="w-4 h-4 text-accent" />
+                        <h5 className="text-sm font-medium">ROTI Preview</h5>
+                      </div>
+                      <div className="grid gap-3 sm:grid-cols-3">
+                        {[10, 20, 40].map((exampleHours) => {
+                          const hoursSaved = exampleHours * form.time_multiplier;
+                          const valueDelivered = hoursSaved * form.va_hourly_rate;
+                          const roti = form.plan_price > 0 ? valueDelivered / form.plan_price : 0;
+                          
+                          return (
+                            <div key={exampleHours} className="p-3 rounded-md bg-background border">
+                              <p className="text-xs text-muted-foreground mb-1">
+                                If client uses <span className="font-medium text-foreground">{exampleHours} hrs</span>
+                              </p>
+                              <div className="space-y-1 text-sm">
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">Hours saved:</span>
+                                  <span className="font-medium">{hoursSaved}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">Value:</span>
+                                  <span className="font-medium text-accent">${valueDelivered.toLocaleString()}</span>
+                                </div>
+                                <div className="flex justify-between pt-1 border-t">
+                                  <span className="text-muted-foreground">ROTI:</span>
+                                  <span className="font-bold text-accent">{roti.toFixed(1)}X</span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-3">
+                        Based on ${form.plan_price}/mo plan price • {form.time_multiplier}X multiplier • ${form.va_hourly_rate}/hr rate
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
