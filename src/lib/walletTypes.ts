@@ -88,6 +88,11 @@ export const PLAN_COLORS: Record<string, string> = {
   Unlimited: "bg-gradient-to-r from-amber-500 to-yellow-400",
 };
 
+// ROTI Calculation Constants
+// 3 hours of GFunnel work = 1 week (40 hours) of VA work
+export const TIME_MULTIPLIER = 13; // ~40/3 rounded down for conservative estimate
+export const VA_HOURLY_RATE = 15; // $15/hr - conservative middle of $5-$20 VA range
+
 export const PAYMENT_LINKS = {
   addHours: "https://www.gfunnel.com/add-hours",
   upgradePlan: "https://www.gfunnel.com/service-plans",
