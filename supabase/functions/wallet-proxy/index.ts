@@ -117,6 +117,19 @@ serve(async (req) => {
         // Don't throw - just continue without requests
       }
 
+      // Get hours history for ROTI chart
+      const { data: hoursHistory, error: historyError } = await supabase
+        .from('hours_history')
+        .select('id, month_year, hours_used, hours_included, plan_price')
+        .eq('company_id', companyId)
+        .order('month_year', { ascending: false })
+        .limit(12);
+
+      if (historyError) {
+        console.error('Error querying hours_history:', historyError);
+        // Don't throw - just continue without history
+      }
+
       // Calculate hours remaining
       const hoursRemaining = company.hours_included === -1 
         ? -1 
@@ -144,6 +157,7 @@ serve(async (req) => {
           description: item.description,
         })) || [],
         project_requests: projectRequests || [],
+        hours_history: hoursHistory || [],
         last_updated: company.updated_at,
       };
 
