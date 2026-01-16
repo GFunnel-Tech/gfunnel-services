@@ -12,15 +12,14 @@ import {
   Area,
   AreaChart,
 } from "recharts";
-import { HoursHistory } from "@/lib/walletTypes";
+import { HoursHistory, TIME_MULTIPLIER, VA_HOURLY_RATE } from "@/lib/walletTypes";
 import { formatCurrency } from "@/lib/walletService";
 
 interface ROTIChartProps {
   history: HoursHistory[];
-  rotiMultiplier?: number;
 }
 
-export const ROTIChart = ({ history, rotiMultiplier = 200 }: ROTIChartProps) => {
+export const ROTIChart = ({ history }: ROTIChartProps) => {
   const chartData = useMemo(() => {
     if (!history || history.length === 0) {
       // Generate placeholder data for last 6 months
@@ -46,19 +45,21 @@ export const ROTIChart = ({ history, rotiMultiplier = 200 }: ROTIChartProps) => 
       .map((entry) => {
         const [year, monthNum] = entry.month_year.split('-');
         const date = new Date(parseInt(year), parseInt(monthNum) - 1, 1);
-        const hourlyRate = entry.hours_included > 0 ? entry.plan_price / entry.hours_included : 100;
-        const valueDelivered = entry.hours_used * rotiMultiplier * hourlyRate;
+        // Conservative ROTI: hours saved × VA rate
+        const hoursSaved = entry.hours_used * TIME_MULTIPLIER;
+        const valueDelivered = hoursSaved * VA_HOURLY_RATE;
         
         return {
           month: date.toLocaleDateString('en-US', { month: 'short' }),
           monthYear: entry.month_year,
           hoursUsed: entry.hours_used,
+          hoursSaved: hoursSaved,
           investment: entry.plan_price,
           valueDelivered: valueDelivered,
           roti: entry.plan_price > 0 ? Math.round((valueDelivered / entry.plan_price) * 100) / 100 : 0,
         };
       });
-  }, [history, rotiMultiplier]);
+  }, [history]);
 
   const totalValueDelivered = chartData.reduce((sum, d) => sum + d.valueDelivered, 0);
   const totalInvestment = chartData.reduce((sum, d) => sum + d.investment, 0);
@@ -73,6 +74,9 @@ export const ROTIChart = ({ history, rotiMultiplier = 200 }: ROTIChartProps) => 
           <div className="space-y-1 text-xs">
             <p className="text-muted-foreground">
               Hours Used: <span className="text-foreground font-medium">{data.hoursUsed}</span>
+            </p>
+            <p className="text-muted-foreground">
+              Hours Saved: <span className="text-foreground font-medium">{Math.round(data.hoursSaved)}</span>
             </p>
             <p className="text-muted-foreground">
               Investment: <span className="text-foreground font-medium">{formatCurrency(data.investment)}</span>
