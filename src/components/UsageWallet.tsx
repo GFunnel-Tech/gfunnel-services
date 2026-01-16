@@ -139,8 +139,8 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
         </CardContent>
       </Card>
 
-      {/* Stats Grid - 2x2 compact cards */}
-      <div className="grid grid-cols-2 gap-3">
+      {/* Stats Grid - 3 cards in a row */}
+      <div className="grid grid-cols-3 gap-3">
         {/* Hours Card */}
         <Card 
           className="cursor-pointer hover:bg-muted/50 transition-colors"

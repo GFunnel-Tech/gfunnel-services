@@ -43,12 +43,7 @@ export const WalletAccessItems = ({ items }: WalletAccessItemsProps) => {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="space-y-3">
-      <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-        <Folder className="w-4 h-4" />
-        My Workspace
-      </h3>
-      <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-3">
         {items.map((item) => {
           const IconComponent = iconMap[item.icon] || Folder;
           
@@ -80,7 +75,6 @@ export const WalletAccessItems = ({ items }: WalletAccessItemsProps) => {
             </a>
           );
         })}
-      </div>
     </div>
   );
 };
