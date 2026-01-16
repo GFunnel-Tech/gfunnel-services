@@ -233,7 +233,7 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
 
       {/* Action Buttons - 3 in a row */}
       <div className="grid grid-cols-3 gap-2">
-        <Button asChild className="h-11">
+        <Button asChild variant="outline" className="h-11">
           <a href="/service-hub">
             <Plus className="w-4 h-4 mr-1.5" />
             <span className="truncate">New Request</span>
