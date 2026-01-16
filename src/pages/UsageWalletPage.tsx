@@ -206,6 +206,18 @@ const UsageWalletPage = () => {
               onUpdateHours={isImpersonating ? handleUpdateHours : undefined}
             />
           ) : null}
+
+          {/* Admin Login Link */}
+          {!isImpersonating && (
+            <div className="text-center pt-4 border-t border-border mt-8">
+              <Link 
+                to="/admin/login" 
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Admin Login →
+              </Link>
+            </div>
+          )}
         </div>
       </main>
     </div>
