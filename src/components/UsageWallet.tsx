@@ -231,34 +231,32 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
         {getTimeUntilReset(data.billing_cycle_end)}
       </p>
 
-      {/* Primary Action - New Request */}
-      <Button asChild className="w-full h-12">
-        <a href="/service-hub">
-          <Plus className="w-4 h-4 mr-2" />
-          Submit New Request
-        </a>
-      </Button>
-
-      {/* Secondary Actions */}
-      <div className="grid grid-cols-2 gap-3">
+      {/* Action Buttons - 3 in a row */}
+      <div className="grid grid-cols-3 gap-2">
+        <Button asChild className="h-11">
+          <a href="/service-hub">
+            <Plus className="w-4 h-4 mr-1.5" />
+            <span className="truncate">New Request</span>
+          </a>
+        </Button>
         <Button asChild variant="outline" className="h-11">
           <a href={PAYMENT_LINKS.scheduleMeeting} target="_blank" rel="noopener noreferrer">
-            <CalendarCheck className="w-4 h-4 mr-2" />
-            Schedule
+            <CalendarCheck className="w-4 h-4 mr-1.5" />
+            <span className="truncate">Schedule</span>
           </a>
         </Button>
         {!unlimited ? (
           <Button asChild variant="outline" className="h-11">
             <a href={PAYMENT_LINKS.addHours} target="_blank" rel="noopener noreferrer">
-              <Zap className="w-4 h-4 mr-2" />
-              Add Hours
+              <Zap className="w-4 h-4 mr-1.5" />
+              <span className="truncate">Add Hours</span>
             </a>
           </Button>
         ) : (
           <Button asChild variant="outline" className="h-11">
             <a href={PAYMENT_LINKS.upgradePlan} target="_blank" rel="noopener noreferrer">
-              <ArrowUpRight className="w-4 h-4 mr-2" />
-              Plan Options
+              <ArrowUpRight className="w-4 h-4 mr-1.5" />
+              <span className="truncate">Plans</span>
             </a>
           </Button>
         )}
