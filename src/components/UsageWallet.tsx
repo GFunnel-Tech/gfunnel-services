@@ -191,26 +191,6 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
           </CardContent>
         </Card>
 
-        {/* Workspace Card */}
-        {workspaceCount > 0 && (
-          <Card 
-            className="cursor-pointer hover:bg-muted/50 transition-colors"
-            onClick={() => setActiveSheet("workspace")}
-          >
-            <CardContent className="p-3">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-muted-foreground flex items-center gap-1">
-                  <FolderOpen className="w-3 h-3" />
-                  Workspace
-                </span>
-                <ChevronRight className="w-3 h-3 text-muted-foreground" />
-              </div>
-              <p className="text-2xl font-bold">{workspaceCount}</p>
-              <p className="text-[10px] text-muted-foreground mt-1">quick access items</p>
-            </CardContent>
-          </Card>
-        )}
-
         {/* Projects Card */}
         <Card 
           className="cursor-pointer hover:bg-muted/50 transition-colors"
