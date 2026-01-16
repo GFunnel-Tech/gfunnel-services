@@ -211,8 +211,11 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
 
       {/* Time Savings Card - Conservative ROTI calculation */}
       {(() => {
-        const hoursSaved = data.hours_used * TIME_MULTIPLIER;
-        const valueDelivered = hoursSaved * VA_HOURLY_RATE;
+        // Use company-specific values, fallback to global defaults
+        const timeMultiplier = data.time_multiplier ?? TIME_MULTIPLIER;
+        const vaRate = data.va_hourly_rate ?? VA_HOURLY_RATE;
+        const hoursSaved = data.hours_used * timeMultiplier;
+        const valueDelivered = hoursSaved * vaRate;
         const roti = planPrice > 0 ? valueDelivered / planPrice : 0;
         
         return (
@@ -250,13 +253,13 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
                         </div>
                       </div>
                       <p className="text-xs text-muted-foreground mt-2">
-                        Based on ${VA_HOURLY_RATE}/hr VA rate • 3 hrs of our work = 1 week of regular work
+                        Based on ${vaRate}/hr rate • {timeMultiplier}X time multiplier
                       </p>
                     </>
                   ) : (
                     <p className="text-sm text-muted-foreground">
                       Start using your hours to see your time savings. Our clients typically save{" "}
-                      <span className="font-bold text-accent">13X</span> their time!
+                      <span className="font-bold text-accent">{timeMultiplier}X</span> their time!
                     </p>
                   )}
                   <p className="text-xs text-muted-foreground mt-2">
@@ -270,7 +273,11 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
       })()}
 
       {/* ROTI Chart */}
-      <ROTIChart history={data.hours_history || []} />
+      <ROTIChart 
+        history={data.hours_history || []} 
+        timeMultiplier={data.time_multiplier ?? TIME_MULTIPLIER}
+        vaHourlyRate={data.va_hourly_rate ?? VA_HOURLY_RATE}
+      />
 
       <Separator />
 

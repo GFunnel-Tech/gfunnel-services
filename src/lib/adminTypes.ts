@@ -11,6 +11,8 @@ export interface Company {
   hours_used: number;
   billing_cycle_end: string | null;
   overage_rate: number;
+  time_multiplier: number;
+  va_hourly_rate: number;
   created_at: string;
   updated_at: string;
 }

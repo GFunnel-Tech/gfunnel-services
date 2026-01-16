@@ -149,6 +149,8 @@ serve(async (req) => {
         hours_remaining: hoursRemaining,
         billing_cycle_end: company.billing_cycle_end,
         overage_rate: company.overage_rate,
+        time_multiplier: company.time_multiplier ?? 13,
+        va_hourly_rate: parseFloat(company.va_hourly_rate) ?? 15,
         access_items: accessItems?.map(item => ({
           id: item.id,
           label: item.label,

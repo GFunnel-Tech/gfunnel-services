@@ -73,7 +73,9 @@ export type Database = {
           response_time: string
           savings_percentage: number
           slug: string
+          time_multiplier: number
           updated_at: string
+          va_hourly_rate: number
         }
         Insert: {
           billing_cycle_end?: string | null
@@ -89,7 +91,9 @@ export type Database = {
           response_time?: string
           savings_percentage?: number
           slug: string
+          time_multiplier?: number
           updated_at?: string
+          va_hourly_rate?: number
         }
         Update: {
           billing_cycle_end?: string | null
@@ -105,7 +109,9 @@ export type Database = {
           response_time?: string
           savings_percentage?: number
           slug?: string
+          time_multiplier?: number
           updated_at?: string
+          va_hourly_rate?: number
         }
         Relationships: []
       }
