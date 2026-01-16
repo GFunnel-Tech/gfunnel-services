@@ -47,6 +47,10 @@ export interface WalletData {
   // Overage
   overage_rate: number;
   
+  // ROTI settings (company-specific)
+  time_multiplier: number;
+  va_hourly_rate: number;
+  
   // Quick access items
   access_items: AccessItem[];
   

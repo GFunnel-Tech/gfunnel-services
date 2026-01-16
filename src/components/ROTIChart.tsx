@@ -17,9 +17,15 @@ import { formatCurrency } from "@/lib/walletService";
 
 interface ROTIChartProps {
   history: HoursHistory[];
+  timeMultiplier?: number;
+  vaHourlyRate?: number;
 }
 
-export const ROTIChart = ({ history }: ROTIChartProps) => {
+export const ROTIChart = ({ 
+  history, 
+  timeMultiplier = TIME_MULTIPLIER, 
+  vaHourlyRate = VA_HOURLY_RATE 
+}: ROTIChartProps) => {
   const chartData = useMemo(() => {
     if (!history || history.length === 0) {
       // Generate placeholder data for last 6 months
@@ -45,9 +51,9 @@ export const ROTIChart = ({ history }: ROTIChartProps) => {
       .map((entry) => {
         const [year, monthNum] = entry.month_year.split('-');
         const date = new Date(parseInt(year), parseInt(monthNum) - 1, 1);
-        // Conservative ROTI: hours saved × VA rate
-        const hoursSaved = entry.hours_used * TIME_MULTIPLIER;
-        const valueDelivered = hoursSaved * VA_HOURLY_RATE;
+        // Conservative ROTI: hours saved × VA rate (using company-specific values)
+        const hoursSaved = entry.hours_used * timeMultiplier;
+        const valueDelivered = hoursSaved * vaHourlyRate;
         
         return {
           month: date.toLocaleDateString('en-US', { month: 'short' }),
@@ -59,7 +65,7 @@ export const ROTIChart = ({ history }: ROTIChartProps) => {
           roti: entry.plan_price > 0 ? Math.round((valueDelivered / entry.plan_price) * 100) / 100 : 0,
         };
       });
-  }, [history]);
+  }, [history, timeMultiplier, vaHourlyRate]);
 
   const totalValueDelivered = chartData.reduce((sum, d) => sum + d.valueDelivered, 0);
   const totalInvestment = chartData.reduce((sum, d) => sum + d.investment, 0);

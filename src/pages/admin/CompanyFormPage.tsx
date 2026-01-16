@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Separator } from '@/components/ui/separator';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { ProtectedAdminRoute } from '@/components/admin/ProtectedAdminRoute';
 import { QuickAccessManager } from '@/components/admin/QuickAccessManager';
@@ -40,6 +41,8 @@ export default function CompanyFormPage() {
     hours_used: 0,
     billing_cycle_end: '',
     overage_rate: 75,
+    time_multiplier: 13,
+    va_hourly_rate: 15,
   });
 
   useEffect(() => {
@@ -60,6 +63,8 @@ export default function CompanyFormPage() {
               hours_used: company.hours_used,
               billing_cycle_end: company.billing_cycle_end?.split('T')[0] || '',
               overage_rate: company.overage_rate,
+              time_multiplier: company.time_multiplier ?? 13,
+              va_hourly_rate: company.va_hourly_rate ?? 15,
             });
           }
         } catch (err) {
@@ -292,6 +297,42 @@ export default function CompanyFormPage() {
                           value={form.overage_rate}
                           onChange={(e) => setForm({ ...form, overage_rate: Number(e.target.value) })}
                         />
+                      </div>
+                    </div>
+
+                    <Separator className="my-4" />
+                    
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-medium">ROTI Calculation Settings</h4>
+                      <p className="text-xs text-muted-foreground">
+                        Adjust how Return on Time Investment is calculated for this client
+                      </p>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="time_multiplier">Time Multiplier</Label>
+                        <Input
+                          id="time_multiplier"
+                          type="number"
+                          value={form.time_multiplier}
+                          onChange={(e) => setForm({ ...form, time_multiplier: Number(e.target.value) })}
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          How many hours of regular work 1 hour of your work replaces (default: 13)
+                        </p>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="va_hourly_rate">VA Hourly Rate ($)</Label>
+                        <Input
+                          id="va_hourly_rate"
+                          type="number"
+                          value={form.va_hourly_rate}
+                          onChange={(e) => setForm({ ...form, va_hourly_rate: Number(e.target.value) })}
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Comparison hourly rate for value calculation (default: $15)
+                        </p>
                       </div>
                     </div>
                   </CardContent>
