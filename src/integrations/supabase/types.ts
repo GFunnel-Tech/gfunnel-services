@@ -147,6 +147,44 @@ export type Database = {
           },
         ]
       }
+      hours_history: {
+        Row: {
+          company_id: string
+          created_at: string
+          hours_included: number
+          hours_used: number
+          id: string
+          month_year: string
+          plan_price: number
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          hours_included?: number
+          hours_used?: number
+          id?: string
+          month_year: string
+          plan_price?: number
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          hours_included?: number
+          hours_used?: number
+          id?: string
+          month_year?: string
+          plan_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hours_history_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_requests: {
         Row: {
           company_id: string | null

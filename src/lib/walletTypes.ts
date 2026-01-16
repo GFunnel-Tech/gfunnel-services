@@ -18,6 +18,14 @@ export interface ProjectRequest {
   submitted_at: string;
 }
 
+export interface HoursHistory {
+  id: string;
+  month_year: string;
+  hours_used: number;
+  hours_included: number;
+  plan_price: number;
+}
+
 export interface WalletData {
   user_email: string;
   user_id: string;
@@ -44,6 +52,9 @@ export interface WalletData {
   
   // Project requests
   project_requests: ProjectRequest[];
+  
+  // Historical hours data for ROTI chart
+  hours_history: HoursHistory[];
   
   last_updated: string;
 }

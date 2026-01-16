@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { WalletAccessItems } from "./WalletAccessItems";
 import { UserProjectRequests } from "./UserProjectRequests";
+import { ROTIChart } from "./ROTIChart";
 import { WalletData, PLAN_DETAILS, PAYMENT_LINKS } from "@/lib/walletTypes";
 import {
   formatCurrency,
@@ -254,6 +255,9 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
           </div>
         </CardContent>
       </Card>
+
+      {/* ROTI Chart */}
+      <ROTIChart history={data.hours_history || []} rotiMultiplier={200} />
 
       <Separator />
 
