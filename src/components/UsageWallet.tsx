@@ -231,7 +231,15 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
         {getTimeUntilReset(data.billing_cycle_end)}
       </p>
 
-      {/* Action Buttons */}
+      {/* Primary Action - New Request */}
+      <Button asChild className="w-full h-12">
+        <a href="/service-hub">
+          <Plus className="w-4 h-4 mr-2" />
+          Submit New Request
+        </a>
+      </Button>
+
+      {/* Secondary Actions */}
       <div className="grid grid-cols-2 gap-3">
         <Button asChild variant="outline" className="h-11">
           <a href={PAYMENT_LINKS.scheduleMeeting} target="_blank" rel="noopener noreferrer">
@@ -242,12 +250,12 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
         {!unlimited ? (
           <Button asChild variant="outline" className="h-11">
             <a href={PAYMENT_LINKS.addHours} target="_blank" rel="noopener noreferrer">
-              <Plus className="w-4 h-4 mr-2" />
+              <Zap className="w-4 h-4 mr-2" />
               Add Hours
             </a>
           </Button>
         ) : (
-          <Button asChild className="h-11">
+          <Button asChild variant="outline" className="h-11">
             <a href={PAYMENT_LINKS.upgradePlan} target="_blank" rel="noopener noreferrer">
               <ArrowUpRight className="w-4 h-4 mr-2" />
               Plan Options
