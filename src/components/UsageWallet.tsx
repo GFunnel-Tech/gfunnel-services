@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity, Pencil, CalendarCheck } from "lucide-react";
+import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity, Pencil, CalendarCheck, ChevronRight, FolderOpen, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import {
   Dialog,
@@ -14,6 +13,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { WalletAccessItems } from "./WalletAccessItems";
 import { UserProjectRequests } from "./UserProjectRequests";
 import { ROTIChart } from "./ROTIChart";
@@ -38,6 +44,7 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
   const [isEditingHours, setIsEditingHours] = useState(false);
   const [editHoursValue, setEditHoursValue] = useState(data.hours_used.toString());
   const [isSaving, setIsSaving] = useState(false);
+  const [activeSheet, setActiveSheet] = useState<"roti" | "workspace" | "projects" | null>(null);
   
   const unlimited = isUnlimitedPlan(data.hours_included);
   const percentageUsed = unlimited ? 0 : getPercentageUsed(data.hours_used, data.hours_included);
@@ -46,9 +53,15 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
   
   // Get plan values - prefer data from API, fallback to static config
   const planPrice = data.plan_price || planDetails?.price || 0;
-  const planValue = data.plan_value || planDetails?.value || 0;
   const savingsPercent = data.savings_percentage || planDetails?.savings || 0;
   const responseTime = data.response_time || planDetails?.response || "";
+
+  // ROTI calculations
+  const timeMultiplier = data.time_multiplier ?? TIME_MULTIPLIER;
+  const vaRate = data.va_hourly_rate ?? VA_HOURLY_RATE;
+  const hoursSaved = data.hours_used * timeMultiplier;
+  const valueDelivered = hoursSaved * vaRate;
+  const roti = planPrice > 0 ? valueDelivered / planPrice : 0;
 
   const handleOpenEditHours = () => {
     setEditHoursValue(data.hours_used.toString());
@@ -70,8 +83,11 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
     }
   };
 
+  const projectCount = data.project_requests?.length || 0;
+  const workspaceCount = data.access_items?.length || 0;
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -89,231 +105,158 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
         </Button>
       </div>
 
-      {/* Plan Card */}
+      {/* Plan Summary Card */}
       <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
-        <CardContent className="p-5">
-          <div className="flex items-start justify-between">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h3 className="text-xl font-bold">{data.plan_name} Plan</h3>
-                {isPro && (
-                  <Badge variant="secondary" className="text-xs">
-                    <Star className="w-3 h-3 mr-1" />
-                    Most Popular
-                  </Badge>
-                )}
-              </div>
-              <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  {unlimited ? (
-                    <>
-                      <Infinity className="w-4 h-4" />
-                      Unlimited hours
-                    </>
-                  ) : (
-                    <>
-                      <Clock className="w-4 h-4" />
-                      {data.hours_included} hours/month
-                    </>
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <h3 className="font-bold">{data.plan_name} Plan</h3>
+                  {isPro && (
+                    <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                      <Star className="w-2.5 h-2.5 mr-0.5" />
+                      Popular
+                    </Badge>
                   )}
-                </span>
-                <span>•</span>
-                <span>{responseTime}</span>
+                </div>
+                <p className="text-xs text-muted-foreground flex items-center gap-2">
+                  {unlimited ? (
+                    <><Infinity className="w-3 h-3" /> Unlimited</>
+                  ) : (
+                    <><Clock className="w-3 h-3" /> {data.hours_included} hrs/mo</>
+                  )}
+                  <span>•</span>
+                  <span>{responseTime}</span>
+                </p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold">{formatCurrency(planPrice)}</p>
-              <p className="text-xs text-muted-foreground">/month</p>
+              <p className="text-xl font-bold">{formatCurrency(planPrice)}</p>
+              <p className="text-[10px] text-muted-foreground">/month</p>
             </div>
-          </div>
-          
-          <div className="mt-4 pt-4 border-t border-border/50">
-            <p className="text-xs text-muted-foreground">
-              {getTimeUntilReset(data.billing_cycle_end)}
-            </p>
           </div>
         </CardContent>
       </Card>
 
-      {/* Hours Usage */}
-      {!unlimited ? (
-        <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base flex items-center justify-between">
-            <span className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-primary" />
-              Hours This Cycle
-            </span>
-            {isAdmin && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={handleOpenEditHours}
-                className="h-7 px-2 text-muted-foreground hover:text-foreground"
-              >
-                <Pencil className="w-3 h-3 mr-1" />
-                Edit
-              </Button>
-            )}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">
-                {data.hours_used} of {data.hours_included} hours used
+      {/* Stats Grid - 2x2 compact cards */}
+      <div className="grid grid-cols-2 gap-3">
+        {/* Hours Card */}
+        <Card 
+          className="cursor-pointer hover:bg-muted/50 transition-colors"
+          onClick={isAdmin ? handleOpenEditHours : undefined}
+        >
+          <CardContent className="p-3">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-muted-foreground flex items-center gap-1">
+                {unlimited ? <Infinity className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
+                Hours
               </span>
-              <span className="font-medium">{Math.round(percentageUsed)}%</span>
+              {isAdmin && <Pencil className="w-3 h-3 text-muted-foreground" />}
             </div>
-            <Progress value={percentageUsed} className="h-2" />
-          </div>
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Remaining</span>
-            <span className="font-semibold text-primary">{data.hours_remaining} hours</span>
-          </div>
-        </CardContent>
-        </Card>
-      ) : (
-        <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base flex items-center justify-between">
-            <span className="flex items-center gap-2">
-              <Infinity className="w-4 h-4 text-primary" />
-              Unlimited Hours
-            </span>
-            {isAdmin && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={handleOpenEditHours}
-                className="h-7 px-2 text-muted-foreground hover:text-foreground"
-              >
-                <Pencil className="w-3 h-3 mr-1" />
-                Edit
-              </Button>
+            {!unlimited ? (
+              <>
+                <p className="text-2xl font-bold">{data.hours_used}</p>
+                <Progress value={percentageUsed} className="h-1.5 mt-2" />
+                <p className="text-[10px] text-muted-foreground mt-1">
+                  {data.hours_remaining} of {data.hours_included} remaining
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-2xl font-bold">{data.hours_used}</p>
+                <p className="text-[10px] text-muted-foreground mt-1">hours used this cycle</p>
+              </>
             )}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <p className="text-2xl font-bold">{data.hours_used} hrs</p>
-              <p className="text-sm text-muted-foreground">used this cycle</p>
-            </div>
-            <Badge variant="outline" className="text-xs">
-              <Zap className="w-3 h-3 mr-1" />
-              5 active tasks max
-            </Badge>
-          </div>
-        </CardContent>
+          </CardContent>
         </Card>
-      )}
 
-      {/* Time Savings Card - Conservative ROTI calculation */}
-      {(() => {
-        // Use company-specific values, fallback to global defaults
-        const timeMultiplier = data.time_multiplier ?? TIME_MULTIPLIER;
-        const vaRate = data.va_hourly_rate ?? VA_HOURLY_RATE;
-        const hoursSaved = data.hours_used * timeMultiplier;
-        const valueDelivered = hoursSaved * vaRate;
-        const roti = planPrice > 0 ? valueDelivered / planPrice : 0;
-        
-        return (
-          <Card className="bg-accent/5 border-accent/20">
-            <CardContent className="p-5">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                  <TrendingUp className="w-5 h-5 text-accent" />
-                </div>
-                <div className="space-y-1 flex-1">
-                  <h4 className="font-semibold">Time Saved This Cycle</h4>
-                  {data.hours_used > 0 ? (
-                    <>
-                      <div className="flex items-baseline gap-2 mt-2">
-                        <span className="text-3xl font-bold text-accent">{Math.round(hoursSaved)}</span>
-                        <span className="text-sm text-muted-foreground">hours saved</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Your {data.hours_used} hours of expert work replaced approximately{" "}
-                        <span className="font-semibold text-foreground">{Math.round(hoursSaved)} hours</span>{" "}
-                        of regular work
-                      </p>
-                      <div className="mt-3 p-3 rounded-lg bg-accent/10 border border-accent/20 space-y-2">
-                        <div className="flex justify-between items-center text-sm">
-                          <span className="text-muted-foreground">Your investment</span>
-                          <span className="font-medium">{formatCurrency(planPrice)}/mo</span>
-                        </div>
-                        <div className="flex justify-between items-center text-sm">
-                          <span className="text-muted-foreground">Value delivered</span>
-                          <span className="font-bold text-accent">{formatCurrency(valueDelivered)}</span>
-                        </div>
-                        <div className="flex justify-between items-center text-sm pt-1 border-t border-accent/20">
-                          <span className="text-muted-foreground">Return on investment</span>
-                          <span className="font-bold text-accent">{roti.toFixed(1)}X</span>
-                        </div>
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        Based on ${vaRate}/hr rate • {timeMultiplier}X time multiplier
-                      </p>
-                    </>
-                  ) : (
-                    <p className="text-sm text-muted-foreground">
-                      Start using your hours to see your time savings. Our clients typically save{" "}
-                      <span className="font-bold text-accent">{timeMultiplier}X</span> their time!
-                    </p>
-                  )}
-                  <p className="text-xs text-muted-foreground mt-2">
-                    You're saving <span className="font-semibold text-accent">{savingsPercent}%</span> vs. traditional agencies
-                  </p>
-                </div>
+        {/* ROTI Card */}
+        <Card 
+          className="cursor-pointer hover:bg-muted/50 transition-colors bg-accent/5 border-accent/20"
+          onClick={() => setActiveSheet("roti")}
+        >
+          <CardContent className="p-3">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-muted-foreground flex items-center gap-1">
+                <TrendingUp className="w-3 h-3" />
+                Time Saved
+              </span>
+              <ChevronRight className="w-3 h-3 text-muted-foreground" />
+            </div>
+            <p className="text-2xl font-bold text-accent">{Math.round(hoursSaved)}</p>
+            <p className="text-[10px] text-muted-foreground mt-1">
+              {roti.toFixed(1)}X return • {formatCurrency(valueDelivered)} value
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Workspace Card */}
+        {workspaceCount > 0 && (
+          <Card 
+            className="cursor-pointer hover:bg-muted/50 transition-colors"
+            onClick={() => setActiveSheet("workspace")}
+          >
+            <CardContent className="p-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs text-muted-foreground flex items-center gap-1">
+                  <FolderOpen className="w-3 h-3" />
+                  Workspace
+                </span>
+                <ChevronRight className="w-3 h-3 text-muted-foreground" />
               </div>
+              <p className="text-2xl font-bold">{workspaceCount}</p>
+              <p className="text-[10px] text-muted-foreground mt-1">quick access items</p>
             </CardContent>
           </Card>
-        );
-      })()}
+        )}
 
-      {/* ROTI Chart */}
-      <ROTIChart 
-        history={data.hours_history || []} 
-        timeMultiplier={data.time_multiplier ?? TIME_MULTIPLIER}
-        vaHourlyRate={data.va_hourly_rate ?? VA_HOURLY_RATE}
-      />
+        {/* Projects Card */}
+        <Card 
+          className="cursor-pointer hover:bg-muted/50 transition-colors"
+          onClick={() => setActiveSheet("projects")}
+        >
+          <CardContent className="p-3">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-muted-foreground flex items-center gap-1">
+                <FileText className="w-3 h-3" />
+                Projects
+              </span>
+              <ChevronRight className="w-3 h-3 text-muted-foreground" />
+            </div>
+            <p className="text-2xl font-bold">{projectCount}</p>
+            <p className="text-[10px] text-muted-foreground mt-1">
+              {projectCount === 0 ? "no requests yet" : "recent requests"}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
 
-      <Separator />
-
-      {/* Quick Access Items */}
-      {data.access_items && data.access_items.length > 0 && (
-        <>
-          <WalletAccessItems items={data.access_items} />
-          <Separator />
-        </>
-      )}
-
-      {/* Project Requests */}
-      <UserProjectRequests requests={data.project_requests || []} />
-
-      <Separator />
+      {/* Billing cycle note */}
+      <p className="text-xs text-center text-muted-foreground">
+        {getTimeUntilReset(data.billing_cycle_end)}
+      </p>
 
       {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-3">
-        <Button asChild variant="outline" className="h-12">
+        <Button asChild variant="outline" className="h-11">
           <a href={PAYMENT_LINKS.scheduleMeeting} target="_blank" rel="noopener noreferrer">
             <CalendarCheck className="w-4 h-4 mr-2" />
-            Schedule Meeting
+            Schedule
           </a>
         </Button>
         {!unlimited ? (
-          <Button asChild variant="outline" className="h-12">
+          <Button asChild variant="outline" className="h-11">
             <a href={PAYMENT_LINKS.addHours} target="_blank" rel="noopener noreferrer">
               <Plus className="w-4 h-4 mr-2" />
               Add Hours
             </a>
           </Button>
         ) : (
-          <Button asChild className="h-12">
+          <Button asChild className="h-11">
             <a href={PAYMENT_LINKS.upgradePlan} target="_blank" rel="noopener noreferrer">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              View Plan Options
+              Plan Options
             </a>
           </Button>
         )}
@@ -321,7 +264,7 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
       
       {/* Upgrade Button for non-unlimited */}
       {!unlimited && (
-        <Button asChild className="w-full h-12">
+        <Button asChild className="w-full h-11">
           <a href={PAYMENT_LINKS.upgradePlan} target="_blank" rel="noopener noreferrer">
             <ArrowUpRight className="w-4 h-4 mr-2" />
             Upgrade Plan
@@ -329,23 +272,110 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
         </Button>
       )}
 
-      {/* View Billing Link */}
-      <div className="text-center">
+      {/* Footer Links */}
+      <div className="flex items-center justify-between text-xs text-muted-foreground">
         <a
           href={PAYMENT_LINKS.viewBilling}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+          className="hover:text-foreground transition-colors inline-flex items-center gap-1"
         >
-          View Billing History
+          Billing History
           <ExternalLink className="w-3 h-3" />
         </a>
+        <span>Updated {getRelativeTime(data.last_updated)}</span>
       </div>
 
-      {/* Last Updated */}
-      <p className="text-center text-xs text-muted-foreground">
-        Last updated: {getRelativeTime(data.last_updated)}
-      </p>
+      {/* ROTI Detail Sheet */}
+      <Sheet open={activeSheet === "roti"} onOpenChange={(open) => !open && setActiveSheet(null)}>
+        <SheetContent side="bottom" className="h-[85vh] overflow-y-auto">
+          <SheetHeader className="text-left mb-4">
+            <SheetTitle className="flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-accent" />
+              Return on Time Investment
+            </SheetTitle>
+            <SheetDescription>
+              Your time savings and value delivered this cycle
+            </SheetDescription>
+          </SheetHeader>
+          
+          <div className="space-y-6">
+            {/* Summary stats */}
+            <div className="grid grid-cols-3 gap-3">
+              <div className="text-center p-3 rounded-lg bg-accent/10">
+                <p className="text-2xl font-bold text-accent">{Math.round(hoursSaved)}</p>
+                <p className="text-xs text-muted-foreground">Hours Saved</p>
+              </div>
+              <div className="text-center p-3 rounded-lg bg-accent/10">
+                <p className="text-2xl font-bold text-accent">{formatCurrency(valueDelivered)}</p>
+                <p className="text-xs text-muted-foreground">Value Delivered</p>
+              </div>
+              <div className="text-center p-3 rounded-lg bg-accent/10">
+                <p className="text-2xl font-bold text-accent">{roti.toFixed(1)}X</p>
+                <p className="text-xs text-muted-foreground">Return</p>
+              </div>
+            </div>
+
+            {/* Explanation */}
+            <div className="p-4 rounded-lg bg-muted/50 space-y-2">
+              <p className="text-sm">
+                Your <span className="font-semibold">{data.hours_used} hours</span> of expert work 
+                replaced approximately <span className="font-semibold text-accent">{Math.round(hoursSaved)} hours</span> of regular work.
+              </p>
+              <div className="flex justify-between items-center text-sm pt-2 border-t">
+                <span className="text-muted-foreground">Your investment</span>
+                <span className="font-medium">{formatCurrency(planPrice)}/mo</span>
+              </div>
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-muted-foreground">Value delivered</span>
+                <span className="font-bold text-accent">{formatCurrency(valueDelivered)}</span>
+              </div>
+              <p className="text-xs text-muted-foreground pt-2">
+                Based on ${vaRate}/hr rate • {timeMultiplier}X time multiplier • {savingsPercent}% savings vs agencies
+              </p>
+            </div>
+
+            {/* Chart */}
+            <ROTIChart 
+              history={data.hours_history || []} 
+              timeMultiplier={timeMultiplier}
+              vaHourlyRate={vaRate}
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* Workspace Sheet */}
+      <Sheet open={activeSheet === "workspace"} onOpenChange={(open) => !open && setActiveSheet(null)}>
+        <SheetContent side="bottom" className="h-[70vh] overflow-y-auto">
+          <SheetHeader className="text-left mb-4">
+            <SheetTitle className="flex items-center gap-2">
+              <FolderOpen className="w-5 h-5 text-primary" />
+              My Workspace
+            </SheetTitle>
+            <SheetDescription>
+              Quick access to your tools and resources
+            </SheetDescription>
+          </SheetHeader>
+          <WalletAccessItems items={data.access_items || []} />
+        </SheetContent>
+      </Sheet>
+
+      {/* Projects Sheet */}
+      <Sheet open={activeSheet === "projects"} onOpenChange={(open) => !open && setActiveSheet(null)}>
+        <SheetContent side="bottom" className="h-[85vh] overflow-y-auto">
+          <SheetHeader className="text-left mb-4">
+            <SheetTitle className="flex items-center gap-2">
+              <FileText className="w-5 h-5 text-primary" />
+              Project Requests
+            </SheetTitle>
+            <SheetDescription>
+              Your submitted requests and their status
+            </SheetDescription>
+          </SheetHeader>
+          <UserProjectRequests requests={data.project_requests || []} />
+        </SheetContent>
+      </Sheet>
 
       {/* Edit Hours Dialog */}
       <Dialog open={isEditingHours} onOpenChange={setIsEditingHours}>
