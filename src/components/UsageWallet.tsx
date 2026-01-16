@@ -208,23 +208,47 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
         </Card>
       )}
 
-      {/* Savings Card */}
+      {/* Savings Card - Dynamic based on hours used with 200X ROTI */}
       <Card className="bg-accent/5 border-accent/20">
         <CardContent className="p-5">
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
               <TrendingUp className="w-5 h-5 text-accent" />
             </div>
-            <div className="space-y-1">
-              <h4 className="font-semibold">Your Savings</h4>
-              <p className="text-sm text-muted-foreground">
-                You're saving <span className="font-bold text-accent">{savingsPercent}%</span> vs. traditional agencies
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {formatCurrency(planValue)}/mo value → {formatCurrency(planPrice)}/mo your price
-              </p>
-              <p className="text-sm font-medium text-accent mt-2">
-                That's {formatCurrency(planValue - planPrice)} saved every month!
+            <div className="space-y-1 flex-1">
+              <h4 className="font-semibold">Your Return on Investment</h4>
+              {data.hours_used > 0 ? (
+                <>
+                  <div className="flex items-baseline gap-2 mt-2">
+                    <span className="text-3xl font-bold text-accent">200X</span>
+                    <span className="text-sm text-muted-foreground">ROTI</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Your {data.hours_used} hours of work delivered approximately{" "}
+                    <span className="font-semibold text-foreground">
+                      {formatCurrency(data.hours_used * 200 * (planPrice / data.hours_included || 100))}
+                    </span>{" "}
+                    in value
+                  </p>
+                  <div className="mt-3 p-3 rounded-lg bg-accent/10 border border-accent/20">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-muted-foreground">Your investment</span>
+                      <span className="font-medium">{formatCurrency(planPrice)}/mo</span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm mt-1">
+                      <span className="text-muted-foreground">Equivalent value delivered</span>
+                      <span className="font-bold text-accent">{formatCurrency(data.hours_used * 200 * (planPrice / data.hours_included || 100))}</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Start using your hours to see your return on investment. We typically deliver{" "}
+                  <span className="font-bold text-accent">200X ROTI</span> for our clients!
+                </p>
+              )}
+              <p className="text-xs text-muted-foreground mt-2">
+                You're saving <span className="font-semibold text-accent">{savingsPercent}%</span> vs. traditional agencies
               </p>
             </div>
           </div>
