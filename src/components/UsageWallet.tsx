@@ -232,6 +232,20 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
         </Card>
       </div>
 
+      {/* Workspace Quick Access - shown directly */}
+      {workspaceCount > 0 && (
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-medium flex items-center gap-2">
+              <FolderOpen className="w-4 h-4 text-muted-foreground" />
+              My Workspace
+            </h3>
+            <span className="text-xs text-muted-foreground">{workspaceCount} items</span>
+          </div>
+          <WalletAccessItems items={data.access_items || []} />
+        </div>
+      )}
+
       {/* Billing cycle note */}
       <p className="text-xs text-center text-muted-foreground">
         {getTimeUntilReset(data.billing_cycle_end)}
