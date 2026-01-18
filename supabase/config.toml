@@ -1,1 +1,10 @@
 project_id = "mlnkmdnxjxheulbboias"
+
+[functions.wallet-proxy]
+verify_jwt = false
+
+[functions.update-company-role]
+verify_jwt = false
+
+[functions.submit-project]
+verify_jwt = false

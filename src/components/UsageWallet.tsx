@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity, Pencil, CalendarCheck, ChevronRight, FolderOpen, FileText } from "lucide-react";
+import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity, Pencil, CalendarCheck, ChevronRight, FolderOpen, FileText, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +24,7 @@ import {
 import { WalletAccessItems } from "./WalletAccessItems";
 import { UserProjectRequests } from "./UserProjectRequests";
 import { ROTIChart } from "./ROTIChart";
+import { TeamRolesSection } from "./TeamRolesSection";
 import { WalletData, PLAN_DETAILS, PAYMENT_LINKS, TIME_MULTIPLIER, VA_HOURLY_RATE } from "@/lib/walletTypes";
 import {
   formatCurrency,
@@ -31,6 +33,8 @@ import {
   isUnlimitedPlan,
   getRelativeTime,
 } from "@/lib/walletService";
+import { supabase } from "@/integrations/supabase/client";
+import { departmentConfigs } from "@/lib/departmentConfigs";
 
 interface UsageWalletProps {
   data: WalletData;
@@ -44,7 +48,7 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
   const [isEditingHours, setIsEditingHours] = useState(false);
   const [editHoursValue, setEditHoursValue] = useState(data.hours_used.toString());
   const [isSaving, setIsSaving] = useState(false);
-  const [activeSheet, setActiveSheet] = useState<"roti" | "workspace" | "projects" | null>(null);
+  const [activeSheet, setActiveSheet] = useState<"roti" | "workspace" | "projects" | "team" | null>(null);
   
   const unlimited = isUnlimitedPlan(data.hours_included);
   const percentageUsed = unlimited ? 0 : getPercentageUsed(data.hours_used, data.hours_included);
@@ -85,6 +89,43 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
 
   const projectCount = data.project_requests?.length || 0;
   const workspaceCount = data.access_items?.length || 0;
+  
+  // Team roles stats
+  const companyRoles = data.company_roles || [];
+  const totalRoles = departmentConfigs.reduce((sum, dept) => sum + dept.roles.length, 0);
+  const filledRoles = companyRoles.filter(r => r.status === 'filled').length;
+
+  const handleAssignRole = async (departmentSlug: string, roleTitle: string, name: string, email: string) => {
+    try {
+      const { data: result, error } = await supabase.functions.invoke('update-company-role', {
+        body: {
+          company_id: data.user_id,
+          department_slug: departmentSlug,
+          role_title: roleTitle,
+          assigned_name: name,
+          assigned_email: email,
+          status: 'filled',
+        }
+      });
+
+      if (error) throw error;
+      
+      toast.success(`${roleTitle} assigned to ${name}`);
+      onRefresh();
+    } catch (error) {
+      console.error('Error assigning role:', error);
+      toast.error('Failed to assign role');
+      throw error;
+    }
+  };
+
+  const handleRequestHire = (departmentSlug: string, roleTitle: string) => {
+    // Navigate to service hub with pre-filled hire request
+    const dept = departmentConfigs.find(d => d.slug === departmentSlug);
+    if (dept) {
+      window.location.href = `/department/${departmentSlug}?action=hire&role=${encodeURIComponent(roleTitle)}`;
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -211,6 +252,29 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
           </CardContent>
         </Card>
       </div>
+
+      {/* Team Roles Card */}
+      <Card 
+        className="cursor-pointer hover:bg-muted/50 transition-colors"
+        onClick={() => setActiveSheet("team")}
+      >
+        <CardContent className="p-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Users className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Team Roles</p>
+                <p className="text-xs text-muted-foreground">
+                  {filledRoles} of {totalRoles} roles filled
+                </p>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Workspace Quick Access - shown directly */}
       {workspaceCount > 0 && (
@@ -374,6 +438,26 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
             </SheetDescription>
           </SheetHeader>
           <UserProjectRequests requests={data.project_requests || []} />
+        </SheetContent>
+      </Sheet>
+
+      {/* Team Roles Sheet */}
+      <Sheet open={activeSheet === "team"} onOpenChange={(open) => !open && setActiveSheet(null)}>
+        <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">
+          <SheetHeader className="text-left mb-4">
+            <SheetTitle className="flex items-center gap-2">
+              <Users className="w-5 h-5 text-primary" />
+              Team Roles
+            </SheetTitle>
+            <SheetDescription>
+              Manage your team members and request new hires
+            </SheetDescription>
+          </SheetHeader>
+          <TeamRolesSection 
+            companyRoles={companyRoles}
+            onAssignRole={handleAssignRole}
+            onRequestHire={handleRequestHire}
+          />
         </SheetContent>
       </Sheet>
 
