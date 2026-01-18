@@ -26,6 +26,16 @@ export interface HoursHistory {
   plan_price: number;
 }
 
+export interface CompanyRole {
+  id: string;
+  department_slug: string;
+  role_title: string;
+  status: 'filled' | 'hiring' | 'vacant';
+  assigned_name?: string;
+  assigned_email?: string;
+  hire_request_id?: string;
+}
+
 export interface WalletData {
   user_email: string;
   user_id: string;
@@ -59,6 +69,9 @@ export interface WalletData {
   
   // Historical hours data for ROTI chart
   hours_history: HoursHistory[];
+  
+  // Company role assignments
+  company_roles: CompanyRole[];
   
   last_updated: string;
 }

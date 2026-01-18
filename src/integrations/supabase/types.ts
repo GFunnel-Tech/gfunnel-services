@@ -115,6 +115,60 @@ export type Database = {
         }
         Relationships: []
       }
+      company_roles: {
+        Row: {
+          assigned_email: string | null
+          assigned_name: string | null
+          company_id: string
+          created_at: string
+          department_slug: string
+          hire_request_id: string | null
+          id: string
+          role_title: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_email?: string | null
+          assigned_name?: string | null
+          company_id: string
+          created_at?: string
+          department_slug: string
+          hire_request_id?: string | null
+          id?: string
+          role_title: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_email?: string | null
+          assigned_name?: string | null
+          company_id?: string
+          created_at?: string
+          department_slug?: string
+          hire_request_id?: string | null
+          id?: string
+          role_title?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_roles_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "company_roles_hire_request_id_fkey"
+            columns: ["hire_request_id"]
+            isOneToOne: false
+            referencedRelation: "project_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       company_users: {
         Row: {
           company_id: string

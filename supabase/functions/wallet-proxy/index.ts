@@ -130,6 +130,18 @@ serve(async (req) => {
         // Don't throw - just continue without history
       }
 
+      // Get company role assignments
+      const { data: companyRoles, error: rolesError } = await supabase
+        .from('company_roles')
+        .select('id, department_slug, role_title, status, assigned_name, assigned_email, hire_request_id')
+        .eq('company_id', companyId)
+        .order('department_slug', { ascending: true });
+
+      if (rolesError) {
+        console.error('Error querying company_roles:', rolesError);
+        // Don't throw - just continue without roles
+      }
+
       // Calculate hours remaining
       const hoursRemaining = company.hours_included === -1 
         ? -1 
@@ -160,6 +172,7 @@ serve(async (req) => {
         })) || [],
         project_requests: projectRequests || [],
         hours_history: hoursHistory || [],
+        company_roles: companyRoles || [],
         last_updated: company.updated_at,
       };
 
