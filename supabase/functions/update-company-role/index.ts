@@ -12,7 +12,21 @@ serve(async (req) => {
   }
 
   try {
-    const { company_id, department_slug, role_title, assigned_name, assigned_email, status } = await req.json();
+    const { 
+      company_id, 
+      department_slug, 
+      role_title, 
+      assigned_name, 
+      assigned_email,
+      assigned_phone,
+      assigned_photo_url,
+      google_meet_link,
+      profile_type,
+      ai_name,
+      ai_type,
+      ai_agent_id,
+      status 
+    } = await req.json();
 
     if (!company_id || !department_slug || !role_title) {
       return new Response(
@@ -41,9 +55,9 @@ serve(async (req) => {
     }
 
     // Determine status based on inputs
-    const roleStatus = status || (assigned_name ? 'filled' : 'vacant');
+    const roleStatus = status || (assigned_name || ai_name ? 'filled' : 'vacant');
 
-    // Upsert the company role
+    // Upsert the company role with all profile fields
     const { data: roleData, error: roleError } = await supabase
       .from('company_roles')
       .upsert({
@@ -52,6 +66,13 @@ serve(async (req) => {
         role_title,
         assigned_name: assigned_name || null,
         assigned_email: assigned_email || null,
+        assigned_phone: assigned_phone || null,
+        assigned_photo_url: assigned_photo_url || null,
+        google_meet_link: google_meet_link || null,
+        profile_type: profile_type || 'human',
+        ai_name: ai_name || null,
+        ai_type: ai_type || null,
+        ai_agent_id: ai_agent_id || null,
         status: roleStatus,
         updated_at: new Date().toISOString(),
       }, {
