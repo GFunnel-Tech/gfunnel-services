@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { ChevronDown, ChevronRight, User, UserPlus, Clock, Check, Mail, Pencil, X, Save } from "lucide-react";
+import { ChevronDown, ChevronRight, User, UserPlus, Clock, Check, Pencil, X, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { CompanyRole } from "@/lib/walletTypes";
 import { departmentConfigs, getDepartmentColorClasses } from "@/lib/departmentConfigs";
+import { ProfileCard, ProfileData } from "./ProfileCard";
+import { HireOptionsModal, HireFormData } from "./HireOptionsModal";
 
 interface TeamRolesSectionProps {
   companyRoles: CompanyRole[];
-  onAssignRole: (departmentSlug: string, roleTitle: string, name: string, email: string) => Promise<void>;
+  onAssignRole: (departmentSlug: string, roleTitle: string, data: HireFormData) => Promise<void>;
   onRequestHire: (departmentSlug: string, roleTitle: string) => void;
 }
 
@@ -24,6 +26,8 @@ export const TeamRolesSection = ({ companyRoles, onAssignRole, onRequestHire }: 
   const [editName, setEditName] = useState("");
   const [editEmail, setEditEmail] = useState("");
   const [saving, setSaving] = useState(false);
+  const [hireModalOpen, setHireModalOpen] = useState(false);
+  const [hireModalRole, setHireModalRole] = useState<{ departmentSlug: string; roleTitle: string; departmentName: string } | null>(null);
 
   const toggleDepartment = (slug: string) => {
     setExpandedDepartments(prev => 
@@ -52,11 +56,41 @@ export const TeamRolesSection = ({ companyRoles, onAssignRole, onRequestHire }: 
     
     setSaving(true);
     try {
-      await onAssignRole(editingRole.departmentSlug, editingRole.roleTitle, editName.trim(), editEmail.trim());
+      await onAssignRole(editingRole.departmentSlug, editingRole.roleTitle, {
+        profileType: 'human',
+        humanName: editName.trim(),
+        humanEmail: editEmail.trim(),
+      });
       cancelEditing();
     } finally {
       setSaving(false);
     }
+  };
+
+  const openHireModal = (departmentSlug: string, roleTitle: string, departmentName: string) => {
+    setHireModalRole({ departmentSlug, roleTitle, departmentName });
+    setHireModalOpen(true);
+  };
+
+  const handleHireSubmit = async (data: HireFormData) => {
+    if (!hireModalRole) return;
+    await onAssignRole(hireModalRole.departmentSlug, hireModalRole.roleTitle, data);
+  };
+
+  // Build profile data from company role
+  const buildProfileData = (roleData: CompanyRole): ProfileData | null => {
+    if (roleData.status !== 'filled') return null;
+    
+    return {
+      name: roleData.assigned_name || 'Unknown',
+      email: roleData.assigned_email,
+      phone: roleData.assigned_phone,
+      photoUrl: roleData.assigned_photo_url,
+      googleMeetLink: roleData.google_meet_link,
+      type: (roleData.profile_type as 'human' | 'ai') || 'human',
+      aiType: roleData.ai_type,
+      aiAgentId: roleData.ai_agent_id,
+    };
   };
 
   // Calculate stats
@@ -140,6 +174,7 @@ export const TeamRolesSection = ({ companyRoles, onAssignRole, onRequestHire }: 
                   {dept.roles.map((role) => {
                     const roleData = getRoleStatus(dept.slug, role.title);
                     const isEditing = editingRole?.departmentSlug === dept.slug && editingRole?.roleTitle === role.title;
+                    const profileData = roleData ? buildProfileData(roleData) : null;
 
                     return (
                       <div key={role.title} className="p-3 hover:bg-muted/30 transition-colors">
@@ -184,21 +219,14 @@ export const TeamRolesSection = ({ companyRoles, onAssignRole, onRequestHire }: 
                                   </Button>
                                 </div>
                               </div>
-                            ) : roleData?.status === 'filled' ? (
-                              <div className="mt-1 ml-6 flex items-center gap-2 text-sm text-muted-foreground">
-                                <span>{roleData.assigned_name}</span>
-                                {roleData.assigned_email && (
-                                  <>
-                                    <span className="text-muted-foreground/50">•</span>
-                                    <a 
-                                      href={`mailto:${roleData.assigned_email}`}
-                                      className="flex items-center gap-1 hover:text-foreground transition-colors"
-                                    >
-                                      <Mail className="w-3 h-3" />
-                                      <span className="truncate max-w-[150px]">{roleData.assigned_email}</span>
-                                    </a>
-                                  </>
-                                )}
+                            ) : profileData ? (
+                              <div className="mt-3 ml-6">
+                                <ProfileCard 
+                                  profile={profileData} 
+                                  roleTitle={role.title}
+                                  departmentColor={dept.color}
+                                  compact
+                                />
                               </div>
                             ) : roleData?.status === 'hiring' ? (
                               <div className="mt-1 ml-6 text-sm text-amber-600">
@@ -229,7 +257,7 @@ export const TeamRolesSection = ({ companyRoles, onAssignRole, onRequestHire }: 
                                     size="sm" 
                                     variant="ghost" 
                                     className="h-7 px-2"
-                                    onClick={() => startEditing(dept.slug, role.title)}
+                                    onClick={() => openHireModal(dept.slug, role.title, dept.name)}
                                   >
                                     <UserPlus className="w-3 h-3" />
                                   </Button>
@@ -257,6 +285,17 @@ export const TeamRolesSection = ({ companyRoles, onAssignRole, onRequestHire }: 
           );
         })}
       </div>
+
+      {/* Hire Options Modal */}
+      {hireModalRole && (
+        <HireOptionsModal
+          open={hireModalOpen}
+          onOpenChange={setHireModalOpen}
+          roleTitle={hireModalRole.roleTitle}
+          departmentName={hireModalRole.departmentName}
+          onSubmit={handleHireSubmit}
+        />
+      )}
     </div>
   );
 };

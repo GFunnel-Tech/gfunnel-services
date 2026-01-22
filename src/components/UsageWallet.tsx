@@ -95,22 +95,29 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
   const totalRoles = departmentConfigs.reduce((sum, dept) => sum + dept.roles.length, 0);
   const filledRoles = companyRoles.filter(r => r.status === 'filled').length;
 
-  const handleAssignRole = async (departmentSlug: string, roleTitle: string, name: string, email: string) => {
+  const handleAssignRole = async (departmentSlug: string, roleTitle: string, formData: { profileType: string; humanName?: string; humanEmail?: string; humanPhone?: string; googleMeetLink?: string; aiName?: string; aiType?: string; aiAgentId?: string }) => {
     try {
       const { data: result, error } = await supabase.functions.invoke('update-company-role', {
         body: {
           company_id: data.user_id,
           department_slug: departmentSlug,
           role_title: roleTitle,
-          assigned_name: name,
-          assigned_email: email,
+          assigned_name: formData.humanName || formData.aiName,
+          assigned_email: formData.humanEmail,
+          assigned_phone: formData.humanPhone,
+          google_meet_link: formData.googleMeetLink,
+          profile_type: formData.profileType,
+          ai_name: formData.aiName,
+          ai_type: formData.aiType,
+          ai_agent_id: formData.aiAgentId,
           status: 'filled',
         }
       });
 
       if (error) throw error;
       
-      toast.success(`${roleTitle} assigned to ${name}`);
+      const displayName = formData.humanName || formData.aiName || 'team member';
+      toast.success(`${roleTitle} assigned to ${displayName}`);
       onRefresh();
     } catch (error) {
       console.error('Error assigning role:', error);

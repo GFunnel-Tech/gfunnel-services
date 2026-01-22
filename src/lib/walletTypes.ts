@@ -33,6 +33,13 @@ export interface CompanyRole {
   status: 'filled' | 'hiring' | 'vacant';
   assigned_name?: string;
   assigned_email?: string;
+  assigned_phone?: string;
+  assigned_photo_url?: string;
+  google_meet_link?: string;
+  profile_type?: 'human' | 'ai' | 'both';
+  ai_name?: string;
+  ai_type?: string;
+  ai_agent_id?: string;
   hire_request_id?: string;
 }
 
