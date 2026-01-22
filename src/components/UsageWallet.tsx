@@ -318,9 +318,9 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
           </Button>
         ) : (
           <Button asChild variant="outline" className="h-11">
-            <a href={PAYMENT_LINKS.upgradePlan} target="_blank" rel="noopener noreferrer">
+            <a href="/service-hub">
               <ArrowUpRight className="w-4 h-4 mr-1.5" />
-              <span className="truncate">Plans</span>
+              <span className="truncate">My Services</span>
             </a>
           </Button>
         )}
