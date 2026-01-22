@@ -117,37 +117,58 @@ export type Database = {
       }
       company_roles: {
         Row: {
+          ai_agent_id: string | null
+          ai_name: string | null
+          ai_type: string | null
           assigned_email: string | null
           assigned_name: string | null
+          assigned_phone: string | null
+          assigned_photo_url: string | null
           company_id: string
           created_at: string
           department_slug: string
+          google_meet_link: string | null
           hire_request_id: string | null
           id: string
+          profile_type: string | null
           role_title: string
           status: string
           updated_at: string
         }
         Insert: {
+          ai_agent_id?: string | null
+          ai_name?: string | null
+          ai_type?: string | null
           assigned_email?: string | null
           assigned_name?: string | null
+          assigned_phone?: string | null
+          assigned_photo_url?: string | null
           company_id: string
           created_at?: string
           department_slug: string
+          google_meet_link?: string | null
           hire_request_id?: string | null
           id?: string
+          profile_type?: string | null
           role_title: string
           status?: string
           updated_at?: string
         }
         Update: {
+          ai_agent_id?: string | null
+          ai_name?: string | null
+          ai_type?: string | null
           assigned_email?: string | null
           assigned_name?: string | null
+          assigned_phone?: string | null
+          assigned_photo_url?: string | null
           company_id?: string
           created_at?: string
           department_slug?: string
+          google_meet_link?: string | null
           hire_request_id?: string | null
           id?: string
+          profile_type?: string | null
           role_title?: string
           status?: string
           updated_at?: string
