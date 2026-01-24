@@ -77,7 +77,12 @@ serve(async (req) => {
           throw companyError;
         }
 
-        companyData = { company, company_id: companyUser.company_id };
+        companyData = { 
+          company, 
+          company_id: companyUser.company_id,
+          user_role: companyUser.role,
+          is_primary: companyUser.is_primary,
+        };
       } else {
         // Check if this email belongs to an admin user
         const { data: adminCheck, error: adminError } = await supabase
@@ -117,8 +122,7 @@ serve(async (req) => {
 
     // If company data found in database
     if (companyData) {
-      const { company, company_id: companyId } = companyData;
-      console.log(`Found company in database: ${company.name}`);
+      const { company, company_id: companyId, user_role, is_primary } = companyData;
 
       // Get access items for this company
       const { data: accessItems, error: itemsError } = await supabase
@@ -171,6 +175,23 @@ serve(async (req) => {
         // Don't throw - just continue without roles
       }
 
+      // Get company users/team members (only for primary/owner/admin)
+      let companyUsers: any[] = [];
+      if (is_primary || user_role === 'owner' || user_role === 'admin') {
+        const { data: usersData, error: usersError } = await supabase
+          .from('company_users')
+          .select('id, email, display_name, role, is_primary')
+          .eq('company_id', companyId)
+          .order('is_primary', { ascending: false })
+          .order('created_at', { ascending: true });
+
+        if (usersError) {
+          console.error('Error querying company_users:', usersError);
+        } else {
+          companyUsers = usersData || [];
+        }
+      }
+
       // Calculate hours remaining
       const hoursRemaining = company.hours_included === -1 
         ? -1 
@@ -202,6 +223,10 @@ serve(async (req) => {
         project_requests: projectRequests || [],
         hours_history: hoursHistory || [],
         company_roles: companyRoles || [],
+        // User permissions
+        is_primary: is_primary || false,
+        user_role: user_role || 'member',
+        company_users: companyUsers,
         last_updated: company.updated_at,
       };
 

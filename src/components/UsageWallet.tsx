@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity, Pencil, CalendarCheck, ChevronRight, FolderOpen, FileText, Users } from "lucide-react";
+import { RefreshCw, Clock, TrendingUp, Zap, Plus, ArrowUpRight, ExternalLink, Star, Infinity, Pencil, CalendarCheck, ChevronRight, FolderOpen, FileText, Users, UserCog } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -25,6 +25,7 @@ import { WalletAccessItems } from "./WalletAccessItems";
 import { UserProjectRequests } from "./UserProjectRequests";
 import { ROTIChart } from "./ROTIChart";
 import { TeamRolesSection } from "./TeamRolesSection";
+import { TeamMembersModal } from "./TeamMembersModal";
 import { WalletData, PLAN_DETAILS, PAYMENT_LINKS, TIME_MULTIPLIER, VA_HOURLY_RATE } from "@/lib/walletTypes";
 import {
   formatCurrency,
@@ -49,6 +50,10 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
   const [editHoursValue, setEditHoursValue] = useState(data.hours_used.toString());
   const [isSaving, setIsSaving] = useState(false);
   const [activeSheet, setActiveSheet] = useState<"roti" | "workspace" | "projects" | "team" | null>(null);
+  const [showTeamModal, setShowTeamModal] = useState(false);
+  
+  // Check if user can manage team (primary or owner/admin)
+  const canManageTeam = data.is_primary || data.user_role === 'owner' || data.user_role === 'admin';
   
   const unlimited = isUnlimitedPlan(data.hours_included);
   const percentageUsed = unlimited ? 0 : getPercentageUsed(data.hours_used, data.hours_included);
@@ -142,15 +147,28 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
           <h2 className="text-lg font-semibold">My Service Account</h2>
           <p className="text-sm text-muted-foreground">{data.user_email}</p>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onRefresh}
-          disabled={isRefreshing}
-          className="h-8 w-8"
-        >
-          <RefreshCw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
-        </Button>
+        <div className="flex items-center gap-2">
+          {canManageTeam && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowTeamModal(true)}
+              className="h-8 gap-1.5"
+            >
+              <UserCog className="w-4 h-4" />
+              <span className="hidden sm:inline">Manage Team</span>
+            </Button>
+          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onRefresh}
+            disabled={isRefreshing}
+            className="h-8 w-8"
+          >
+            <RefreshCw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
+          </Button>
+        </div>
       </div>
 
       {/* Plan Summary Card */}
@@ -515,6 +533,19 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Team Members Modal */}
+      {canManageTeam && (
+        <TeamMembersModal
+          open={showTeamModal}
+          onOpenChange={setShowTeamModal}
+          companyId={data.user_id}
+          companyName={data.company_name || 'Your Company'}
+          members={data.company_users || []}
+          currentUserEmail={data.user_email}
+          onMembersChange={onRefresh}
+        />
+      )}
     </div>
   );
 };

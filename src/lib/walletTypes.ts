@@ -43,6 +43,14 @@ export interface CompanyRole {
   hire_request_id?: string;
 }
 
+export interface CompanyMember {
+  id: string;
+  email: string;
+  display_name: string | null;
+  role: string;
+  is_primary: boolean;
+}
+
 export interface WalletData {
   user_email: string;
   user_id: string;
@@ -79,6 +87,11 @@ export interface WalletData {
   
   // Company role assignments
   company_roles: CompanyRole[];
+  
+  // User permissions (for team management)
+  is_primary?: boolean;
+  user_role?: string;
+  company_users?: CompanyMember[];
   
   last_updated: string;
 }
