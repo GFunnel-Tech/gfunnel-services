@@ -21,12 +21,19 @@ const ActionHub = () => {
   const navigate = useNavigate();
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [companyName, setCompanyName] = useState<string | null>(null);
 
-  // Check if email is synced on mount
+  // Check if email is synced on mount and fetch company data
   useEffect(() => {
     const storedEmail = getStoredEmail();
     if (storedEmail) {
       setUserEmail(storedEmail);
+      // Fetch company name for stored email
+      fetchWalletData(storedEmail).then((result) => {
+        if (result.success && result.data?.company_name) {
+          setCompanyName(result.data.company_name);
+        }
+      });
     } else {
       // Show email sync modal if no stored email
       setShowEmailModal(true);
@@ -47,6 +54,7 @@ const ActionHub = () => {
     if (result.success && result.data) {
       storeEmail(email);
       setUserEmail(email);
+      setCompanyName(result.data.company_name || null);
       setShowEmailModal(false);
       return true;
     }
@@ -62,6 +70,7 @@ const ActionHub = () => {
   const handleSwitchAccount = () => {
     clearStoredEmail();
     setUserEmail(null);
+    setCompanyName(null);
     setShowEmailModal(true);
   };
 
@@ -91,7 +100,7 @@ const ActionHub = () => {
             <Link to="/wallet">
               <Button variant="outline" size="sm" className="gap-2">
                 <Wallet className="w-4 h-4" />
-                <span className="hidden sm:inline">My Account</span>
+                <span className="hidden sm:inline">{companyName || "My Account"}</span>
               </Button>
             </Link>
             
