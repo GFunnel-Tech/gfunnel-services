@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, ChevronDown, ChevronUp, Video, Calendar, ExternalLink } from "lucide-react";
+import { FileText, ChevronDown, ChevronUp, Video, Calendar, Plus, ExternalLink } from "lucide-react";
 import { format } from "date-fns";
+import { QuickSubmitModal } from "./QuickSubmitModal";
 
 export interface UserProjectRequest {
   id: string;
@@ -20,6 +21,7 @@ export interface UserProjectRequest {
 
 interface UserProjectRequestsProps {
   requests: UserProjectRequest[];
+  userEmail?: string;
 }
 
 const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
@@ -36,39 +38,39 @@ const priorityConfig: Record<string, { label: string; className: string }> = {
   urgent: { label: "Urgent", className: "text-red-500" },
 };
 
-export function UserProjectRequests({ requests }: UserProjectRequestsProps) {
+export function UserProjectRequests({ requests, userEmail }: UserProjectRequestsProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [showQuickSubmit, setShowQuickSubmit] = useState(false);
 
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
   return (
-    <Card className="border-border/50">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <FileText className="h-5 w-5 text-primary" />
-            My Requests
-          </CardTitle>
-          <Button variant="outline" size="sm" asChild>
-            <a href="/service-hub">
+    <>
+      <Card className="border-border/50">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <FileText className="h-5 w-5 text-primary" />
+              My Requests
+            </CardTitle>
+            <Button variant="outline" size="sm" onClick={() => setShowQuickSubmit(true)}>
+              <Plus className="mr-1.5 h-3 w-3" />
               Submit New Request
-              <ExternalLink className="ml-2 h-3 w-3" />
-            </a>
-          </Button>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        {requests.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
-            <FileText className="h-10 w-10 mx-auto mb-3 opacity-50" />
-            <p>No requests submitted yet</p>
-            <Button variant="link" asChild className="mt-2">
-              <a href="/service-hub">Submit your first request →</a>
             </Button>
           </div>
-        ) : (
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {requests.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <FileText className="h-10 w-10 mx-auto mb-3 opacity-50" />
+              <p>No requests submitted yet</p>
+              <Button variant="link" className="mt-2" onClick={() => setShowQuickSubmit(true)}>
+                Submit your first request →
+              </Button>
+            </div>
+          ) : (
           requests.map((request) => {
             const status = statusConfig[request.status] || statusConfig.pending;
             const priority = priorityConfig[request.priority] || priorityConfig.medium;
@@ -141,7 +143,14 @@ export function UserProjectRequests({ requests }: UserProjectRequestsProps) {
             );
           })
         )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+
+      <QuickSubmitModal
+        isOpen={showQuickSubmit}
+        onClose={() => setShowQuickSubmit(false)}
+        userEmail={userEmail}
+      />
+    </>
   );
 }
