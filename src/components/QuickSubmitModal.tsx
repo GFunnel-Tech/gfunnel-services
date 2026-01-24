@@ -21,7 +21,9 @@ import { useToast } from "@/hooks/use-toast";
 import { departmentConfigs } from "@/lib/departmentConfigs";
 import { submitForm, buildActionPayload } from "@/lib/webhookService";
 import { actionRequestSchema } from "@/lib/formSchemas";
+import { isFreePlan } from "@/lib/walletTypes";
 import { Loader2, Send, CheckCircle2, ArrowRight } from "lucide-react";
+import { UpgradePlansModal } from "./UpgradePlansModal";
 
 interface QuickSubmitModalProps {
   isOpen: boolean;
@@ -29,6 +31,7 @@ interface QuickSubmitModalProps {
   userEmail?: string;
   companyId?: string;
   companyName?: string;
+  planName?: string;
 }
 
 export const QuickSubmitModal = ({
@@ -37,14 +40,26 @@ export const QuickSubmitModal = ({
   userEmail,
   companyId,
   companyName,
+  planName,
 }: QuickSubmitModalProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState<string>("");
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
+  // Check if user needs to upgrade (on Free plan)
+  const needsUpgrade = isFreePlan(planName);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // If user is on free plan, show upgrade modal instead
+    if (needsUpgrade) {
+      setShowUpgradeModal(true);
+      return;
+    }
+
     setIsSubmitting(true);
 
     const formElement = e.currentTarget;
@@ -294,6 +309,13 @@ export const QuickSubmitModal = ({
           </a>
         </div>
       </DialogContent>
+
+      {/* Upgrade Plans Modal */}
+      <UpgradePlansModal 
+        isOpen={showUpgradeModal} 
+        onClose={() => setShowUpgradeModal(false)}
+        currentPlan={planName}
+      />
     </Dialog>
   );
 };

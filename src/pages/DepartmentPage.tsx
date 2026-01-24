@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ import {
   QuickAction,
   Role,
 } from '@/lib/departmentConfigs';
+import { getStoredEmail, fetchWalletData } from '@/lib/walletService';
 
 const DepartmentPage = () => {
   const { departmentSlug } = useParams<{ departmentSlug: string }>();
@@ -33,6 +34,19 @@ const DepartmentPage = () => {
   const [showTypeModal, setShowTypeModal] = useState(false);
   const [serviceRequestType, setServiceRequestType] = useState<ServiceRequestType | null>(null);
   const [pendingAction, setPendingAction] = useState<{ type: 'core' | 'quick'; action: CoreAction | QuickAction } | null>(null);
+  const [planName, setPlanName] = useState<string | undefined>();
+
+  // Fetch user's plan name on mount
+  useEffect(() => {
+    const email = getStoredEmail();
+    if (email) {
+      fetchWalletData(email).then((res) => {
+        if (res.success && res.data) {
+          setPlanName(res.data.plan_name);
+        }
+      });
+    }
+  }, []);
 
   if (!department) {
     return (
@@ -199,6 +213,7 @@ const DepartmentPage = () => {
         actionTitle={actionTitle}
         selectedRole={selectedRole}
         serviceRequestType={serviceRequestType}
+        planName={planName}
       />
     </div>
   );
