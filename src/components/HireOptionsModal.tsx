@@ -3,6 +3,7 @@ import { User, Bot, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -14,6 +15,8 @@ import { cn } from "@/lib/utils";
 
 export type ProfileType = 'human' | 'ai' | 'both';
 
+export type AIAddon = 'voice' | 'sms' | 'integration';
+
 export interface HireFormData {
   profileType: ProfileType;
   // Human fields
@@ -24,7 +27,8 @@ export interface HireFormData {
   googleMeetLink?: string;
   // AI fields
   aiName?: string;
-  aiType?: string;
+  aiType?: string; // Will be "Chat" + selected addons
+  aiAddons?: AIAddon[];
   aiAgentId?: string;
 }
 
@@ -48,6 +52,7 @@ export const HireOptionsModal = ({
   const [step, setStep] = useState<'select' | 'form'>('select');
   const [profileType, setProfileType] = useState<ProfileType | null>(null);
   const [formData, setFormData] = useState<Partial<HireFormData>>({});
+  const [aiAddons, setAiAddons] = useState<AIAddon[]>([]);
   const [saving, setSaving] = useState(false);
 
   // Auto-select type when defaultType is provided and modal opens
@@ -68,7 +73,17 @@ export const HireOptionsModal = ({
     
     setSaving(true);
     try {
-      await onSubmit({ profileType, ...formData });
+      // Build AI type string: "Chat" + any selected addons
+      const aiTypeString = aiAddons.length > 0 
+        ? `Chat, ${aiAddons.map(a => a.charAt(0).toUpperCase() + a.slice(1)).join(', ')}`
+        : 'Chat';
+      
+      await onSubmit({ 
+        profileType, 
+        ...formData,
+        aiType: (profileType === 'ai' || profileType === 'both') ? aiTypeString : formData.aiType,
+        aiAddons 
+      });
       onOpenChange(false);
       resetForm();
     } finally {
@@ -80,6 +95,7 @@ export const HireOptionsModal = ({
     setStep('select');
     setProfileType(null);
     setFormData({});
+    setAiAddons([]);
   };
 
   const handleOpenChange = (newOpen: boolean) => {
@@ -90,6 +106,20 @@ export const HireOptionsModal = ({
   const updateField = (key: keyof HireFormData, value: string) => {
     setFormData(prev => ({ ...prev, [key]: value }));
   };
+
+  const toggleAddon = (addon: AIAddon) => {
+    setAiAddons(prev => 
+      prev.includes(addon) 
+        ? prev.filter(a => a !== addon)
+        : [...prev, addon]
+    );
+  };
+
+  const addonOptions: { id: AIAddon; label: string; costNote: string }[] = [
+    { id: 'voice', label: 'Voice', costNote: 'Phone number + usage fees' },
+    { id: 'sms', label: 'SMS', costNote: 'Phone number + per-message fees' },
+    { id: 'integration', label: 'Integration', costNote: 'API access + usage fees' },
+  ];
 
   const typeOptions = [
     { 
@@ -233,14 +263,39 @@ export const HireOptionsModal = ({
                     onChange={(e) => updateField('aiName', e.target.value)}
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="aiType">AI Type</Label>
-                  <Input 
-                    id="aiType"
-                    placeholder="Chatbot, Voice Agent, etc."
-                    value={formData.aiType || ''}
-                    onChange={(e) => updateField('aiType', e.target.value)}
-                  />
+                <div className="space-y-3">
+                  <Label>AI Type</Label>
+                  <div className="p-3 rounded-lg bg-muted/50 border">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-2 h-2 rounded-full bg-primary" />
+                      <span className="font-medium text-sm">Chat</span>
+                      <span className="text-xs text-muted-foreground">(included)</span>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-xs text-muted-foreground mb-2">Optional add-ons (additional cost):</p>
+                      {addonOptions.map((addon) => (
+                        <div 
+                          key={addon.id}
+                          className="flex items-start gap-3 p-2 rounded-md hover:bg-muted/50 transition-colors"
+                        >
+                          <Checkbox
+                            id={addon.id}
+                            checked={aiAddons.includes(addon.id)}
+                            onCheckedChange={() => toggleAddon(addon.id)}
+                          />
+                          <div className="flex-1">
+                            <label 
+                              htmlFor={addon.id} 
+                              className="text-sm font-medium cursor-pointer"
+                            >
+                              {addon.label}
+                            </label>
+                            <p className="text-xs text-muted-foreground">{addon.costNote}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="aiAgentId">Agent ID (optional)</Label>
