@@ -650,17 +650,35 @@ export const ActionFormModal = ({
 
           {formType === 'hire' && selectedRole && (
             <>
-              {/* Hiring Type Badge */}
-              {(() => {
-                const hiringConfig = getHiringTypeConfig(selectedRole.hiringType);
-                const HiringIcon = hiringConfig.icon;
-                return (
-                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium w-fit ${hiringConfig.bgClass} ${hiringConfig.textClass}`}>
-                    <HiringIcon className="w-4 h-4" />
-                    {hiringConfig.label}
-                  </div>
-                );
-              })()}
+              {/* Hiring Type Selector */}
+              <div className="space-y-2">
+                <Label htmlFor="hiringType">Who are you looking to hire? *</Label>
+                <Select name="hiringType" defaultValue={selectedRole.hiringType || 'both'} required>
+                  <SelectTrigger className="bg-background">
+                    <SelectValue placeholder="Select hiring type" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background">
+                    <SelectItem value="human">
+                      <span className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-blue-500" />
+                        Human Employee
+                      </span>
+                    </SelectItem>
+                    <SelectItem value="ai">
+                      <span className="flex items-center gap-2">
+                        <Bot className="w-4 h-4 text-purple-500" />
+                        AI Agent
+                      </span>
+                    </SelectItem>
+                    <SelectItem value="both">
+                      <span className="flex items-center gap-2">
+                        <Users className="w-4 h-4 text-emerald-500" />
+                        Either Human or AI
+                      </span>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               
               <div className="space-y-2">
                 <Label htmlFor="roleTitle">Role Title</Label>
