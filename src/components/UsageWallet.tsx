@@ -444,7 +444,7 @@ export const UsageWallet = ({ data, onRefresh, isRefreshing, isAdmin, onUpdateHo
               Your submitted requests and their status
             </SheetDescription>
           </SheetHeader>
-          <UserProjectRequests requests={data.project_requests || []} />
+          <UserProjectRequests requests={data.project_requests || []} userEmail={data.user_email} />
         </SheetContent>
       </Sheet>
 
