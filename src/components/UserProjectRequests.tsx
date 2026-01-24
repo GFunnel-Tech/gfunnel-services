@@ -23,6 +23,7 @@ interface UserProjectRequestsProps {
   requests: UserProjectRequest[];
   userEmail?: string;
   companyId?: string;
+  companyName?: string;
   onRequestSubmitted?: () => void;
 }
 
@@ -40,7 +41,7 @@ const priorityConfig: Record<string, { label: string; className: string }> = {
   urgent: { label: "Urgent", className: "text-red-500" },
 };
 
-export function UserProjectRequests({ requests, userEmail, companyId, onRequestSubmitted }: UserProjectRequestsProps) {
+export function UserProjectRequests({ requests, userEmail, companyId, companyName, onRequestSubmitted }: UserProjectRequestsProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showQuickSubmit, setShowQuickSubmit] = useState(false);
 
@@ -160,6 +161,7 @@ export function UserProjectRequests({ requests, userEmail, companyId, onRequestS
         onClose={handleModalClose}
         userEmail={userEmail}
         companyId={companyId}
+        companyName={companyName}
       />
     </>
   );
