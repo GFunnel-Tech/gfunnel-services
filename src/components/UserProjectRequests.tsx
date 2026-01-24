@@ -22,6 +22,7 @@ export interface UserProjectRequest {
 interface UserProjectRequestsProps {
   requests: UserProjectRequest[];
   userEmail?: string;
+  onRequestSubmitted?: () => void;
 }
 
 const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
@@ -38,12 +39,19 @@ const priorityConfig: Record<string, { label: string; className: string }> = {
   urgent: { label: "Urgent", className: "text-red-500" },
 };
 
-export function UserProjectRequests({ requests, userEmail }: UserProjectRequestsProps) {
+export function UserProjectRequests({ requests, userEmail, onRequestSubmitted }: UserProjectRequestsProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showQuickSubmit, setShowQuickSubmit] = useState(false);
 
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
+  };
+
+  const handleModalClose = (wasSubmitted?: boolean) => {
+    setShowQuickSubmit(false);
+    if (wasSubmitted && onRequestSubmitted) {
+      onRequestSubmitted();
+    }
   };
 
   return (
@@ -148,7 +156,7 @@ export function UserProjectRequests({ requests, userEmail }: UserProjectRequests
 
       <QuickSubmitModal
         isOpen={showQuickSubmit}
-        onClose={() => setShowQuickSubmit(false)}
+        onClose={handleModalClose}
         userEmail={userEmail}
       />
     </>
