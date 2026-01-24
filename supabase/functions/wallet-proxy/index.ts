@@ -78,6 +78,35 @@ serve(async (req) => {
         }
 
         companyData = { company, company_id: companyUser.company_id };
+      } else {
+        // Check if this email belongs to an admin user
+        const { data: adminCheck, error: adminError } = await supabase
+          .from('user_roles')
+          .select(`
+            user_id,
+            role
+          `)
+          .eq('role', 'admin');
+
+        if (!adminError && adminCheck && adminCheck.length > 0) {
+          // Get the auth user by checking if any admin user has this email
+          // We need to query auth.users through a different method
+          // For now, check common admin email patterns
+          const isAdminEmail = normalizedEmail.includes('admin@') || 
+                               normalizedEmail.includes('@gfunnel.com');
+          
+          if (isAdminEmail) {
+            console.log(`Admin email detected: ${normalizedEmail}`);
+            return new Response(
+              JSON.stringify({ 
+                success: false, 
+                is_admin: true,
+                error: "Admin account detected. Please use the admin login." 
+              }),
+              { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+            );
+          }
+        }
       }
     } else {
       return new Response(
