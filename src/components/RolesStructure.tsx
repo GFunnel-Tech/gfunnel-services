@@ -54,16 +54,7 @@ const getHiringTypeConfig = (hiringType: HiringType = 'both') => {
 };
 
 // Helper to build ProfileData from CompanyRole
-const buildProfileData = (roleData: CompanyRole): ProfileData | null => {
-  if (roleData.profile_type === 'ai' && roleData.ai_name) {
-    return {
-      name: roleData.ai_name,
-      type: 'ai',
-      aiType: roleData.ai_type,
-      aiAgentId: roleData.ai_agent_id,
-    };
-  }
-  
+const buildHumanProfile = (roleData: CompanyRole): ProfileData | null => {
   if (roleData.assigned_name) {
     return {
       name: roleData.assigned_name,
@@ -74,7 +65,18 @@ const buildProfileData = (roleData: CompanyRole): ProfileData | null => {
       type: 'human',
     };
   }
-  
+  return null;
+};
+
+const buildAIProfile = (roleData: CompanyRole): ProfileData | null => {
+  if (roleData.ai_name) {
+    return {
+      name: roleData.ai_name,
+      type: 'ai',
+      aiType: roleData.ai_type,
+      aiAgentId: roleData.ai_agent_id,
+    };
+  }
   return null;
 };
 
@@ -171,7 +173,9 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
           const roleData = getRoleData(role.title);
           const isFilled = roleData?.status === 'filled';
           const isHiring = roleData?.status === 'hiring';
-          const profileData = roleData ? buildProfileData(roleData) : null;
+          const isBothType = roleData?.profile_type === 'both';
+          const humanProfile = roleData ? buildHumanProfile(roleData) : null;
+          const aiProfile = roleData ? buildAIProfile(roleData) : null;
           
           return (
             <div
@@ -304,14 +308,25 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
                     </div>
                   )}
 
-                  {/* Profile Card if Filled */}
-                  {isFilled && profileData && (
-                    <div className="pt-4">
-                      <ProfileCard 
-                        profile={profileData} 
-                        roleTitle={role.title}
-                        departmentColor={department.color}
-                      />
+                  {/* Profile Card(s) if Filled */}
+                  {isFilled && (humanProfile || aiProfile) && (
+                    <div className={cn("pt-4", isBothType && "grid grid-cols-1 sm:grid-cols-2 gap-4")}>
+                      {/* AI Profile - Left side when both */}
+                      {aiProfile && (
+                        <ProfileCard 
+                          profile={aiProfile} 
+                          roleTitle={role.title}
+                          departmentColor={department.color}
+                        />
+                      )}
+                      {/* Human Profile - Right side when both, or full width when human only */}
+                      {humanProfile && (
+                        <ProfileCard 
+                          profile={humanProfile} 
+                          roleTitle={role.title}
+                          departmentColor={department.color}
+                        />
+                      )}
                     </div>
                   )}
 
