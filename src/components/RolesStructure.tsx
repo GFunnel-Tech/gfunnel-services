@@ -82,6 +82,7 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
   const [expandedRole, setExpandedRole] = useState<number | null>(null);
   const [hireModalOpen, setHireModalOpen] = useState(false);
   const [selectedRoleForHire, setSelectedRoleForHire] = useState<Role | null>(null);
+  const [preSelectedHireType, setPreSelectedHireType] = useState<'human' | 'ai' | null>(null);
   
   const colorClasses = getDepartmentColorClasses(department.color);
   const hoverClass = colorHoverClasses[department.color] || colorHoverClasses.blue;
@@ -250,6 +251,59 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
               {/* Expanded Details */}
               {expandedRole === index && (
                 <div className="px-4 pb-4 pt-0 space-y-4 border-t border-border/30">
+                  {/* Show Placeholder Cards if NOT filled */}
+                  {!isFilled && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4">
+                      {/* Human Hire Card - Clickable */}
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedRoleForHire(role);
+                          setPreSelectedHireType('human');
+                          setHireModalOpen(true);
+                        }}
+                        className="rounded-xl border-2 border-dashed border-blue-300 bg-blue-50/50 dark:bg-blue-950/20 p-4 text-left hover:border-blue-500 hover:bg-blue-100/50 dark:hover:bg-blue-900/30 transition-all group"
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <User className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Hire Human</h4>
+                            <p className="text-xs text-muted-foreground">Assign a team member</p>
+                          </div>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Click to add a human employee to this role
+                        </p>
+                      </button>
+
+                      {/* AI Hire Card - Clickable */}
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedRoleForHire(role);
+                          setPreSelectedHireType('ai');
+                          setHireModalOpen(true);
+                        }}
+                        className="rounded-xl border-2 border-dashed border-purple-300 bg-purple-50/50 dark:bg-purple-950/20 p-4 text-left hover:border-purple-500 hover:bg-purple-100/50 dark:hover:bg-purple-900/30 transition-all group"
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Bot className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Hire AI</h4>
+                            <p className="text-xs text-muted-foreground">Deploy an AI agent</p>
+                          </div>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Click to deploy an AI assistant for this role
+                        </p>
+                      </button>
+                    </div>
+                  )}
+
                   {/* Profile Card if Filled */}
                   {isFilled && profileData && (
                     <div className="pt-4">
@@ -262,7 +316,7 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
                   )}
 
                   {/* Description */}
-                  <div className={cn(!isFilled && 'pt-4')}>
+                  <div>
                     <p className="text-sm text-muted-foreground">{role.description}</p>
                   </div>
 
