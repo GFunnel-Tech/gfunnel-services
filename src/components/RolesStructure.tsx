@@ -254,31 +254,7 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
                   {/* Show Placeholder Cards if NOT filled */}
                   {!isFilled && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4">
-                      {/* Human Hire Card - Clickable */}
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedRoleForHire(role);
-                          setPreSelectedHireType('human');
-                          setHireModalOpen(true);
-                        }}
-                        className="rounded-xl border-2 border-dashed border-blue-300 bg-blue-50/50 dark:bg-blue-950/20 p-4 text-left hover:border-blue-500 hover:bg-blue-100/50 dark:hover:bg-blue-900/30 transition-all group"
-                      >
-                        <div className="flex items-center gap-3 mb-2">
-                          <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <User className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-foreground">Hire Human</h4>
-                            <p className="text-xs text-muted-foreground">Assign a team member</p>
-                          </div>
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-2">
-                          Click to add a human employee to this role
-                        </p>
-                      </button>
-
-                      {/* AI Hire Card - Clickable */}
+                      {/* AI Hire Card - Left Side */}
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
@@ -299,6 +275,30 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
                         </div>
                         <p className="text-xs text-muted-foreground mt-2">
                           Click to deploy an AI assistant for this role
+                        </p>
+                      </button>
+
+                      {/* Human Hire Card - Right Side */}
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedRoleForHire(role);
+                          setPreSelectedHireType('human');
+                          setHireModalOpen(true);
+                        }}
+                        className="rounded-xl border-2 border-dashed border-blue-300 bg-blue-50/50 dark:bg-blue-950/20 p-4 text-left hover:border-blue-500 hover:bg-blue-100/50 dark:hover:bg-blue-900/30 transition-all group"
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <User className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Hire Human</h4>
+                            <p className="text-xs text-muted-foreground">Assign a team member</p>
+                          </div>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Click to add a human employee to this role
                         </p>
                       </button>
                     </div>
