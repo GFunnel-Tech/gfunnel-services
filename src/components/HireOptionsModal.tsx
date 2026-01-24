@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { User, Bot, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,6 +34,7 @@ interface HireOptionsModalProps {
   roleTitle: string;
   departmentName: string;
   onSubmit: (data: HireFormData) => Promise<void>;
+  defaultType?: 'human' | 'ai' | null;
 }
 
 export const HireOptionsModal = ({ 
@@ -41,12 +42,21 @@ export const HireOptionsModal = ({
   onOpenChange, 
   roleTitle,
   departmentName,
-  onSubmit 
+  onSubmit,
+  defaultType = null
 }: HireOptionsModalProps) => {
   const [step, setStep] = useState<'select' | 'form'>('select');
   const [profileType, setProfileType] = useState<ProfileType | null>(null);
   const [formData, setFormData] = useState<Partial<HireFormData>>({});
   const [saving, setSaving] = useState(false);
+
+  // Auto-select type when defaultType is provided and modal opens
+  React.useEffect(() => {
+    if (open && defaultType) {
+      setProfileType(defaultType);
+      setStep('form');
+    }
+  }, [open, defaultType]);
 
   const handleTypeSelect = (type: ProfileType) => {
     setProfileType(type);

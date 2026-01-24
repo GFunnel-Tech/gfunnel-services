@@ -361,10 +361,14 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
       {/* Hire Modal */}
       <HireOptionsModal
         open={hireModalOpen}
-        onOpenChange={setHireModalOpen}
+        onOpenChange={(open) => {
+          setHireModalOpen(open);
+          if (!open) setPreSelectedHireType(null);
+        }}
         roleTitle={selectedRoleForHire?.title || ''}
         departmentName={department.name}
         onSubmit={handleHireSubmit}
+        defaultType={preSelectedHireType}
       />
     </div>
   );
