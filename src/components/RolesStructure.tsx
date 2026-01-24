@@ -60,7 +60,60 @@ export const RolesStructure = ({ department, onHireClick }: RolesStructureProps)
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
+      {/* Placeholder Profile Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        {/* Human Employee Placeholder */}
+        <div className="rounded-xl border border-dashed border-blue-300 bg-blue-50/50 dark:bg-blue-950/20 p-4">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center">
+              <User className="w-6 h-6 text-blue-500" />
+            </div>
+            <div>
+              <h4 className="font-medium text-foreground">Human Employee</h4>
+              <p className="text-xs text-muted-foreground">Traditional team member</p>
+            </div>
+          </div>
+          <p className="text-sm text-muted-foreground mb-3">
+            Hire skilled professionals who bring creativity, critical thinking, and interpersonal skills to your team.
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/50">Creative Problem Solving</span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/50">Relationship Building</span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/50">Strategic Thinking</span>
+          </div>
+        </div>
+
+        {/* AI Employee Placeholder */}
+        <div className="rounded-xl border border-dashed border-purple-300 bg-purple-50/50 dark:bg-purple-950/20 p-4">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center">
+              <Bot className="w-6 h-6 text-purple-500" />
+            </div>
+            <div>
+              <h4 className="font-medium text-foreground">AI Employee</h4>
+              <p className="text-xs text-muted-foreground">Automated AI agent</p>
+            </div>
+          </div>
+          <p className="text-sm text-muted-foreground mb-3">
+            Deploy AI agents that work 24/7, handle repetitive tasks, and scale instantly without additional overhead.
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-600 dark:bg-purple-900/50">24/7 Availability</span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-600 dark:bg-purple-900/50">Instant Scaling</span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-600 dark:bg-purple-900/50">Consistent Output</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Section Divider */}
+      <div className="flex items-center gap-3 pb-2">
+        <h3 className="text-sm font-medium text-muted-foreground">Available Roles</h3>
+        <div className="flex-1 h-px bg-border" />
+      </div>
+
+      {/* Role Cards */}
+      <div className="space-y-3">
         {department.roles.map((role, index) => {
           const hiringConfig = getHiringTypeConfig(role.hiringType);
           const HiringIcon = hiringConfig.icon;
@@ -159,6 +212,7 @@ export const RolesStructure = ({ department, onHireClick }: RolesStructureProps)
             </div>
           );
         })}
+      </div>
     </div>
   );
 };
