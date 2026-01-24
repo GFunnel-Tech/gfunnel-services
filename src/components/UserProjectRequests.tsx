@@ -22,6 +22,7 @@ export interface UserProjectRequest {
 interface UserProjectRequestsProps {
   requests: UserProjectRequest[];
   userEmail?: string;
+  companyId?: string;
   onRequestSubmitted?: () => void;
 }
 
@@ -39,7 +40,7 @@ const priorityConfig: Record<string, { label: string; className: string }> = {
   urgent: { label: "Urgent", className: "text-red-500" },
 };
 
-export function UserProjectRequests({ requests, userEmail, onRequestSubmitted }: UserProjectRequestsProps) {
+export function UserProjectRequests({ requests, userEmail, companyId, onRequestSubmitted }: UserProjectRequestsProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showQuickSubmit, setShowQuickSubmit] = useState(false);
 
@@ -158,6 +159,7 @@ export function UserProjectRequests({ requests, userEmail, onRequestSubmitted }:
         isOpen={showQuickSubmit}
         onClose={handleModalClose}
         userEmail={userEmail}
+        companyId={companyId}
       />
     </>
   );

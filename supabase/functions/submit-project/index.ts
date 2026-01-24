@@ -20,6 +20,7 @@ interface ProjectPayload {
   service_name?: string;
   action_title?: string;
   description?: string;
+  company_id?: string; // Optional: if provided, use this company instead of looking up/creating
   [key: string]: unknown;
 }
 
@@ -52,78 +53,110 @@ Deno.serve(async (req) => {
       );
     }
     
-    // Step 1: Check if email exists in company_users
-    const { data: existingUser, error: userError } = await supabase
-      .from("company_users")
-      .select("id, company_id, email, is_primary")
-      .eq("email", email)
-      .maybeSingle();
+    let companyId: string | null = payload.company_id || null;
     
-    if (userError) {
-      console.error("[submit-project] Error checking user:", userError);
-    }
-    
-    let companyId: string | null = null;
-    
-    if (existingUser) {
-      // User exists, use their company
-      companyId = existingUser.company_id;
-      console.log("[submit-project] Found existing user with company:", companyId);
-    } else {
-      // User doesn't exist, create company and user
-      console.log("[submit-project] Creating new company and user for:", email);
+    // If company_id was provided in payload, use it directly (user is submitting from their wallet)
+    if (companyId) {
+      console.log("[submit-project] Using provided company_id:", companyId);
       
-      // Generate company name from email domain or use email prefix
-      const emailParts = email.split("@");
-      const domain = emailParts[1] || "unknown";
-      const domainName = domain.split(".")[0];
-      const companyName = domainName.charAt(0).toUpperCase() + domainName.slice(1);
-      
-      // Create a slug from the company name
-      const baseSlug = companyName.toLowerCase().replace(/[^a-z0-9]/g, "-");
-      const timestamp = Date.now().toString(36);
-      const slug = `${baseSlug}-${timestamp}`;
-      
-      // Create company
-      const { data: newCompany, error: companyError } = await supabase
-        .from("companies")
-        .insert({
-          name: companyName,
-          slug: slug,
-          hours_included: 40,
-          hours_used: 0,
-          overage_rate: 75,
-          plan_name: "Starter",
-          response_time: "Up to 48 hrs",
-          plan_price: 1497,
-          plan_value: 7500,
-          savings_percentage: 80,
-        })
+      // Ensure user is linked to this company
+      const { data: existingUser } = await supabase
+        .from("company_users")
         .select("id")
-        .single();
+        .eq("company_id", companyId)
+        .eq("email", email)
+        .maybeSingle();
       
-      if (companyError) {
-        console.error("[submit-project] Error creating company:", companyError);
-        // Continue without company linkage
-      } else {
-        companyId = newCompany.id;
-        console.log("[submit-project] Created company:", companyId);
-        
-        // Create company user as primary owner
-        const { error: createUserError } = await supabase
+      if (!existingUser) {
+        // Add user to this company as a member
+        const { error: addUserError } = await supabase
           .from("company_users")
           .insert({
             company_id: companyId,
             email: email,
-            display_name: emailParts[0],
-            role: "owner",
-            is_primary: true,
+            display_name: email.split("@")[0],
+            role: "member",
+            is_primary: false,
           });
         
-        if (createUserError) {
-          console.error("[submit-project] Error creating company user:", createUserError);
+        if (addUserError) {
+          console.error("[submit-project] Error adding user to company:", addUserError);
         } else {
-          console.log("[submit-project] Created company user for:", email);
+          console.log("[submit-project] Added user to company:", email);
+        }
+      }
+    } else {
+      // No company_id provided - check if email exists in company_users
+      const { data: existingUser, error: userError } = await supabase
+        .from("company_users")
+        .select("id, company_id, email, is_primary")
+        .eq("email", email)
+        .maybeSingle();
+      
+      if (userError) {
+        console.error("[submit-project] Error checking user:", userError);
+      }
+      
+      if (existingUser) {
+        // User exists, use their company
+        companyId = existingUser.company_id;
+        console.log("[submit-project] Found existing user with company:", companyId);
+      } else {
+        // User doesn't exist, create company and user
+        console.log("[submit-project] Creating new company and user for:", email);
+        
+        // Generate company name from email domain or use email prefix
+        const emailParts = email.split("@");
+        const domain = emailParts[1] || "unknown";
+        const domainName = domain.split(".")[0];
+        const companyName = domainName.charAt(0).toUpperCase() + domainName.slice(1);
+        
+        // Create a slug from the company name
+        const baseSlug = companyName.toLowerCase().replace(/[^a-z0-9]/g, "-");
+        const timestamp = Date.now().toString(36);
+        const slug = `${baseSlug}-${timestamp}`;
+        
+        // Create company
+        const { data: newCompany, error: companyError } = await supabase
+          .from("companies")
+          .insert({
+            name: companyName,
+            slug: slug,
+            hours_included: 40,
+            hours_used: 0,
+            overage_rate: 75,
+            plan_name: "Starter",
+            response_time: "Up to 48 hrs",
+            plan_price: 1497,
+            plan_value: 7500,
+            savings_percentage: 80,
+          })
+          .select("id")
+          .single();
+        
+        if (companyError) {
+          console.error("[submit-project] Error creating company:", companyError);
+          // Continue without company linkage
+        } else {
+          companyId = newCompany.id;
+          console.log("[submit-project] Created company:", companyId);
+          
+          // Create company user as primary owner
+          const { error: createUserError } = await supabase
+            .from("company_users")
+            .insert({
+              company_id: companyId,
+              email: email,
+              display_name: emailParts[0],
+              role: "owner",
+              is_primary: true,
+            });
+          
+          if (createUserError) {
+            console.error("[submit-project] Error creating company user:", createUserError);
+          } else {
+            console.log("[submit-project] Created company user for:", email);
+          }
         }
       }
     }
