@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DepartmentCard } from "@/components/DepartmentCard";
@@ -6,6 +7,8 @@ import { departmentConfigs } from "@/lib/departmentConfigs";
 import { Calendar, ChevronDown, Lightbulb, ExternalLink, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getAllServices } from "@/lib/serviceConfigs";
+import { EmailVerificationModal } from "@/components/EmailVerificationModal";
+import { getStoredEmail, storeEmail, fetchWalletData } from "@/lib/walletService";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +18,38 @@ import {
 
 const ActionHub = () => {
   const services = getAllServices();
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  // Check if email is synced on mount
+  useEffect(() => {
+    const storedEmail = getStoredEmail();
+    if (storedEmail) {
+      setUserEmail(storedEmail);
+    } else {
+      // Show email sync modal if no stored email
+      setShowEmailModal(true);
+    }
+  }, []);
+
+  const handleEmailVerify = async (email: string): Promise<boolean> => {
+    // Verify email exists in the system
+    const result = await fetchWalletData(email);
+    
+    if (result.success && result.data) {
+      storeEmail(email);
+      setUserEmail(email);
+      setShowEmailModal(false);
+      return true;
+    }
+    
+    // If email not found, still store it for future submissions
+    // This allows new users to proceed
+    storeEmail(email);
+    setUserEmail(email);
+    setShowEmailModal(false);
+    return true;
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -199,6 +234,15 @@ const ActionHub = () => {
           </div>
         </div>
       </section>
+
+      {/* Email Sync Modal */}
+      <EmailVerificationModal
+        open={showEmailModal}
+        onOpenChange={setShowEmailModal}
+        onVerify={handleEmailVerify}
+        title="Sync Your Account"
+        description="Enter your email to personalize your experience and track your requests."
+      />
     </div>
   );
 };
