@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Crown, Loader2, Mail, Plus, Trash2, UserCircle } from 'lucide-react';
+import { ArrowLeft, Crown, Loader2, Mail, Plus, Trash2, UserCircle, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -37,10 +37,12 @@ import { ProtectedAdminRoute } from '@/components/admin/ProtectedAdminRoute';
 import { getCompany, getCompanyUsers, addCompanyUser, updateCompanyUser, deleteCompanyUser } from '@/lib/adminService';
 import { Company, CompanyUser } from '@/lib/adminTypes';
 import { useToast } from '@/hooks/use-toast';
+import { useAdmin } from '@/hooks/useAdmin';
 
 export default function CompanyUsersPage() {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
+  const { user } = useAdmin();
 
   const [company, setCompany] = useState<Company | null>(null);
   const [users, setUsers] = useState<CompanyUser[]>([]);
@@ -48,6 +50,7 @@ export default function CompanyUsersPage() {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAddingSelf, setIsAddingSelf] = useState(false);
 
   const [newUser, setNewUser] = useState({
     email: '',
@@ -55,6 +58,9 @@ export default function CompanyUsersPage() {
     role: 'member',
     is_primary: false,
   });
+
+  // Check if admin is already linked to this company
+  const isAdminLinked = users.some(u => u.email.toLowerCase() === user?.email?.toLowerCase());
 
   const loadData = async () => {
     if (!id) return;
@@ -106,6 +112,32 @@ export default function CompanyUsersPage() {
       });
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleAddSelf = async () => {
+    if (!id || !user?.email) return;
+    setIsAddingSelf(true);
+
+    try {
+      await addCompanyUser({
+        company_id: id,
+        email: user.email.toLowerCase().trim(),
+        display_name: 'Admin',
+        role: 'admin',
+        is_primary: false,
+      });
+      
+      toast({ title: 'Added yourself to this company' });
+      loadData();
+    } catch (err: any) {
+      toast({
+        title: 'Error',
+        description: err.message || 'Failed to add yourself',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsAddingSelf(false);
     }
   };
 
@@ -183,10 +215,26 @@ export default function CompanyUsersPage() {
                   These email addresses can look up this company's service account
                 </CardDescription>
               </div>
-              <Button onClick={() => setShowAddDialog(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add User
-              </Button>
+              <div className="flex items-center gap-2">
+                {!isAdminLinked && user?.email && (
+                  <Button 
+                    variant="outline" 
+                    onClick={handleAddSelf}
+                    disabled={isAddingSelf}
+                  >
+                    {isAddingSelf ? (
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    ) : (
+                      <UserPlus className="h-4 w-4 mr-2" />
+                    )}
+                    Add Myself
+                  </Button>
+                )}
+                <Button onClick={() => setShowAddDialog(true)}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add User
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
               {users.length === 0 ? (
