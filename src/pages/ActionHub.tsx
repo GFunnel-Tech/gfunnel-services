@@ -65,8 +65,24 @@ const ActionHub = () => {
     setShowEmailModal(true);
   };
 
+  // Intercept clicks if no email is synced
+  const handleContainerClick = (e: React.MouseEvent) => {
+    if (!userEmail) {
+      // Allow clicks on the email modal itself
+      const target = e.target as HTMLElement;
+      if (target.closest('[data-email-modal]')) return;
+      
+      e.preventDefault();
+      e.stopPropagation();
+      setShowEmailModal(true);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div 
+      className="min-h-screen bg-background"
+      onClick={handleContainerClick}
+    >
       {/* Header with CTAs */}
       <header className="border-b border-border/50 py-4">
         <div className="container mx-auto px-4 flex items-center justify-between">
