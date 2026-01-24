@@ -4,11 +4,11 @@ import { Card } from "@/components/ui/card";
 import { DepartmentCard } from "@/components/DepartmentCard";
 import { ServiceHubCarousel } from "@/components/ServiceHubCarousel";
 import { departmentConfigs } from "@/lib/departmentConfigs";
-import { Calendar, ChevronDown, Lightbulb, ExternalLink, Wallet } from "lucide-react";
+import { Calendar, ChevronDown, Lightbulb, ExternalLink, Wallet, User, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllServices } from "@/lib/serviceConfigs";
 import { EmailVerificationModal } from "@/components/EmailVerificationModal";
-import { getStoredEmail, storeEmail, fetchWalletData } from "@/lib/walletService";
+import { getStoredEmail, storeEmail, clearStoredEmail, fetchWalletData } from "@/lib/walletService";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -59,18 +59,41 @@ const ActionHub = () => {
     return true;
   };
 
+  const handleSwitchAccount = () => {
+    clearStoredEmail();
+    setUserEmail(null);
+    setShowEmailModal(true);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header with CTAs */}
       <header className="border-b border-border/50 py-4">
         <div className="container mx-auto px-4 flex items-center justify-between">
-          {/* Left side - Usage Wallet */}
-          <Link to="/wallet">
-            <Button variant="outline" size="sm" className="gap-2">
-              <Wallet className="w-4 h-4" />
-              <span className="hidden sm:inline">My Account</span>
-            </Button>
-          </Link>
+          {/* Left side - User Account */}
+          <div className="flex items-center gap-3">
+            <Link to="/wallet">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Wallet className="w-4 h-4" />
+                <span className="hidden sm:inline">My Account</span>
+              </Button>
+            </Link>
+            
+            {/* Synced Email Display */}
+            {userEmail && (
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50">
+                <User className="w-3.5 h-3.5 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">{userEmail}</span>
+                <button
+                  onClick={handleSwitchAccount}
+                  className="ml-1 p-1 rounded-full hover:bg-muted transition-colors"
+                  title="Switch account"
+                >
+                  <LogOut className="w-3 h-3 text-muted-foreground" />
+                </button>
+              </div>
+            )}
+          </div>
 
           {/* Right side - Actions */}
           <div className="flex items-center gap-3">
