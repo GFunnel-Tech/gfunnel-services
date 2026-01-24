@@ -89,6 +89,7 @@ export interface WalletLookupResponse {
   success: boolean;
   data?: WalletData;
   error?: string;
+  is_admin?: boolean;
 }
 
 export const PLAN_DETAILS: Record<string, {

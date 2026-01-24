@@ -5,7 +5,7 @@ import { DepartmentCard } from "@/components/DepartmentCard";
 import { ServiceHubCarousel } from "@/components/ServiceHubCarousel";
 import { departmentConfigs } from "@/lib/departmentConfigs";
 import { Calendar, ChevronDown, Lightbulb, ExternalLink, Wallet } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllServices } from "@/lib/serviceConfigs";
 import { EmailVerificationModal } from "@/components/EmailVerificationModal";
 import { getStoredEmail, storeEmail, fetchWalletData } from "@/lib/walletService";
@@ -18,6 +18,7 @@ import {
 
 const ActionHub = () => {
   const services = getAllServices();
+  const navigate = useNavigate();
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
@@ -35,6 +36,13 @@ const ActionHub = () => {
   const handleEmailVerify = async (email: string): Promise<boolean> => {
     // Verify email exists in the system
     const result = await fetchWalletData(email);
+    
+    // Check if this is an admin account
+    if (result.is_admin) {
+      setShowEmailModal(false);
+      navigate('/admin/login');
+      return true;
+    }
     
     if (result.success && result.data) {
       storeEmail(email);

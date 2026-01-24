@@ -11,6 +11,15 @@ export async function fetchWalletData(email: string): Promise<WalletLookupRespon
       throw new Error(error.message);
     }
 
+    // Check if response indicates an admin account
+    if (data && data.is_admin) {
+      return {
+        success: false,
+        is_admin: true,
+        error: data.error || "Admin account detected",
+      };
+    }
+
     return data as WalletLookupResponse;
   } catch (error) {
     console.error("Error fetching wallet data:", error);
