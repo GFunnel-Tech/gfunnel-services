@@ -62,7 +62,7 @@ export const EmailVerificationModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" data-email-modal>
         <DialogHeader>
           <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
             <ShieldCheck className="w-6 h-6 text-primary" />
