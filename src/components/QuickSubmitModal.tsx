@@ -25,7 +25,7 @@ import { Loader2, Send, CheckCircle2, ArrowRight } from "lucide-react";
 
 interface QuickSubmitModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (wasSubmitted?: boolean) => void;
   userEmail?: string;
 }
 
@@ -88,10 +88,10 @@ export const QuickSubmitModal = ({
         description: "We'll review your request and get back to you soon.",
       });
 
-      // Close after brief delay
+      // Close after brief delay and notify parent of successful submission
       setTimeout(() => {
         setIsSuccess(false);
-        onClose();
+        onClose(true);
       }, 2000);
     } catch (error) {
       toast({
@@ -224,12 +224,28 @@ export const QuickSubmitModal = ({
               id="videoLink"
               name="videoLink"
               type="url"
-              placeholder="https://www.loom.com/share/..."
+              placeholder="Paste your Loom or Onscreen video link..."
               maxLength={500}
             />
-            <p className="text-xs text-muted-foreground">
-              Add a Loom or screen recording to explain your request
-            </p>
+            <div className="flex flex-wrap gap-2 text-xs">
+              <a 
+                href="https://www.loom.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-primary hover:underline"
+              >
+                Record with Loom →
+              </a>
+              <span className="text-muted-foreground">or</span>
+              <a 
+                href="https://onscreen.gfunnel.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-primary hover:underline"
+              >
+                Record with Onscreen →
+              </a>
+            </div>
           </div>
 
           {/* Submit Button */}
