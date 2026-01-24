@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Mail, Loader2, ShieldCheck } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Mail, Loader2, ShieldCheck, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -114,6 +115,17 @@ export const EmailVerificationModal = ({
           <p className="text-xs text-center text-muted-foreground">
             Your email is used to identify your account and personalize your experience.
           </p>
+
+          {/* Admin/Staff Login Section */}
+          <div className="pt-4 border-t border-border">
+            <Link 
+              to="/admin/login"
+              className="flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <KeyRound className="w-4 h-4" />
+              Admin or Staff Login
+            </Link>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
