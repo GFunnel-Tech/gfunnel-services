@@ -45,15 +45,15 @@ export const ServiceHubCarousel = () => {
             Get Started
             <ArrowRight className="w-5 h-5" />
           </Button>
-          <a href="https://www.gfunnel.com/service-plans" target="_blank" rel="noopener noreferrer">
+          <Link to="/wallet">
             <Button
               size="lg"
               variant="outline"
               className="border-white/30 bg-white/10 text-white hover:bg-white/20 font-semibold px-6 h-12"
             >
-              View Plans
+              My Services
             </Button>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
