@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { DepartmentConfig, Role, HiringType, getDepartmentColorClasses } from '@/lib/departmentConfigs';
-import { UserPlus, ChevronDown, ChevronUp, User, Bot, Users } from 'lucide-react';
+import { UserPlus, ChevronDown, ChevronUp, User, Bot, Users, Pencil } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { CompanyRole } from '@/lib/walletTypes';
+import { ProfileCard, ProfileData } from '@/components/ProfileCard';
+import { HireOptionsModal, HireFormData } from '@/components/HireOptionsModal';
 
 interface RolesStructureProps {
   department: DepartmentConfig;
+  companyRoles: CompanyRole[];
   onHireClick: (role: Role) => void;
+  onAssignRole: (departmentSlug: string, roleTitle: string, data: HireFormData) => Promise<void>;
 }
 
 const colorHoverClasses: Record<string, string> = {
@@ -48,8 +53,36 @@ const getHiringTypeConfig = (hiringType: HiringType = 'both') => {
   }
 };
 
-export const RolesStructure = ({ department, onHireClick }: RolesStructureProps) => {
+// Helper to build ProfileData from CompanyRole
+const buildProfileData = (roleData: CompanyRole): ProfileData | null => {
+  if (roleData.profile_type === 'ai' && roleData.ai_name) {
+    return {
+      name: roleData.ai_name,
+      type: 'ai',
+      aiType: roleData.ai_type,
+      aiAgentId: roleData.ai_agent_id,
+    };
+  }
+  
+  if (roleData.assigned_name) {
+    return {
+      name: roleData.assigned_name,
+      email: roleData.assigned_email,
+      phone: roleData.assigned_phone,
+      photoUrl: roleData.assigned_photo_url,
+      googleMeetLink: roleData.google_meet_link,
+      type: 'human',
+    };
+  }
+  
+  return null;
+};
+
+export const RolesStructure = ({ department, companyRoles, onHireClick, onAssignRole }: RolesStructureProps) => {
   const [expandedRole, setExpandedRole] = useState<number | null>(null);
+  const [hireModalOpen, setHireModalOpen] = useState(false);
+  const [selectedRoleForHire, setSelectedRoleForHire] = useState<Role | null>(null);
+  
   const colorClasses = getDepartmentColorClasses(department.color);
   const hoverClass = colorHoverClasses[department.color] || colorHoverClasses.blue;
   const bgClass = colorBgClasses[department.color] || colorBgClasses.blue;
@@ -57,6 +90,23 @@ export const RolesStructure = ({ department, onHireClick }: RolesStructureProps)
 
   const toggleRole = (index: number) => {
     setExpandedRole(expandedRole === index ? null : index);
+  };
+
+  // Find company role data for a given role
+  const getRoleData = (roleTitle: string): CompanyRole | undefined => {
+    return companyRoles.find(
+      r => r.department_slug === department.slug && r.role_title === roleTitle
+    );
+  };
+
+  const handleOpenHireModal = (role: Role) => {
+    setSelectedRoleForHire(role);
+    setHireModalOpen(true);
+  };
+
+  const handleHireSubmit = async (data: HireFormData) => {
+    if (!selectedRoleForHire) return;
+    await onAssignRole(department.slug, selectedRoleForHire.title, data);
   };
 
   return (
@@ -117,6 +167,10 @@ export const RolesStructure = ({ department, onHireClick }: RolesStructureProps)
         {department.roles.map((role, index) => {
           const hiringConfig = getHiringTypeConfig(role.hiringType);
           const HiringIcon = hiringConfig.icon;
+          const roleData = getRoleData(role.title);
+          const isFilled = roleData?.status === 'filled';
+          const isHiring = roleData?.status === 'hiring';
+          const profileData = roleData ? buildProfileData(roleData) : null;
           
           return (
             <div
@@ -135,44 +189,80 @@ export const RolesStructure = ({ department, onHireClick }: RolesStructureProps)
                   <div
                     className={cn(
                       'w-2 h-2 rounded-full flex-shrink-0',
-                      role.isFilled ? 'bg-green-500' : 'bg-muted-foreground/30'
+                      isFilled ? 'bg-green-500' : isHiring ? 'bg-amber-500' : 'bg-muted-foreground/30'
                     )}
                   />
                   <span className="text-foreground font-medium truncate">{role.title}</span>
-                  {/* Hiring Type Badge */}
-                  <span className={cn(
-                    'hidden sm:inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full flex-shrink-0',
-                    hiringConfig.bgClass,
-                    hiringConfig.textClass
-                  )}>
-                    <HiringIcon className="w-3 h-3" />
-                    {hiringConfig.label}
-                  </span>
+                  {/* Status Badge */}
+                  {isFilled ? (
+                    <span className="hidden sm:inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-green-500/10 text-green-600">
+                      Filled
+                    </span>
+                  ) : isHiring ? (
+                    <span className="hidden sm:inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600">
+                      Hiring in progress
+                    </span>
+                  ) : (
+                    <span className={cn(
+                      'hidden sm:inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full flex-shrink-0',
+                      hiringConfig.bgClass,
+                      hiringConfig.textClass
+                    )}>
+                      <HiringIcon className="w-3 h-3" />
+                      {hiringConfig.label}
+                    </span>
+                  )}
                   {expandedRole === index ? (
                     <ChevronUp className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                   ) : (
                     <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                   )}
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onHireClick(role);
-                  }}
-                  className={cn('gap-2 flex-shrink-0 ml-2', textClass)}
-                >
-                  <UserPlus className="w-4 h-4" />
-                  <span className="hidden sm:inline">Hire</span>
-                </Button>
+                {isFilled ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOpenHireModal(role);
+                    }}
+                    className={cn('gap-2 flex-shrink-0 ml-2', textClass)}
+                  >
+                    <Pencil className="w-4 h-4" />
+                    <span className="hidden sm:inline">Edit</span>
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOpenHireModal(role);
+                    }}
+                    className={cn('gap-2 flex-shrink-0 ml-2', textClass)}
+                  >
+                    <UserPlus className="w-4 h-4" />
+                    <span className="hidden sm:inline">Hire</span>
+                  </Button>
+                )}
               </div>
 
               {/* Expanded Details */}
               {expandedRole === index && (
                 <div className="px-4 pb-4 pt-0 space-y-4 border-t border-border/30">
+                  {/* Profile Card if Filled */}
+                  {isFilled && profileData && (
+                    <div className="pt-4">
+                      <ProfileCard 
+                        profile={profileData} 
+                        roleTitle={role.title}
+                        departmentColor={department.color}
+                      />
+                    </div>
+                  )}
+
                   {/* Description */}
-                  <div className="pt-4">
+                  <div className={cn(!isFilled && 'pt-4')}>
                     <p className="text-sm text-muted-foreground">{role.description}</p>
                   </div>
 
@@ -213,6 +303,15 @@ export const RolesStructure = ({ department, onHireClick }: RolesStructureProps)
           );
         })}
       </div>
+
+      {/* Hire Modal */}
+      <HireOptionsModal
+        open={hireModalOpen}
+        onOpenChange={setHireModalOpen}
+        roleTitle={selectedRoleForHire?.title || ''}
+        departmentName={department.name}
+        onSubmit={handleHireSubmit}
+      />
     </div>
   );
 };

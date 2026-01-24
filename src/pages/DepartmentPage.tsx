@@ -14,6 +14,7 @@ import { RolesStructure } from '@/components/RolesStructure';
 import { DepartmentResources } from '@/components/DepartmentResources';
 import { ActionFormModal } from '@/components/ActionFormModal';
 import { ServiceTypeModal, ServiceRequestType } from '@/components/ServiceTypeModal';
+import { HireFormData } from '@/components/HireOptionsModal';
 import {
   getDepartmentBySlug,
   getDepartmentColorClasses,
@@ -22,6 +23,9 @@ import {
   Role,
 } from '@/lib/departmentConfigs';
 import { getStoredEmail, fetchWalletData } from '@/lib/walletService';
+import { CompanyRole } from '@/lib/walletTypes';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const DepartmentPage = () => {
   const { departmentSlug } = useParams<{ departmentSlug: string }>();
@@ -35,17 +39,24 @@ const DepartmentPage = () => {
   const [serviceRequestType, setServiceRequestType] = useState<ServiceRequestType | null>(null);
   const [pendingAction, setPendingAction] = useState<{ type: 'core' | 'quick'; action: CoreAction | QuickAction } | null>(null);
   const [planName, setPlanName] = useState<string | undefined>();
+  const [companyRoles, setCompanyRoles] = useState<CompanyRole[]>([]);
+  const [companyId, setCompanyId] = useState<string | null>(null);
 
-  // Fetch user's plan name on mount
-  useEffect(() => {
+  // Fetch user's plan name and company roles on mount
+  const loadWalletData = async () => {
     const email = getStoredEmail();
     if (email) {
-      fetchWalletData(email).then((res) => {
-        if (res.success && res.data) {
-          setPlanName(res.data.plan_name);
-        }
-      });
+      const res = await fetchWalletData(email);
+      if (res.success && res.data) {
+        setPlanName(res.data.plan_name);
+        setCompanyRoles(res.data.company_roles || []);
+        setCompanyId(res.data.user_id);
+      }
     }
+  };
+
+  useEffect(() => {
+    loadWalletData();
   }, []);
 
   if (!department) {
@@ -87,6 +98,52 @@ const DepartmentPage = () => {
     setActionTitle(undefined);
     setSelectedRole(role);
     setModalOpen(true);
+  };
+
+  // Handle role assignment via edge function
+  const handleAssignRole = async (departmentSlug: string, roleTitle: string, data: HireFormData) => {
+    if (!companyId) {
+      toast.error('No company found. Please check your account.');
+      return;
+    }
+
+    try {
+      const payload: Record<string, unknown> = {
+        company_id: companyId,
+        department_slug: departmentSlug,
+        role_title: roleTitle,
+        profile_type: data.profileType,
+      };
+
+      // Add human fields if applicable
+      if (data.profileType === 'human' || data.profileType === 'both') {
+        payload.assigned_name = data.humanName;
+        payload.assigned_email = data.humanEmail;
+        payload.assigned_phone = data.humanPhone;
+        payload.assigned_photo_url = data.humanPhotoUrl;
+        payload.google_meet_link = data.googleMeetLink;
+      }
+
+      // Add AI fields if applicable
+      if (data.profileType === 'ai' || data.profileType === 'both') {
+        payload.ai_name = data.aiName;
+        payload.ai_type = data.aiType;
+        payload.ai_agent_id = data.aiAgentId;
+      }
+
+      const { error } = await supabase.functions.invoke('update-company-role', {
+        body: payload,
+      });
+
+      if (error) throw error;
+
+      toast.success('Role updated successfully!');
+      // Refresh the data
+      await loadWalletData();
+    } catch (err) {
+      console.error('Error assigning role:', err);
+      toast.error('Failed to update role. Please try again.');
+    }
   };
 
   const handleTypeSelect = (type: ServiceRequestType) => {
@@ -172,7 +229,12 @@ const DepartmentPage = () => {
                 </div>
               </AccordionTrigger>
               <AccordionContent>
-                <RolesStructure department={department} onHireClick={handleHireClick} />
+                <RolesStructure 
+                  department={department} 
+                  companyRoles={companyRoles}
+                  onHireClick={handleHireClick}
+                  onAssignRole={handleAssignRole}
+                />
               </AccordionContent>
             </AccordionItem>
 
