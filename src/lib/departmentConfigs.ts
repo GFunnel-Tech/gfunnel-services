@@ -1,9 +1,12 @@
+export type HiringType = 'human' | 'ai' | 'both';
+
 export interface Role {
   title: string;
   isFilled: boolean;
   description: string;
   responsibilities: string[];
   skills: string[];
+  hiringType?: HiringType; // Optional - defaults to 'both' if not specified
 }
 
 export interface Resource {
