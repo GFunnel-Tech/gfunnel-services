@@ -28,6 +28,7 @@ interface QuickSubmitModalProps {
   onClose: (wasSubmitted?: boolean) => void;
   userEmail?: string;
   companyId?: string;
+  companyName?: string;
 }
 
 export const QuickSubmitModal = ({
@@ -35,6 +36,7 @@ export const QuickSubmitModal = ({
   onClose,
   userEmail,
   companyId,
+  companyName,
 }: QuickSubmitModalProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -139,24 +141,32 @@ export const QuickSubmitModal = ({
         <DialogHeader>
           <DialogTitle>Submit New Request</DialogTitle>
           <DialogDescription>
-            Quickly submit a new request to our team
+            {companyName ? (
+              <>Submitting on behalf of <span className="font-medium text-foreground">{companyName}</span></>
+            ) : (
+              "Quickly submit a new request to our team"
+            )}
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-2">
-          {/* Email */}
-          <div className="space-y-2">
-            <Label htmlFor="email">Your Email *</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="you@company.com"
-              defaultValue={userEmail}
-              required
-              maxLength={255}
-            />
+        {/* Submitter Info Banner */}
+        {userEmail && (
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
+              {userEmail.charAt(0).toUpperCase()}
+            </div>
+            <div className="flex-1 min-w-0">
+              {companyName && (
+                <p className="text-sm font-medium truncate">{companyName}</p>
+              )}
+              <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
+            </div>
           </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+          {/* Hidden Email Field - always submit the prefilled email */}
+          <input type="hidden" name="email" value={userEmail || ""} />
 
           {/* Department Selection */}
           <div className="space-y-2">
