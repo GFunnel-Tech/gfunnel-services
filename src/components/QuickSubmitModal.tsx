@@ -27,12 +27,14 @@ interface QuickSubmitModalProps {
   isOpen: boolean;
   onClose: (wasSubmitted?: boolean) => void;
   userEmail?: string;
+  companyId?: string;
 }
 
 export const QuickSubmitModal = ({
   isOpen,
   onClose,
   userEmail,
+  companyId,
 }: QuickSubmitModalProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,7 +59,7 @@ export const QuickSubmitModal = ({
       return;
     }
 
-    // Build the payload
+    // Build the payload with company_id to ensure request is linked to correct company
     const payload = buildActionPayload(
       "action_request",
       department.name,
@@ -66,6 +68,7 @@ export const QuickSubmitModal = ({
       {
         ...data,
         request_type: "done_for_you",
+        company_id: companyId, // Pass company_id to link request correctly
       }
     );
 
