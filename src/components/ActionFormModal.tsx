@@ -21,6 +21,7 @@ import { useToast } from '@/hooks/use-toast';
 import { DepartmentConfig, Role, HiringType } from '@/lib/departmentConfigs';
 import { ServiceRequestType } from '@/components/ServiceTypeModal';
 import { PostSubmitModal } from '@/components/PostSubmitModal';
+import { UpgradePlansModal } from '@/components/UpgradePlansModal';
 import { Building2, User, Users, BookOpen, CheckCircle2, Bot } from 'lucide-react';
 import { 
   submitForm, 
@@ -33,6 +34,7 @@ import {
   actionDelegateSchema,
   actionHireSchema,
 } from '@/lib/formSchemas';
+import { isFreePlan } from '@/lib/walletTypes';
 
 type FormType = 'request' | 'idea' | 'delegate' | 'hire';
 
@@ -44,6 +46,7 @@ interface ActionFormModalProps {
   actionTitle?: string;
   selectedRole?: Role;
   serviceRequestType?: ServiceRequestType | null;
+  planName?: string;
 }
 
 const getRequestTypeLabel = (type: ServiceRequestType | null | undefined) => {
@@ -79,14 +82,26 @@ export const ActionFormModal = ({
   actionTitle,
   selectedRole,
   serviceRequestType,
+  planName,
 }: ActionFormModalProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPostSubmit, setShowPostSubmit] = useState(false);
   const [submittedDelegateInfo, setSubmittedDelegateInfo] = useState<{ name?: string; email?: string }>({});
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
+  // Check if user needs to upgrade (on Free plan)
+  const needsUpgrade = isFreePlan(planName);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // If user is on free plan, show upgrade modal instead
+    if (needsUpgrade) {
+      setShowUpgradeModal(true);
+      return;
+    }
+
     setIsSubmitting(true);
 
     const formElement = e.currentTarget;
@@ -715,6 +730,13 @@ export const ActionFormModal = ({
         onSkip={handleSkipMeeting}
         delegateName={submittedDelegateInfo.name}
         delegateEmail={submittedDelegateInfo.email}
+      />
+
+      {/* Upgrade Plans Modal */}
+      <UpgradePlansModal 
+        isOpen={showUpgradeModal} 
+        onClose={() => setShowUpgradeModal(false)}
+        currentPlan={planName}
       />
     </Dialog>
   );

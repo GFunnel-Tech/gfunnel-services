@@ -49,7 +49,7 @@ export interface WalletData {
   company_name?: string;
   
   // Plan info
-  plan_name: "Starter" | "Pro" | "Scale" | "Unlimited" | string;
+  plan_name: "Free" | "Starter" | "Pro" | "Scale" | "Unlimited" | string;
   plan_price: number;
   plan_value: number;
   savings_percentage: number;
@@ -100,6 +100,7 @@ export const PLAN_DETAILS: Record<string, {
   response: string;
   popular?: boolean;
 }> = {
+  Free: { hours: 0, price: 0, value: 0, savings: 0, response: "N/A" },
   Starter: { hours: 40, price: 1497, value: 7500, savings: 80, response: "Up to 48 hrs" },
   Pro: { hours: 80, price: 2497, value: 13720, savings: 82, response: "24-48 hrs", popular: true },
   Scale: { hours: 140, price: 3997, value: 25000, savings: 84, response: "24 hrs or less" },
@@ -107,10 +108,19 @@ export const PLAN_DETAILS: Record<string, {
 };
 
 export const PLAN_COLORS: Record<string, string> = {
+  Free: "bg-gray-400",
   Starter: "bg-blue-500",
   Pro: "bg-accent",
   Scale: "bg-purple-500",
   Unlimited: "bg-gradient-to-r from-amber-500 to-yellow-400",
+};
+
+// Checkout links for each plan
+export const PLAN_CHECKOUT_LINKS: Record<string, string> = {
+  Starter: "https://www.gfunnel.com/checkout/starter-services",
+  Pro: "https://www.gfunnel.com/checkout/pro-services",
+  Scale: "https://www.gfunnel.com/checkout/scale-services",
+  Unlimited: "https://www.gfunnel.com/checkout/unlimited-services",
 };
 
 // ROTI Calculation Constants
@@ -124,3 +134,9 @@ export const PAYMENT_LINKS = {
   viewBilling: "https://cportal.gfunnel.com/account?activeTab=BillingSubscription",
   scheduleMeeting: "https://www.gfunnel.com/schedule",
 } as const;
+
+// Helper to check if user is on a free/unpaid plan
+export const isFreePlan = (planName: string | undefined): boolean => {
+  if (!planName) return true;
+  return planName.toLowerCase() === 'free' || planName === '';
+};
