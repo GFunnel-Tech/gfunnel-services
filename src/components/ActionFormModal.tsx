@@ -18,10 +18,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { DepartmentConfig, Role } from '@/lib/departmentConfigs';
+import { DepartmentConfig, Role, HiringType } from '@/lib/departmentConfigs';
 import { ServiceRequestType } from '@/components/ServiceTypeModal';
 import { PostSubmitModal } from '@/components/PostSubmitModal';
-import { Building2, User, Users, BookOpen, CheckCircle2 } from 'lucide-react';
+import { Building2, User, Users, BookOpen, CheckCircle2, Bot } from 'lucide-react';
 import { 
   submitForm, 
   buildActionPayload,
@@ -56,6 +56,18 @@ const getRequestTypeLabel = (type: ServiceRequestType | null | undefined) => {
       return { label: 'Delegate to Someone', icon: Users, color: 'text-blue-500' };
     default:
       return null;
+  }
+};
+
+const getHiringTypeConfig = (hiringType: HiringType = 'both') => {
+  switch (hiringType) {
+    case 'human':
+      return { label: 'Hiring: Human', icon: User, bgClass: 'bg-blue-500/10', textClass: 'text-blue-600' };
+    case 'ai':
+      return { label: 'Hiring: AI Agent', icon: Bot, bgClass: 'bg-purple-500/10', textClass: 'text-purple-600' };
+    case 'both':
+    default:
+      return { label: 'Hiring: Human or AI', icon: Users, bgClass: 'bg-emerald-500/10', textClass: 'text-emerald-600' };
   }
 };
 
@@ -621,8 +633,20 @@ export const ActionFormModal = ({
             </>
           )}
 
-          {formType === 'hire' && (
+          {formType === 'hire' && selectedRole && (
             <>
+              {/* Hiring Type Badge */}
+              {(() => {
+                const hiringConfig = getHiringTypeConfig(selectedRole.hiringType);
+                const HiringIcon = hiringConfig.icon;
+                return (
+                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium w-fit ${hiringConfig.bgClass} ${hiringConfig.textClass}`}>
+                    <HiringIcon className="w-4 h-4" />
+                    {hiringConfig.label}
+                  </div>
+                );
+              })()}
+              
               <div className="space-y-2">
                 <Label htmlFor="roleTitle">Role Title</Label>
                 <Input
