@@ -118,6 +118,7 @@ export type Database = {
       company_roles: {
         Row: {
           ai_agent_id: string | null
+          ai_embed_url: string | null
           ai_name: string | null
           ai_type: string | null
           assigned_email: string | null
@@ -137,6 +138,7 @@ export type Database = {
         }
         Insert: {
           ai_agent_id?: string | null
+          ai_embed_url?: string | null
           ai_name?: string | null
           ai_type?: string | null
           assigned_email?: string | null
@@ -156,6 +158,7 @@ export type Database = {
         }
         Update: {
           ai_agent_id?: string | null
+          ai_embed_url?: string | null
           ai_name?: string | null
           ai_type?: string | null
           assigned_email?: string | null

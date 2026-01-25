@@ -28,6 +28,7 @@ export interface HoursHistory {
 
 export interface CompanyRole {
   id: string;
+  company_id?: string;
   department_slug: string;
   role_title: string;
   status: 'filled' | 'hiring' | 'vacant';
@@ -40,6 +41,7 @@ export interface CompanyRole {
   ai_name?: string;
   ai_type?: string;
   ai_agent_id?: string;
+  ai_embed_url?: string;
   hire_request_id?: string;
 }
 
