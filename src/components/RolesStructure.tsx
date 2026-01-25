@@ -255,10 +255,16 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
               {/* Expanded Details */}
               {expandedRole === index && (
                 <div className="px-4 pb-4 pt-0 space-y-4 border-t border-border/30">
-                  {/* Show Placeholder Cards if NOT filled */}
-                  {!isFilled && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4">
-                      {/* AI Hire Card - Left Side */}
+                  {/* Always show 2 cards side-by-side: AI on left, Human on right */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4">
+                    {/* AI Card - Left Side */}
+                    {aiProfile ? (
+                      <ProfileCard 
+                        profile={aiProfile} 
+                        roleTitle={role.title}
+                        departmentColor={department.color}
+                      />
+                    ) : (
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
@@ -266,7 +272,7 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
                           setPreSelectedHireType('ai');
                           setHireModalOpen(true);
                         }}
-                        className="rounded-xl border-2 border-dashed border-purple-300 bg-purple-50/50 dark:bg-purple-950/20 p-4 text-left hover:border-purple-500 hover:bg-purple-100/50 dark:hover:bg-purple-900/30 transition-all group"
+                        className="rounded-xl border-2 border-dashed border-purple-300 bg-purple-50/50 dark:bg-purple-950/20 p-4 text-left hover:border-purple-500 hover:bg-purple-100/50 dark:hover:bg-purple-900/30 transition-all group h-full"
                       >
                         <div className="flex items-center gap-3 mb-2">
                           <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -281,8 +287,16 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
                           Click to deploy an AI assistant for this role
                         </p>
                       </button>
+                    )}
 
-                      {/* Human Hire Card - Right Side */}
+                    {/* Human Card - Right Side */}
+                    {humanProfile ? (
+                      <ProfileCard 
+                        profile={humanProfile} 
+                        roleTitle={role.title}
+                        departmentColor={department.color}
+                      />
+                    ) : (
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
@@ -290,7 +304,7 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
                           setPreSelectedHireType('human');
                           setHireModalOpen(true);
                         }}
-                        className="rounded-xl border-2 border-dashed border-blue-300 bg-blue-50/50 dark:bg-blue-950/20 p-4 text-left hover:border-blue-500 hover:bg-blue-100/50 dark:hover:bg-blue-900/30 transition-all group"
+                        className="rounded-xl border-2 border-dashed border-blue-300 bg-blue-50/50 dark:bg-blue-950/20 p-4 text-left hover:border-blue-500 hover:bg-blue-100/50 dark:hover:bg-blue-900/30 transition-all group h-full"
                       >
                         <div className="flex items-center gap-3 mb-2">
                           <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -305,30 +319,8 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
                           Click to add a human employee to this role
                         </p>
                       </button>
-                    </div>
-                  )}
-
-                  {/* Profile Card(s) if Filled */}
-                  {isFilled && (humanProfile || aiProfile) && (
-                    <div className={cn("pt-4", isBothType && "grid grid-cols-1 sm:grid-cols-2 gap-4")}>
-                      {/* AI Profile - Left side when both */}
-                      {aiProfile && (
-                        <ProfileCard 
-                          profile={aiProfile} 
-                          roleTitle={role.title}
-                          departmentColor={department.color}
-                        />
-                      )}
-                      {/* Human Profile - Right side when both, or full width when human only */}
-                      {humanProfile && (
-                        <ProfileCard 
-                          profile={humanProfile} 
-                          roleTitle={role.title}
-                          departmentColor={department.color}
-                        />
-                      )}
-                    </div>
-                  )}
+                    )}
+                  </div>
 
                   {/* Description */}
                   <div>
