@@ -16,6 +16,7 @@ import ServiceConfirmation from "./pages/ServiceConfirmation";
 import Resources from "./pages/Resources";
 import UsageWalletPage from "./pages/UsageWalletPage";
 import NotFound from "./pages/NotFound";
+import ProfilePage from "./pages/ProfilePage";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CompaniesPage from "./pages/admin/CompaniesPage";
@@ -50,6 +51,7 @@ const App = () => (
           <Route path="/admin/companies/:id/users" element={<CompanyUsersPage />} />
           <Route path="/admin/companies/:id/access" element={<AccessItemsPage />} />
           <Route path="/admin/requests" element={<ProjectRequestsPage />} />
+          <Route path="/profile/:roleId" element={<ProfilePage />} />
           <Route path="/get-started/:slug" element={<ServiceIntakePage />} />
           <Route path="/:slug" element={<ServicePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

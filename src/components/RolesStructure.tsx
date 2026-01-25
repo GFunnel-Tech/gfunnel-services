@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { DepartmentConfig, Role, HiringType, getDepartmentColorClasses } from '@/lib/departmentConfigs';
 import { UserPlus, ChevronDown, ChevronUp, User, Bot, Users, Pencil } from 'lucide-react';
@@ -63,6 +64,7 @@ const buildHumanProfile = (roleData: CompanyRole): ProfileData | null => {
       photoUrl: roleData.assigned_photo_url,
       googleMeetLink: roleData.google_meet_link,
       type: 'human',
+      roleId: roleData.id,
     };
   }
   return null;
@@ -75,12 +77,15 @@ const buildAIProfile = (roleData: CompanyRole): ProfileData | null => {
       type: 'ai',
       aiType: roleData.ai_type,
       aiAgentId: roleData.ai_agent_id,
+      aiEmbedUrl: roleData.ai_embed_url,
+      roleId: roleData.id,
     };
   }
   return null;
 };
 
 export const RolesStructure = ({ department, companyRoles, onHireClick, onAssignRole }: RolesStructureProps) => {
+  const navigate = useNavigate();
   const [expandedRole, setExpandedRole] = useState<number | null>(null);
   const [hireModalOpen, setHireModalOpen] = useState(false);
   const [selectedRoleForHire, setSelectedRoleForHire] = useState<Role | null>(null);
@@ -263,6 +268,7 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
                         profile={aiProfile} 
                         roleTitle={role.title}
                         departmentColor={department.color}
+                        onViewProfile={() => navigate(`/profile/${aiProfile.roleId}`)}
                       />
                     ) : (
                       <button 
@@ -295,6 +301,7 @@ export const RolesStructure = ({ department, companyRoles, onHireClick, onAssign
                         profile={humanProfile} 
                         roleTitle={role.title}
                         departmentColor={department.color}
+                        onViewProfile={() => navigate(`/profile/${humanProfile.roleId}`)}
                       />
                     ) : (
                       <button 

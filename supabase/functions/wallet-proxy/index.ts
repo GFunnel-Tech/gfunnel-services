@@ -166,7 +166,7 @@ serve(async (req) => {
       // Get company role assignments
       const { data: companyRoles, error: rolesError } = await supabase
         .from('company_roles')
-        .select('id, department_slug, role_title, status, assigned_name, assigned_email, assigned_phone, assigned_photo_url, google_meet_link, profile_type, ai_name, ai_type, ai_agent_id, hire_request_id')
+        .select('id, company_id, department_slug, role_title, status, assigned_name, assigned_email, assigned_phone, assigned_photo_url, google_meet_link, profile_type, ai_name, ai_type, ai_agent_id, ai_embed_url, hire_request_id')
         .eq('company_id', companyId)
         .order('department_slug', { ascending: true });
 

@@ -25,6 +25,7 @@ serve(async (req) => {
       ai_name,
       ai_type,
       ai_agent_id,
+      ai_embed_url,
       status 
     } = await req.json();
 
@@ -73,6 +74,7 @@ serve(async (req) => {
         ai_name: ai_name || null,
         ai_type: ai_type || null,
         ai_agent_id: ai_agent_id || null,
+        ai_embed_url: ai_embed_url || null,
         status: roleStatus,
         updated_at: new Date().toISOString(),
       }, {

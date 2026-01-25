@@ -30,6 +30,7 @@ export interface HireFormData {
   aiType?: string; // Will be "Chat" + selected addons
   aiAddons?: AIAddon[];
   aiAgentId?: string;
+  aiEmbedUrl?: string;
 }
 
 interface HireOptionsModalProps {
@@ -305,6 +306,18 @@ export const HireOptionsModal = ({
                     value={formData.aiAgentId || ''}
                     onChange={(e) => updateField('aiAgentId', e.target.value)}
                   />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="aiEmbedUrl">Chat Widget URL (optional)</Label>
+                  <Input 
+                    id="aiEmbedUrl"
+                    placeholder="https://...apiii.co/api/widget/..."
+                    value={formData.aiEmbedUrl || ''}
+                    onChange={(e) => updateField('aiEmbedUrl', e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    The embed URL for the AI chat widget
+                  </p>
                 </div>
               </div>
             )}

@@ -16,6 +16,8 @@ export interface ProfileData {
   type: 'human' | 'ai';
   aiType?: string;
   aiAgentId?: string;
+  aiEmbedUrl?: string;
+  roleId?: string;
 }
 
 interface ProfileCardProps {
@@ -24,6 +26,7 @@ interface ProfileCardProps {
   departmentColor?: string;
   compact?: boolean;
   onChat?: () => void;
+  onViewProfile?: () => void;
 }
 
 const getInitials = (name: string) => {
@@ -40,7 +43,8 @@ export const ProfileCard = ({
   roleTitle, 
   departmentColor = 'blue',
   compact = false,
-  onChat
+  onChat,
+  onViewProfile
 }: ProfileCardProps) => {
   const [imageError, setImageError] = useState(false);
   const isAI = profile.type === 'ai';
@@ -82,8 +86,14 @@ export const ProfileCard = ({
   }
 
   return (
-    <Card className={cn("overflow-hidden", bgClass)}>
-      <CardContent className="p-4">
+    <Card 
+      className={cn(
+        "overflow-hidden cursor-pointer transition-all hover:shadow-md", 
+        bgClass
+      )}
+      onClick={onViewProfile}
+    >
+      <CardContent className="p-4" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start gap-4">
           {/* Avatar */}
           <Avatar className="h-14 w-14">
