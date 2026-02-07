@@ -115,7 +115,7 @@ export const PLAN_DETAILS: Record<string, {
   response: string;
   popular?: boolean;
 }> = {
-  Free: { hours: 5, price: 0, value: 0, savings: 0, response: "N/A" },
+  Free: { hours: 2, price: 0, value: 0, savings: 0, response: "N/A" },
   Starter: { hours: 40, price: 1497, value: 7500, savings: 80, response: "Up to 48 hrs" },
   Pro: { hours: 80, price: 2497, value: 13720, savings: 82, response: "24-48 hrs", popular: true },
   Scale: { hours: 140, price: 3997, value: 25000, savings: 84, response: "24 hrs or less" },
