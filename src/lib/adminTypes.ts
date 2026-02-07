@@ -48,6 +48,7 @@ export interface UserRole {
 export type AppRole = 'admin' | 'moderator' | 'user';
 
 export const PLAN_OPTIONS = [
+  { name: 'Free', label: 'Free (Trial)', hours: 5, price: 0, planValue: 0, savings: 0, response: 'N/A' },
   { name: 'Starter', label: 'Starter', hours: 40, price: 1497, planValue: 7500, savings: 80, response: 'Up to 48 hrs' },
   { name: 'Pro', label: 'Pro', hours: 80, price: 2497, planValue: 13720, savings: 82, response: '24-48 hrs' },
   { name: 'Scale', label: 'Scale', hours: 140, price: 3997, planValue: 25000, savings: 84, response: '24 hrs or less' },
