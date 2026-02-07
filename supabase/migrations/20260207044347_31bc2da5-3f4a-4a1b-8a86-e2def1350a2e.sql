@@ -1,0 +1,1 @@
+ALTER TABLE public.companies ALTER COLUMN hours_included SET DEFAULT 2;

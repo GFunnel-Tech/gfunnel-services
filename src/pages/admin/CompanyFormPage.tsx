@@ -37,7 +37,7 @@ export default function CompanyFormPage() {
     plan_value: 0,
     savings_percentage: 0,
     response_time: 'N/A',
-    hours_included: 5,
+    hours_included: 2,
     hours_used: 0,
     billing_cycle_end: '',
     overage_rate: 83,
