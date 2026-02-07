@@ -1,0 +1,1 @@
+ALTER TABLE public.companies ALTER COLUMN overage_rate SET DEFAULT 83;

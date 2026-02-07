@@ -40,7 +40,7 @@ export default function CompanyFormPage() {
     hours_included: 40,
     hours_used: 0,
     billing_cycle_end: '',
-    overage_rate: 75,
+    overage_rate: 83,
     time_multiplier: 13,
     va_hourly_rate: 15,
   });
