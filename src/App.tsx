@@ -24,6 +24,8 @@ import CompanyFormPage from "./pages/admin/CompanyFormPage";
 import CompanyUsersPage from "./pages/admin/CompanyUsersPage";
 import AccessItemsPage from "./pages/admin/AccessItemsPage";
 import ProjectRequestsPage from "./pages/admin/ProjectRequestsPage";
+import ImmersionPortal from "./pages/ImmersionPortal";
+import ImmersionManagementPage from "./pages/admin/ImmersionManagementPage";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +53,8 @@ const App = () => (
           <Route path="/admin/companies/:id/users" element={<CompanyUsersPage />} />
           <Route path="/admin/companies/:id/access" element={<AccessItemsPage />} />
           <Route path="/admin/requests" element={<ProjectRequestsPage />} />
+          <Route path="/admin/immersion" element={<ImmersionManagementPage />} />
+          <Route path="/immersion/:id" element={<ImmersionPortal />} />
           <Route path="/profile/:roleId" element={<ProfilePage />} />
           <Route path="/get-started/:slug" element={<ServiceIntakePage />} />
           <Route path="/:slug" element={<ServicePage />} />

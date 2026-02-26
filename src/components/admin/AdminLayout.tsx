@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Building2, ClipboardList, LayoutDashboard, LogOut } from 'lucide-react';
+import { Building2, ClipboardList, LayoutDashboard, LogOut, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdmin } from '@/hooks/useAdmin';
 import { cn } from '@/lib/utils';
@@ -13,6 +13,7 @@ const navItems = [
   { href: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/admin/companies', icon: Building2, label: 'Companies' },
   { href: '/admin/requests', icon: ClipboardList, label: 'Project Requests' },
+  { href: '/admin/immersion', icon: Sparkles, label: 'Immersion' },
 ];
 
 export function AdminLayout({ children }: AdminLayoutProps) {
